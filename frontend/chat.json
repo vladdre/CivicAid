@@ -45,6 +45,18 @@
             "title": "Consultare 3",
             "owner": "TheoNeregele",
             "created_at": "2025-12-06T15:52:39.727493"
+        },
+        {
+            "id": 11,
+            "title": "Consultare 4",
+            "owner": "AndreiKRP",
+            "created_at": "2025-12-06T18:14:17.459808"
+        },
+        {
+            "id": 12,
+            "title": "Consultare 5",
+            "owner": "AndreiKRP",
+            "created_at": "2025-12-06T18:30:15.936430"
         }
     ],
     "messages": [
@@ -323,6 +335,30 @@
             "role": "assistant",
             "content": "Simulated AI response to: sdasadsads",
             "timestamp": "2025-12-06T15:52:39.727499"
+        },
+        {
+            "conversation_id": 11,
+            "role": "user",
+            "content": "Unde depun dosarul de pensii?",
+            "timestamp": "2025-12-06T18:14:17.459814"
+        },
+        {
+            "conversation_id": 11,
+            "role": "assistant",
+            "content": "Simulated AI response to: Unde depun dosarul de pensii?",
+            "timestamp": "2025-12-06T18:14:17.459814"
+        },
+        {
+            "conversation_id": 12,
+            "role": "user",
+            "content": "Unde depun dosarul de pensii?",
+            "timestamp": "2025-12-06T18:30:15.936436"
+        },
+        {
+            "conversation_id": 12,
+            "role": "assistant",
+            "content": "Simulated AI response to: Unde depun dosarul de pensii?",
+            "timestamp": "2025-12-06T18:30:15.936436"
         }
     ]
 }
