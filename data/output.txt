@@ -1,0 +1,44 @@
+
+======================================================================
+📋 REZUMAT SINTETIZAT
+======================================================================
+
+- Dacă persoana din cealaltă mașină refuză să semneze un proces-verbal de amiabilă, agentul constatator va menționa acest lucru în procesul-verbal, care trebuie confirmat de un martor.
+- În cazul în care accidentul a avut ca urmare doar pagube materiale, este important să se indice societatea de asigurări implicată.
+- Este recomandat să contactați un avocat pentru asistență juridică, mai ales dacă situația devine complicată sau dacă se dorește recuperarea de daune.
+- Conform Codului de procedură penală, partea responsabilă civilmente are drepturi specifice în cadrul procesului, care se exercită în scopul soluționării acțiunii civile (ARTICOLUL 85).
+
+Concluzie: Este esențial să documentați toate detaliile accidentului și să solicitați asistență juridică pentru a naviga corect în această situație.
+
+
+======================================================================
+📍 REZULTATE INSTITUȚII (SQL)
+======================================================================
+
+1. Poliția Rutieră - Direcția Rutieră Sector 1
+   📍 Bd. Lascăr Catargi nr. 21, Sector 1, București
+   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00
+
+2. Poliția Rutieră - Direcția Rutieră Sector 2
+   📍 Bd. Aviatorilor nr. 44, Sector 2, București
+   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00
+
+3. Poliția Rutieră - Direcția Rutieră Sector 3
+   📍 Calea Vitan nr. 55-59, Sector 3, București
+   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00
+
+4. Poliția Rutieră - Direcția Rutieră Sector 4
+   📍 Bd. Timișoara nr. 47, Sector 4, București
+   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00
+
+5. Poliția Rutieră - Direcția Rutieră Sector 5
+   📍 Str. Mihai Bravu nr. 266, Sector 5, București
+   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00
+
+6. Poliția Rutieră - Direcția Rutieră Sector 6
+   📍 Bd. Iuliu Maniu nr. 28-30, Sector 6, București
+   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00
+
+7. Direcția Generală de Poliție Rutieră București
+   📍 Bd. Lascăr Catargi nr. 21, Sector 1, București
+   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00

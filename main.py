@@ -1,0 +1,418 @@
+"""
+Script principal pentru CivicAid - Orchestrează crearea vectorilor și căutarea legilor.
+
+Usage:
+    python main.py "Am avut un accident de mașină"
+    
+Funcționalitate:
+1. Verifică dacă există vector store
+2. Dacă nu există, creează vectorii rulând ingest_laws.py
+3. Rulează find_law.py cu mesajul dat
+4. Scrie outputul în output.txt
+"""
+
+import os
+import sys
+from pathlib import Path
+from typing import Optional
+from dotenv import load_dotenv
+from langchain_openai import ChatOpenAI
+
+# Add scripts directory to path
+sys.path.append(str(Path(__file__).parent / "scripts"))
+sys.path.append(str(Path(__file__).parent))
+
+# Load environment variables
+load_dotenv()
+
+# Configuration
+VECTOR_STORE_DIR = Path(__file__).parent / "data" / "vector_store"
+OUTPUT_FILE = Path(__file__).parent / "output.txt"
+
+
+def check_vector_store_exists() -> bool:
+    """
+    Verifică dacă vector store-ul există și conține date.
+    
+    Returns:
+        True dacă vector store-ul există și are conținut, False altfel
+    """
+    if not VECTOR_STORE_DIR.exists():
+        return False
+    
+    # Verifică dacă directorul nu este gol
+    # ChromaDB creează mai multe fișiere, deci verificăm dacă există cel puțin unul
+    try:
+        files = list(VECTOR_STORE_DIR.iterdir())
+        if len(files) == 0:
+            return False
+        
+        # Verifică dacă există fișiere relevante ChromaDB
+        # ChromaDB creează de obicei fișiere .sqlite sau directoare
+        has_content = any(
+            f.is_file() and (f.suffix in ['.sqlite', '.db'] or f.name.startswith('chroma'))
+            or f.is_dir()
+            for f in files
+        )
+        return has_content
+    except Exception:
+        return False
+
+
+def create_vector_store():
+    """
+    Creează vector store-ul rulând scriptul ingest_laws.py.
+    """
+    print("=" * 70)
+    print("📚 Creare Vector Store")
+    print("=" * 70)
+    print("\n⚠️  Vector store-ul nu există sau este gol.")
+    print("🚀 Pornesc crearea vectorilor din PDF-uri...\n")
+    
+    # Import funcțiile din ingest_laws.py
+    try:
+        from scripts.ingest_laws import (
+            load_pdfs,
+            split_documents,
+            create_vector_store as create_vs,
+            RAW_LAWS_DIR,
+            VECTOR_STORE_DIR as VS_DIR
+        )
+        
+        # Step 1: Load PDFs
+        documents = load_pdfs(RAW_LAWS_DIR)
+        
+        if not documents:
+            print("\n❌ Nu există PDF-uri în data/raw_laws/")
+            print("   Adaugă PDF-uri cu legi în data/raw_laws/ și rulează din nou.")
+            sys.exit(1)
+        
+        # Step 2: Split into chunks
+        chunks = split_documents(documents)
+        
+        if not chunks:
+            print("\n❌ Nu s-au creat chunks. Ieșire.")
+            sys.exit(1)
+        
+        # Step 3: Create embeddings and store in ChromaDB
+        vector_store = create_vs(chunks, VS_DIR)
+        
+        if vector_store:
+            print("\n✅ Vector store creat cu succes!\n")
+        else:
+            print("\n❌ Eroare la crearea vector store-ului.")
+            sys.exit(1)
+            
+    except ImportError as e:
+        print(f"❌ Eroare la importul funcțiilor: {e}")
+        print("   Verifică că scripts/ingest_laws.py există și este corect.")
+        sys.exit(1)
+    except Exception as e:
+        print(f"❌ Eroare la crearea vector store-ului: {e}")
+        sys.exit(1)
+
+
+def run_find_law(user_message: str) -> tuple[str, Optional[list]]:
+    """
+    Rulează find_law.py cu mesajul dat și returnează outputul și rezultatele.
+    
+    Args:
+        user_message: Mesajul pentru căutare
+        
+    Returns:
+        Tuple (output_formatat, lista_rezultate):
+        - output_formatat: Output-ul formatat ca string
+        - lista_rezultate: Lista de documente sau None dacă nu există
+    """
+    print("=" * 70)
+    print("🔎 Căutare Articole de Lege")
+    print("=" * 70)
+    print()
+    
+    # Import funcțiile din find_law.py
+    try:
+        from scripts.find_law import find_relevant_laws, format_results
+        
+        # Găsește articolele relevante
+        results = find_relevant_laws(user_message, k=5, use_optimization=True)
+        
+        # Formatează rezultatele
+        if results:
+            output = format_results(results)
+            return output, results
+        else:
+            return "❌ Nu s-au găsit articole de lege relevante.", None
+            
+    except ImportError as e:
+        error_msg = f"❌ Eroare la importul funcțiilor: {e}\n   Verifică că scripts/find_law.py există și este corect."
+        print(error_msg)
+        return error_msg, None
+    except Exception as e:
+        error_msg = f"❌ Eroare la căutare: {e}"
+        print(error_msg)
+        return error_msg, None
+
+
+def summarize_results(results: list, user_query: str) -> str:
+    """
+    Sintetizează rezultatele din cele 5 chunks într-un rezumat concis.
+    
+    Args:
+        results: Lista de documente (chunks) relevante
+        user_query: Query-ul original al utilizatorului
+        
+    Returns:
+        Rezumat sintetizat ca string
+    """
+    if not results:
+        return "Nu s-au găsit rezultate de rezumat."
+    
+    # Extrage conținutul din toate chunks-urile
+    all_content = []
+    sources = []
+    
+    for doc in results:
+        content = doc.page_content.strip()
+        source = doc.metadata.get("source", "Necunoscut")
+        all_content.append(content)
+        sources.append(source)
+    
+    # Combină conținutul pentru a-l trimite la LLM
+    combined_content = "\n\n---\n\n".join([
+        f"[Sursă: {source}]\n{content}" 
+        for source, content in zip(sources, all_content)
+    ])
+    
+    # Verifică API key
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        return "⚠️  OPENAI_API_KEY nu este setată. Nu pot genera rezumat."
+    
+    try:
+        llm = ChatOpenAI(
+            model="gpt-4o-mini",  # Model rapid și eficient
+            temperature=0.3,  # Temperatură scăzută pentru consistență
+            openai_api_key=api_key
+        )
+        
+        # Prompt pentru rezumat
+        prompt = f"""Ești un asistent juridic care sintetizează informații din documente legale românești.
+
+Task: Creează un rezumat concis și precis al informațiilor relevante pentru întrebarea utilizatorului.
+
+Întrebare utilizator: {user_query}
+
+Informații găsite în documente:
+{combined_content}
+
+Reguli STRICTE pentru rezumat:
+1. Păstrează DOAR ideile esențiale și relevante pentru întrebare
+2. NU adăuga informații care nu sunt în documentele furnizate
+3. NU adăuga cuvinte sau fraze care nu sunt de legătură cu conținutul
+4. Folosește formulare concisă și clară
+5. Păstrează termenii juridici importanți (ex: "ARTICOLUL X", "răspundere civilă")
+6. Dacă există articole de lege, menționează-le (ex: "Conform ARTICOLUL 1356")
+7. Rezumatul trebuie să fie util și direct, fără introduceri inutile
+8. Dacă informațiile sunt incomplete, menționează asta
+
+Format rezumat:
+- Începe direct cu informațiile relevante
+- Folosește bullet points pentru claritate
+- Menționează sursele dacă sunt relevante (ex: "Conform [nume document]")
+- Finalizează cu concluzii relevante dacă există
+
+Rezumat:"""
+        
+        print("\n📝 Generare rezumat sintetizat...")
+        response = llm.invoke(prompt)
+        summary = response.content.strip()
+        
+        return summary
+        
+    except Exception as e:
+        return f"⚠️  Eroare la generarea rezumatului: {e}"
+
+
+def write_output_to_file(output: str, output_file: Path):
+    """
+    Scrie outputul în fișier, suprascriind orice conținut existent.
+    
+    Args:
+        output: Textul de scris
+        output_file: Calea către fișierul de output
+    """
+    try:
+        # Șterge fișierul dacă există pentru a asigura suprascrierea completă
+        if output_file.exists():
+            output_file.unlink()
+        
+        # Scrie noul conținut (modul "w" creează sau suprascrie fișierul)
+        with open(output_file, "w", encoding="utf-8") as f:
+            f.write(output)
+        
+        # Verifică că fișierul a fost scris corect
+        if output_file.exists() and output_file.stat().st_size > 0:
+            print(f"💾 Output salvat în: {output_file} ({output_file.stat().st_size} bytes)")
+        else:
+            print(f"⚠️  Avertisment: Fișierul nu pare să fie scris corect")
+            
+    except Exception as e:
+        print(f"❌ Eroare la scrierea în fișier: {e}")
+        import traceback
+        traceback.print_exc()
+
+
+def process_query(user_message: str) -> str:
+    """
+    Procesează un query și returnează rezultatul formatat.
+    
+    Această funcție poate fi apelată programatic (ex: din frontend).
+    
+    Args:
+        user_message: Mesajul pentru căutare
+        
+    Returns:
+        Output-ul formatat ca string
+    """
+    print("=" * 70)
+    print("🚀 CivicAid - Main Script")
+    print("=" * 70)
+    print(f"\n📝 Mesaj primit: \"{user_message}\"\n")
+    
+    # Step 1: Verifică dacă vector store-ul există
+    print("🔍 Verificare vector store...")
+    if not check_vector_store_exists():
+        print("   ⚠️  Vector store-ul nu există sau este gol.")
+        create_vector_store()
+    else:
+        print("   ✅ Vector store-ul există și are conținut.\n")
+    
+    # Step 2: Rulează find_law
+    output, results = run_find_law(user_message)
+    
+    # Step 3: Generează rezumat sintetizat
+    summary = ""
+    if results:
+        print("\n" + "=" * 70)
+        print("📝 Sintetizare Rezultate")
+        print("=" * 70)
+        summary = summarize_results(results, user_message)
+        print("✅ Rezumat generat!\n")
+    
+    # Step 4: Combină output-ul detaliat cu rezumatul
+    final_output = ""
+    if summary:
+        final_output = f"""
+{'='*70}
+📋 REZUMAT SINTETIZAT
+{'='*70}
+
+{summary}
+"""
+    else:
+        final_output = output
+    
+    # Step 5: Scrie outputul în fișier
+    print("\n" + "=" * 70)
+    print("📄 Scriere Output")
+    print("=" * 70)
+    write_output_to_file(final_output, OUTPUT_FILE)
+    
+    return final_output
+
+
+def main():
+    """Funcția principală pentru CLI."""
+    
+    # Verifică argumentele
+    if len(sys.argv) < 2:
+        print("=" * 70)
+        print("❌ Eroare: Mesajul este obligatoriu")
+        print("=" * 70)
+        print("\nUsage:")
+        print("  python main.py \"Mesajul tău pentru căutare\"")
+        print("\nExemplu:")
+        print("  python main.py \"Am avut un accident de mașină\"")
+        sys.exit(1)
+    
+    # Extrage mesajul din argumente
+    user_message = " ".join(sys.argv[1:])
+    
+    # Procesează query-ul
+    final_output = process_query(user_message)
+    
+    # Afișează outputul în consolă
+    print("\n" + "=" * 70)
+    print("📋 Output Final:")
+    print("=" * 70)
+    print(final_output)
+    
+    print("\n" + "=" * 70)
+    print("✅ Proces completat!")
+    print("=" * 70)
+    
+    print("=" * 70)
+    print("🚀 CivicAid - Main Script")
+    print("=" * 70)
+    print(f"\n📝 Mesaj primit: \"{user_message}\"\n")
+    
+    # Step 1: Verifică dacă vector store-ul există
+    print("🔍 Verificare vector store...")
+    if not check_vector_store_exists():
+        print("   ⚠️  Vector store-ul nu există sau este gol.")
+        create_vector_store()
+    else:
+        print("   ✅ Vector store-ul există și are conținut.\n")
+    
+    # Step 2: Rulează find_law
+    output, results = run_find_law(user_message)
+    
+    # Step 3: Generează rezumat sintetizat
+    summary = ""
+    if results:
+        print("\n" + "=" * 70)
+        print("📝 Sintetizare Rezultate")
+        print("=" * 70)
+        summary = summarize_results(results, user_message)
+        print("✅ Rezumat generat!\n")
+    
+    # Step 4: Combină output-ul detaliat cu rezumatul
+    final_output = ""
+    if summary:
+        final_output = f"""
+{'='*70}
+📋 REZUMAT SINTETIZAT
+{'='*70}
+
+{summary}
+"""
+# {'='*70}
+# 📚 DETALII COMPLETE (5 rezultate)
+# {'='*70}
+
+# {output}
+# """
+    else:
+        final_output = output
+    
+    # Step 5: Scrie outputul în fișier
+    print("\n" + "=" * 70)
+    print("📄 Scriere Output")
+    print("=" * 70)
+    write_output_to_file(final_output, OUTPUT_FILE)
+    
+    # Afișează și outputul în consolă
+    print("\n" + "=" * 70)
+    print("📋 Output Final:")
+    print("=" * 70)
+    print(final_output)
+    
+    print("\n" + "=" * 70)
+    print("✅ Proces completat!")
+    print("=" * 70)
+
+
+if __name__ == "__main__":
+    main()
+
+

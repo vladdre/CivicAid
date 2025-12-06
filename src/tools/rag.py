@@ -18,7 +18,7 @@ from typing import Optional
 from dotenv import load_dotenv
 
 # Add parent directory to path
-sys.path.append(str(Path(__file__).parent.parent.parent))
+sys.path.append(str(Path(__file__).parent.parent))
 
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import Chroma
@@ -27,26 +27,42 @@ from langchain_community.vectorstores import Chroma
 load_dotenv()
 
 # Configuration
+# Vector store este în rădăcina proiectului: data/vector_store
+# Path(__file__) = src/tools/rag.py
+# parent = src/tools
+# parent.parent = src
+# parent.parent.parent = rădăcina proiectului
 VECTOR_STORE_DIR = Path(__file__).parent.parent.parent / "data" / "vector_store"
 COLLECTION_NAME = "civicaid_laws"  # Same collection as ingest_laws.py
 
 
-def get_vector_store(vector_store_dir: Path = VECTOR_STORE_DIR) -> Optional[Chroma]:
+def get_vector_store(vector_store_dir: Optional[Path] = None) -> Optional[Chroma]:
     """
     Încarcă vector store-ul existent.
     
     Args:
-        vector_store_dir: Directorul unde este stocat ChromaDB
+        vector_store_dir: Directorul unde este stocat ChromaDB. 
+                        Dacă None, folosește VECTOR_STORE_DIR din configurație.
         
     Returns:
         Chroma vector store instance sau None dacă nu există
     """
+    # Folosește calea din configurație dacă nu este specificată
+    if vector_store_dir is None:
+        vector_store_dir = VECTOR_STORE_DIR
+    
+    # Convertește la cale absolută pentru a funcționa indiferent de working directory
+    vector_store_dir = vector_store_dir.resolve()
+    
     if not vector_store_dir.exists():
+        print(f"⚠️  Vector store nu există la: {vector_store_dir}")
+        print(f"   Verifică că ai rulat: python scripts/ingest_laws.py")
         return None
     
     try:
         api_key = os.getenv("OPENAI_API_KEY")
         if not api_key:
+            print("⚠️  OPENAI_API_KEY nu este setată în .env")
             return None
         
         embeddings = OpenAIEmbeddings(
@@ -62,7 +78,8 @@ def get_vector_store(vector_store_dir: Path = VECTOR_STORE_DIR) -> Optional[Chro
         
         return vector_store
     except Exception as e:
-        print(f"Error loading vector store: {e}")
+        print(f"❌ Eroare la încărcarea vector store-ului: {e}")
+        print(f"   Cale încercată: {vector_store_dir}")
         return None
 
 

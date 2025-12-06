@@ -10,6 +10,9 @@ from flask import Flask, render_template, request, jsonify, session, redirect, u
 # Add parent directory to path for imports
 sys.path.append(str(Path(__file__).parent.parent))
 
+# Import process_query after adding parent to path
+from main import process_query
+
 # Import SQL tool
 from src.tools.sql import query_institutions
 
@@ -231,7 +234,20 @@ def chat():
     
     # Process query using OpenAI and SQL tool
     try:
-        ai_response = query_institutions(message_content)
+        # Rulează main.py pentru a obține rezultatele din vector store
+        vector_store_response = process_query(message_content)
+        
+        # Apoi rulează query-ul SQL (care va adăuga rezultatele la output.txt)
+        sql_response = query_institutions(message_content)
+        
+        # Combină ambele răspunsuri
+        ai_response = f"""{vector_store_response}
+
+{'='*70}
+📍 REZULTATE INSTITUȚII
+{'='*70}
+
+{sql_response}"""
     except Exception as e:
         ai_response = f"❌ Eroare la procesarea întrebării: {str(e)}"
     

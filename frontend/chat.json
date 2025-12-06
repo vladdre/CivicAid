@@ -57,6 +57,18 @@
             "title": "Consultare 5",
             "owner": "AndreiKRP",
             "created_at": "2025-12-06T18:30:15.936430"
+        },
+        {
+            "id": 13,
+            "title": "Consultare 6",
+            "owner": "AndreiKRP",
+            "created_at": "2025-12-06T21:56:14.774641"
+        },
+        {
+            "id": 14,
+            "title": "Consultare 7",
+            "owner": "AndreiKRP",
+            "created_at": "2025-12-06T22:16:03.456399"
         }
     ],
     "messages": [
@@ -359,6 +371,30 @@
             "role": "assistant",
             "content": "Simulated AI response to: Unde depun dosarul de pensii?",
             "timestamp": "2025-12-06T18:30:15.936436"
+        },
+        {
+            "conversation_id": 13,
+            "role": "user",
+            "content": "Am avut un accident de masina",
+            "timestamp": "2025-12-06T21:56:14.774659"
+        },
+        {
+            "conversation_id": 13,
+            "role": "assistant",
+            "content": "1. Poli\u021bia Rutier\u0103 - Direc\u021bia Rutier\u0103 Sector 1\n   \ud83d\udccd Bd. Lasc\u0103r Catargi nr. 21, Sector 1, Bucure\u0219ti\n   \ud83d\udd50 Luni-Vineri 08:00-20:00, S\u00e2mb\u0103t\u0103 08:00-14:00\n\n2. Poli\u021bia Rutier\u0103 - Direc\u021bia Rutier\u0103 Sector 2\n   \ud83d\udccd Bd. Aviatorilor nr. 44, Sector 2, Bucure\u0219ti\n   \ud83d\udd50 Luni-Vineri 08:00-20:00, S\u00e2mb\u0103t\u0103 08:00-14:00\n\n3. Poli\u021bia Rutier\u0103 - Direc\u021bia Rutier\u0103 Sector 3\n   \ud83d\udccd Calea Vitan nr. 55-59, Sector 3, Bucure\u0219ti\n   \ud83d\udd50 Luni-Vineri 08:00-20:00, S\u00e2mb\u0103t\u0103 08:00-14:00\n\n4. Poli\u021bia Rutier\u0103 - Direc\u021bia Rutier\u0103 Sector 4\n   \ud83d\udccd Bd. Timi\u0219oara nr. 47, Sector 4, Bucure\u0219ti\n   \ud83d\udd50 Luni-Vineri 08:00-20:00, S\u00e2mb\u0103t\u0103 08:00-14:00\n\n5. Poli\u021bia Rutier\u0103 - Direc\u021bia Rutier\u0103 Sector 5\n   \ud83d\udccd Str. Mihai Bravu nr. 266, Sector 5, Bucure\u0219ti\n   \ud83d\udd50 Luni-Vineri 08:00-20:00, S\u00e2mb\u0103t\u0103 08:00-14:00\n\n6. Poli\u021bia Rutier\u0103 - Direc\u021bia Rutier\u0103 Sector 6\n   \ud83d\udccd Bd. Iuliu Maniu nr. 28-30, Sector 6, Bucure\u0219ti\n   \ud83d\udd50 Luni-Vineri 08:00-20:00, S\u00e2mb\u0103t\u0103 08:00-14:00\n\n7. Direc\u021bia General\u0103 de Poli\u021bie Rutier\u0103 Bucure\u0219ti\n   \ud83d\udccd Bd. Lasc\u0103r Catargi nr. 21, Sector 1, Bucure\u0219ti\n   \ud83d\udd50 Luni-Vineri 08:00-20:00, S\u00e2mb\u0103t\u0103 08:00-14:00",
+            "timestamp": "2025-12-06T21:56:14.774659"
+        },
+        {
+            "conversation_id": 14,
+            "role": "user",
+            "content": "am avut un accident de masina",
+            "timestamp": "2025-12-06T22:16:03.456421"
+        },
+        {
+            "conversation_id": 14,
+            "role": "assistant",
+            "content": "\u274c Eroare la procesarea \u00eentreb\u0103rii: 'str' object has no attribute 'append'",
+            "timestamp": "2025-12-06T22:16:03.456421"
         }
     ]
 }

@@ -53,13 +53,63 @@ def get_sql_database():
 
 
 def save_results_to_file(query: str, results: str, sql_query: str = None) -> str:
-    """Salvează doar rezultatele în fișierul output.txt din directorul data."""
-    OUTPUT_DIR.mkdir(exist_ok=True)
+    """
+    Salvează rezultatele în fișierul output.txt din directorul data.
     
+    Mai întâi apelează main.py pentru a obține rezultatele din vector store,
+    apoi adaugă rezultatele SQL la fișier.
+    """
+    OUTPUT_DIR.mkdir(exist_ok=True)
     output_file = OUTPUT_DIR / "output.txt"
     
+    # Step 1: Apelează main.py pentru a obține rezultatele din vector store
+    main_output = ""
+    try:
+        import subprocess
+        import sys
+        
+        # Rulează main.py cu query-ul
+        result = subprocess.run(
+            [sys.executable, str(BASE_DIR / "main.py"), query],
+            capture_output=True,
+            text=True,
+            cwd=str(BASE_DIR),
+            timeout=300  # Timeout de 5 minute
+        )
+        
+        if result.returncode == 0:
+            # Citește output-ul generat de main.py
+            main_output_file = BASE_DIR / "output.txt"
+            if main_output_file.exists():
+                with open(main_output_file, 'r', encoding='utf-8') as f:
+                    main_output = f.read()
+        else:
+            # Dacă main.py a eșuat, continuă fără rezultatele din vector store
+            print(f"⚠️  main.py a returnat cod {result.returncode}: {result.stderr}")
+            
+    except subprocess.TimeoutExpired:
+        print("⚠️  main.py a depășit timeout-ul")
+    except Exception as e:
+        print(f"⚠️  Eroare la rularea main.py: {e}")
+    
+    # Step 2: Combină output-ul din main.py cu rezultatele SQL
+    combined_output = ""
+    
+    if main_output:
+        combined_output = main_output
+        combined_output += "\n\n" + "=" * 70 + "\n"
+        combined_output += "📍 REZULTATE INSTITUȚII (SQL)\n"
+        combined_output += "=" * 70 + "\n\n"
+    else:
+        combined_output = "=" * 70 + "\n"
+        combined_output += "📍 REZULTATE INSTITUȚII (SQL)\n"
+        combined_output += "=" * 70 + "\n\n"
+    
+    combined_output += results
+    
+    # Step 3: Scrie în fișierul din data/
     with open(output_file, 'w', encoding='utf-8') as f:
-        f.write(results)
+        f.write(combined_output)
     
     return str(output_file)
 
