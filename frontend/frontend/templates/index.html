@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT Clone</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <button class="new-chat-btn" onclick="startNewChat()">+ New chat</button>
+            <div class="history-list" id="history-list">
+                <!-- Conversations will be loaded here -->
+            </div>
+            <div class="user-profile">
+                <div class="user-avatar">{{ username[0].upper() }}</div>
+                <div style="flex-grow: 1;">{{ username }}</div>
+                <a href="/logout" style="color: #c5c5d2; text-decoration: none; font-size: 12px;">Log out</a>
+            </div>
+        </div>
+
+        <!-- Main Chat Area -->
+        <div class="main-content">
+            <div class="chat-area" id="chat-area">
+                <!-- Messages will be loaded here -->
+                <div class="welcome-message" id="welcome-message">
+                    <h1>CivicAID</h1>
+                </div>
+            </div>
+
+            <div class="input-area">
+                <div class="input-container">
+                    <textarea id="message-input" placeholder="Send a message..." rows="1"
+                        oninput="autoResize(this)"></textarea>
+                    <button id="send-btn" onclick="sendMessage()">
+                        <svg stroke="currentColor" fill="none" class="send-icon" viewBox="0 0 24 24" height="1em"
+                            width="1em" xmlns="http://www.w3.org/2000/svg">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </div>
+                <div class="disclaimer">CivicAID can make mistakes. Consider checking important legal information.</div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>
