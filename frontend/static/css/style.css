@@ -1,0 +1,375 @@
+:root {
+    --sidebar-bg: #202123;
+    --main-bg: #343541;
+    --user-msg-bg: #343541;
+    --ai-msg-bg: #444654;
+    --text-color: #ECECF1;
+    --input-bg: #40414F;
+    --border-color: #4D4D4F;
+}
+
+* {
+    box_sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    color: var(--text-color);
+    background-color: var(--main-bg);
+    height: 100vh;
+    display: flex;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 260px;
+    background-color: var(--sidebar-bg);
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    flex-shrink: 0;
+}
+
+.new-chat-btn {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: left;
+    margin-bottom: 15px;
+    transition: background-color 0.2s;
+    font-size: 14px;
+}
+
+.new-chat-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.history-list {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.history-item {
+    padding: 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    /* white-space: nowrap;  Removed to allow flex to work better if needed, but text-overflow might need width control */
+    white-space: nowrap;
+    overflow: hidden;
+    /* text-overflow: ellipsis; Handled in child now */
+    color: #C5C5D2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.history-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+}
+
+.delete-btn {
+    background: transparent;
+    border: none;
+    color: #8E8EA0;
+    cursor: pointer;
+    font-size: 16px;
+    /* Slightly larger for visibility */
+    padding: 2px 6px;
+    display: none;
+    margin-left: 8px;
+    border-radius: 3px;
+    line-height: 1;
+}
+
+.history-item:hover .delete-btn {
+    display: block;
+}
+
+.delete-btn:hover {
+    color: #ff6b6b;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.history-item:hover,
+.history-item.active {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.user-profile {
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.user-avatar {
+    width: 30px;
+    height: 30px;
+    background-color: #10a37f;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+}
+
+/* Main Content */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background-color: var(--main-bg);
+}
+
+.chat-area {
+    flex-grow: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 150px;
+    /* Space for input */
+}
+
+.welcome-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--text-color);
+}
+
+.message {
+    padding: 24px;
+    font-size: 16px;
+    line-height: 1.5;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+}
+
+.message-content {
+    width: 100%;
+    max-width: 768px;
+    display: flex;
+    gap: 20px;
+}
+
+.message.user {
+    background-color: var(--user-msg-bg);
+}
+
+.message.assistant {
+    background-color: var(--ai-msg-bg);
+}
+
+.avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.avatar.user-av {
+    background-color: #5436DA;
+    color: white;
+}
+
+.avatar.ai-av {
+    background-color: #19C37D;
+    /* OpenAI Green */
+    color: whithe;
+}
+
+.text {
+    padding-top: 2px;
+    word-wrap: break-word;
+    /* Ensure long words break */
+    white-space: pre-wrap;
+    /* Preserve formatting */
+}
+
+/* Input Area */
+.input-area {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 24px 0;
+    background-image: linear-gradient(180deg, rgba(53, 55, 64, 0), #353740 58.85%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-container {
+    width: 100%;
+    max-width: 768px;
+    background-color: var(--input-bg);
+    border: 1px solid rgba(32, 33, 35, 0.5);
+    border-radius: 12px;
+    /* ChatGPT rounded input */
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+textarea {
+    background: transparent;
+    border: none;
+    color: white;
+    font-family: inherit;
+    font-size: 16px;
+    width: 100%;
+    resize: none;
+    max-height: 200px;
+    outline: none;
+    padding: 4px 0;
+    line-height: 1.5;
+}
+
+#send-btn {
+    background: transparent;
+    border: none;
+    color: #8E8EA0;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: color 0.1s, background-color 0.1s;
+}
+
+#send-btn:hover {
+    color: #D9D9E3;
+    background-color: #202123;
+}
+
+.disclaimer {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 12px;
+    margin-top: 12px;
+    text-align: center;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #565869;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #8E8EA0;
+}
+
+/* Auth Pages */
+.auth-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--main-bg);
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    text-align: center;
+}
+
+.auth-logo {
+    margin-bottom: 24px;
+}
+
+.auth-container h2 {
+    margin-bottom: 24px;
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 16px;
+    background-color: var(--main-bg);
+    border: 1px solid #4D4D4F;
+    border-radius: 4px;
+    color: white;
+    font-size: 16px;
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: #10a37f;
+}
+
+.auth-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #10a37f;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.auth-btn:hover {
+    background-color: #0e906f;
+}
+
+.auth-links {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.auth-links a {
+    color: #10a37f;
+    text-decoration: none;
+}
+
+.error-message {
+    background-color: rgba(255, 0, 0, 0.1);
+    color: #ff6b6b;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
