@@ -36,7 +36,7 @@ _vector_store_instance = None
 _vector_store_embeddings = None
 
 
-def extract_keywords_and_query(user_message: str, api_key: str) -> Tuple[str, bool]:
+def extract_keywords_and_query(user_message: str, api_key: str, conversation_history: list = None) -> Tuple[str, bool]:
     """
     Încearcă să transforme un mesaj informal într-un query mai bun pentru căutare semantică.
     
@@ -46,6 +46,8 @@ def extract_keywords_and_query(user_message: str, api_key: str) -> Tuple[str, bo
     Args:
         user_message: Mesajul informal al utilizatorului
         api_key: OpenAI API key
+        conversation_history: Listă de mesaje anterioare din conversație (opțional)
+                           Format: [{"role": "user", "content": "..."}, {"role": "assistant", "content": "..."}, ...]
         
     Returns:
         Tuple (query, was_improved):
@@ -59,26 +61,54 @@ def extract_keywords_and_query(user_message: str, api_key: str) -> Tuple[str, bo
             openai_api_key=api_key
         )
         
+        # Construiește contextul conversației dacă există
+        context_section = ""
+        if conversation_history and len(conversation_history) > 0:
+            # Include ultimele 3-4 mesaje pentru context (evită prompt-uri prea lungi)
+            recent_history = conversation_history[-6:] if len(conversation_history) > 6 else conversation_history
+            context_lines = []
+            for msg in recent_history:
+                role = msg.get("role", "user")
+                content = msg.get("content", "")
+                if role == "user":
+                    context_lines.append(f"Utilizator: {content}")
+                elif role == "assistant":
+                    # Trunchiază răspunsurile lungi pentru a nu depăși limitele
+                    content_preview = content[:200] + "..." if len(content) > 200 else content
+                    context_lines.append(f"Asistent: {content_preview}")
+            
+            if context_lines:
+                context_section = f"""
+
+Context conversație anterioară:
+{chr(10).join(context_lines)}
+
+IMPORTANT: Dacă mesajul curent este o întrebare de follow-up (ex: "Ce înseamnă asta?", "Mai multe detalii", "Unde găsesc asta?"), 
+folosește contextul pentru a înțelege la ce se referă utilizatorul și transformă întrebarea într-un query complet și clar.
+"""
+        
         # Creăm prompt-ul combinat ca string
         full_prompt = f"""Ești un asistent care transformă mesaje informale în query-uri optimizate 
 pentru căutare în documente legale românești.
 
 Task: Analizează mesajul utilizatorului și transformă-l într-un query optimizat pentru căutare semantică 
-în legi, articole și documente juridice românești.
+în legi, articole și documente juridice românești.{context_section}
 
 Reguli STRICTE:
 1. Dacă mesajul este DEJA clar, specific și conține termeni juridici relevanți, răspunde cu "NU_POATE_FI_IMBUNATATIT"
 2. Dacă mesajul este informal, vag sau lipsesc termeni juridici, transformă-l într-un query optimizat
-3. Păstrează sensul original
-4. Adaugă termeni juridici relevanți DOAR dacă îmbunătățesc căutarea
-5. Fă query-ul clar și specific pentru documente legale românești
-6. Răspunde DOAR cu query-ul optimizat SAU cu "NU_POATE_FI_IMBUNATIT", fără explicații
+3. Dacă mesajul este o întrebare de follow-up, folosește contextul pentru a construi un query complet
+4. Păstrează sensul original
+5. Adaugă termeni juridici relevanți DOAR dacă îmbunătățesc căutarea
+6. Fă query-ul clar și specific pentru documente legale românești
+7. Răspunde DOAR cu query-ul optimizat SAU cu "NU_POATE_FI_IMBUNATIT", fără explicații
 
 Exemple:
 - "accident de mașină" → "accident rutier, răspundere civilă, daune materiale"
 - "bani ajutor" → "ajutor social, venit minim garantat, asistență socială"
 - "ARTICOLUL 1 din Constituție" → NU_POATE_FI_IMBUNATIT
 - "răspundere civilă pentru daune" → NU_POATE_FI_IMBUNATIT
+- Follow-up: "Unde găsesc asta?" (după răspuns despre pensie) → "instituții pensie, unde depun cererea pensie, adrese pensie"
 
 Mesaj utilizator: {user_message}
 
@@ -117,7 +147,7 @@ Răspuns:"""
         return user_message, False
 
 
-def find_relevant_laws(user_message: str, k: int = 5, use_optimization: bool = True) -> list:
+def find_relevant_laws(user_message: str, k: int = 5, use_optimization: bool = True, conversation_history: list = None) -> list:
     """
     Găsește articole de lege relevante pentru un mesaj dat.
     
@@ -167,11 +197,11 @@ def find_relevant_laws(user_message: str, k: int = 5, use_optimization: bool = T
         print(f"❌ Eroare la încărcarea vector store-ului: {e}")
         return []
     
-    # Încearcă să optimizeze query-ul dacă e necesar
+    # Încearcă să optimizeze query-ul dacă e necesar (cu context din conversație)
     search_query = user_message
     was_improved = False
     if use_optimization:
-        search_query, was_improved = extract_keywords_and_query(user_message, api_key)
+        search_query, was_improved = extract_keywords_and_query(user_message, api_key, conversation_history)
         if not was_improved:
             print()  # Linie goală pentru claritate
     

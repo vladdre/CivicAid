@@ -124,7 +124,7 @@ def save_results_to_file(query: str, results: str, vector_store_output: str = No
     return str(output_file)
 
 
-def query_institutions(natural_language_query: str, vector_store_output: str = None) -> str:
+def query_institutions(natural_language_query: str, vector_store_output: str = None, conversation_history: list = None) -> str:
     """
     Transformă o întrebare în limbaj natural într-un query SQL.
     
@@ -135,6 +135,8 @@ def query_institutions(natural_language_query: str, vector_store_output: str = N
         natural_language_query: Query-ul în limbaj natural
         vector_store_output: Output-ul deja generat de process_query() (opțional)
                            Dacă este furnizat, va fi folosit în loc să ruleze subprocess
+        conversation_history: Listă de mesaje anterioare din conversație (opțional)
+                            Folosit pentru a înțelege întrebări de follow-up
     """
     api_key = get_api_key()
     if not api_key:
@@ -145,23 +147,51 @@ def query_institutions(natural_language_query: str, vector_store_output: str = N
         llm = ChatOpenAI(model="gpt-4o-mini", temperature=0, openai_api_key=api_key)
         schema = db.get_table_info()
         
+        # Construiește contextul conversației dacă există
+        context_section = ""
+        if conversation_history and len(conversation_history) > 0:
+            # Include ultimele 3-4 mesaje pentru context
+            recent_history = conversation_history[-6:] if len(conversation_history) > 6 else conversation_history
+            context_lines = []
+            for msg in recent_history:
+                role = msg.get("role", "user")
+                content = msg.get("content", "")
+                if role == "user":
+                    context_lines.append(f"Utilizator: {content}")
+                elif role == "assistant":
+                    # Trunchiază răspunsurile lungi
+                    content_preview = content[:200] + "..." if len(content) > 200 else content
+                    context_lines.append(f"Asistent: {content_preview}")
+            
+            if context_lines:
+                context_section = f"""
+
+Context conversație anterioară:
+{chr(10).join(context_lines)}
+
+IMPORTANT: Dacă întrebarea este o întrebare de follow-up (ex: "Unde găsesc asta?", "Care este adresa?", "Mai multe detalii"),
+folosește contextul pentru a înțelege la ce se referă utilizatorul și extrage cuvintele cheie relevante pentru căutare în baza de date.
+"""
+        
         # Prompt simplu - caută direct cuvintele din întrebare în baza de date
-        prompt = f"""Ești un expert SQL. Generează un query SQL pentru următoarea întrebare.
+        prompt = f"""Ești un expert SQL. Generează un query SQL pentru următoarea întrebare.{context_section}
 
 Schema bazei de date:
 {schema}
 
 INSTRUCȚIUNI SIMPLE:
 1. Extrage cuvintele cheie din întrebare (ex: "accident", "pensie", "buletin")
-2. Caută aceste cuvinte în coloanele 'nume' și 'tip_serviciu' folosind LIKE '%cuvânt%'
-3. Folosește OR pentru a combina căutările în ambele coloane
-4. Returnează DOAR: nume, adresa, program
+2. Dacă întrebarea este de follow-up, folosește contextul pentru a identifica subiectul
+3. Caută aceste cuvinte în coloanele 'nume' și 'tip_serviciu' folosind LIKE '%cuvânt%'
+4. Folosește OR pentru a combina căutările în ambele coloane
+5. Returnează DOAR: nume, adresa, program
 
 EXEMPLE:
 - "accident" → SELECT nume, adresa, program FROM institutions WHERE tip_serviciu LIKE '%accident%' OR nume LIKE '%accident%' OR nume LIKE '%Rutieră%'
 - "pensie" → SELECT nume, adresa, program FROM institutions WHERE nume LIKE '%pensie%' OR tip_serviciu LIKE '%pensie%'
 - "buletin" → SELECT nume, adresa, program FROM institutions WHERE tip_serviciu LIKE '%identitate%' OR tip_serviciu LIKE '%buletin%' OR nume LIKE '%Evidență%'
 - "energie" → SELECT nume, adresa, program FROM institutions WHERE tip_serviciu LIKE '%energie%' OR tip_serviciu LIKE '%căldură%' OR tip_serviciu LIKE '%gaz%'
+- Follow-up: "Unde găsesc asta?" (după răspuns despre pensie) → SELECT nume, adresa, program FROM institutions WHERE nume LIKE '%pensie%' OR tip_serviciu LIKE '%pensie%'
 
 Întrebare: {natural_language_query}
 

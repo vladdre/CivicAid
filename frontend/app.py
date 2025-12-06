@@ -232,13 +232,22 @@ def chat():
     }
     db['messages'].append(user_msg)
     
+    # Extrage istoricul conversației pentru context (exclude mesajul curent care tocmai a fost adăugat)
+    conversation_history = [
+        {'role': m['role'], 'content': m['content']} 
+        for m in db.get('messages', []) 
+        if m['conversation_id'] == conversation_id and m['timestamp'] != timestamp
+    ]
+    
     # Process query using OpenAI and SQL tool
     try:
-        # Rulează main.py pentru a obține rezultatele din vector store
-        vector_store_response = process_query(message_content)
+        # Rulează main.py pentru a obține rezultatele din vector store (cu context)
+        vector_store_response = process_query(message_content, conversation_history=conversation_history)
         
-        # Apoi rulează query-ul SQL (pasează output-ul pentru a evita dublarea)
-        sql_response = query_institutions(message_content, vector_store_output=vector_store_response)
+        # Apoi rulează query-ul SQL (pasează output-ul și contextul pentru a evita dublarea)
+        sql_response = query_institutions(message_content, 
+                                         vector_store_output=vector_store_response,
+                                         conversation_history=conversation_history)
         
         # Combină ambele răspunsuri
         ai_response = f"""{vector_store_response}

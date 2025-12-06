@@ -142,7 +142,7 @@ def create_vector_store():
         sys.exit(1)
 
 
-def run_find_law(user_message: str) -> tuple[str, Optional[list]]:
+def run_find_law(user_message: str, conversation_history: list = None) -> tuple[str, Optional[list]]:
     """
     Rulează find_law.py cu mesajul dat și returnează outputul și rezultatele.
     
@@ -163,8 +163,8 @@ def run_find_law(user_message: str) -> tuple[str, Optional[list]]:
     try:
         from scripts.find_law import find_relevant_laws, format_results
         
-        # Găsește articolele relevante
-        results = find_relevant_laws(user_message, k=5, use_optimization=True)
+        # Găsește articolele relevante (cu context din conversație)
+        results = find_relevant_laws(user_message, k=5, use_optimization=True, conversation_history=conversation_history)
         
         # Formatează rezultatele
         if results:
@@ -292,7 +292,7 @@ def write_output_to_file(output: str, output_file: Path):
         traceback.print_exc()
 
 
-def process_query(user_message: str) -> str:
+def process_query(user_message: str, conversation_history: list = None) -> str:
     """
     Procesează un query și returnează rezultatul formatat.
     
@@ -300,6 +300,8 @@ def process_query(user_message: str) -> str:
     
     Args:
         user_message: Mesajul pentru căutare
+        conversation_history: Listă de mesaje anterioare din conversație (opțional)
+                           Format: [{"role": "user", "content": "..."}, {"role": "assistant", "content": "..."}, ...]
         
     Returns:
         Output-ul formatat ca string
