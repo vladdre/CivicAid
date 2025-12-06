@@ -1,0 +1,4 @@
+# Acest director stochează textul brut extras de pe site-uri prin web scraping.
+# Fișierele .txt sunt generate automat de scripts/scrape_news.py
+# Format recomandat: anunturi_YYYY_MM_DD.txt
+
