@@ -1,0 +1,241 @@
+[
+  {
+    "nume": "DGASPC Sector 1",
+    "adresa": "Str. Amzei nr. 10, Sector 1, București",
+    "tip_serviciu": "Asistență Socială, Alocații, Handicap, Protecție Copil",
+    "program": "Luni-Joi 08:00-16:00, Vineri 08:00-14:00",
+    "grad_ocupare": "Ridicat dimineața (08:00-12:00)"
+  },
+  {
+    "nume": "DGASPC Sector 2",
+    "adresa": "Bd. Aviatorilor nr. 44, Sector 2, București",
+    "tip_serviciu": "Asistență Socială, Alocații, Ajutor Social, Protecție Copil",
+    "program": "Luni-Joi 08:00-16:00, Vineri 08:00-14:00",
+    "grad_ocupare": "Moderat dimineața"
+  },
+  {
+    "nume": "DGASPC Sector 3",
+    "adresa": "Str. Gheorghe Manu nr. 2-4, Sector 3, București",
+    "tip_serviciu": "Asistență Socială, Alocații, Handicap, Ajutor Social",
+    "program": "Luni-Joi 08:00-16:00, Vineri 08:00-14:00",
+    "grad_ocupare": "Ridicat dimineața și după-amiază"
+  },
+  {
+    "nume": "DGASPC Sector 4",
+    "adresa": "Str. Enache Spiridon nr. 12, Sector 4, București",
+    "tip_serviciu": "Asistență Socială, Alocații, Handicap, Protecție Copil, Ajutor Social",
+    "program": "Luni-Joi 08:00-16:00, Vineri 08:00-14:00",
+    "grad_ocupare": "Ridicat dimineața (08:00-12:00)"
+  },
+  {
+    "nume": "DGASPC Sector 5",
+    "adresa": "Str. Mihai Bravu nr. 266, Sector 5, București",
+    "tip_serviciu": "Asistență Socială, Alocații, Ajutor Social, Protecție Copil",
+    "program": "Luni-Joi 08:00-16:00, Vineri 08:00-14:00",
+    "grad_ocupare": "Moderat"
+  },
+  {
+    "nume": "DGASPC Sector 6",
+    "adresa": "Str. Gheorghe Manu nr. 28-30, Sector 6, București",
+    "tip_serviciu": "Asistență Socială, Alocații, Handicap, Protecție Copil",
+    "program": "Luni-Joi 08:00-16:00, Vineri 08:00-14:00",
+    "grad_ocupare": "Ridicat dimineața"
+  },
+  {
+    "nume": "Primăria Sector 1",
+    "adresa": "Bd. Lascăr Catargi nr. 21, Sector 1, București",
+    "tip_serviciu": "Acte de identitate, Certificat de naștere, Certificat de căsătorie, Acte notariale",
+    "program": "Luni-Vineri 08:00-18:00",
+    "grad_ocupare": "Foarte ridicat dimineața și după-amiază"
+  },
+  {
+    "nume": "Primăria Sector 2",
+    "adresa": "Bd. Aviatorilor nr. 44, Sector 2, București",
+    "tip_serviciu": "Acte de identitate, Certificat de naștere, Certificat de căsătorie, Acte notariale, Autorizații construcții",
+    "program": "Luni-Vineri 08:00-18:00",
+    "grad_ocupare": "Ridicat dimineața"
+  },
+  {
+    "nume": "Primăria Sector 3",
+    "adresa": "Calea Vitan nr. 55-59, Sector 3, București",
+    "tip_serviciu": "Acte de identitate, Certificat de naștere, Certificat de căsătorie, Acte notariale",
+    "program": "Luni-Vineri 08:00-18:00",
+    "grad_ocupare": "Moderat"
+  },
+  {
+    "nume": "Primăria Sector 4",
+    "adresa": "Bd. Timișoara nr. 47, Sector 4, București",
+    "tip_serviciu": "Acte de identitate, Certificat de naștere, Certificat de căsătorie, Acte notariale, Autorizații construcții",
+    "program": "Luni-Vineri 08:00-18:00",
+    "grad_ocupare": "Ridicat dimineața și după-amiază"
+  },
+  {
+    "nume": "Casa Județeană de Asigurări de Sănătate București",
+    "adresa": "Bd. Unirii nr. 1, Sector 3, București",
+    "tip_serviciu": "Asigurări de sănătate, Carduri sanitare, Înscrieri medici de familie",
+    "program": "Luni-Vineri 08:00-16:00",
+    "grad_ocupare": "Ridicat dimineața"
+  },
+  {
+    "nume": "Direcția Generală de Asistență Socială și Protecția Copilului București",
+    "adresa": "Str. Amzei nr. 10, Sector 1, București",
+    "tip_serviciu": "Asistență Socială, Alocații, Handicap, Protecție Copil, Ajutor Social",
+    "program": "Luni-Joi 08:00-16:00, Vineri 08:00-14:00",
+    "grad_ocupare": "Moderat"
+  },
+  {
+    "nume": "Oficiul pentru Împrumuturi cu Garantie Statului",
+    "adresa": "Calea Victoriei nr. 120, Sector 1, București",
+    "tip_serviciu": "Împrumuturi garantate de stat, Consultanță financiară",
+    "program": "Luni-Vineri 09:00-17:00",
+    "grad_ocupare": "Scăzut"
+  },
+  {
+    "nume": "ANAF - Administrația Națională a Fiscalității",
+    "adresa": "Bd. Gheorghe Magheru nr. 7, Sector 1, București",
+    "tip_serviciu": "Declarații fiscale, Certificat fiscal, Consultanță fiscală",
+    "program": "Luni-Vineri 08:00-16:00",
+    "grad_ocupare": "Ridicat dimineața"
+  },
+  {
+    "nume": "Centrul de Plasament pentru Copii Sector 1",
+    "adresa": "Str. Amzei nr. 10, Sector 1, București",
+    "tip_serviciu": "Protecție Copil, Plasament, Adopție",
+    "program": "Luni-Vineri 08:00-16:00",
+    "grad_ocupare": "Moderat"
+  },
+  {
+    "nume": "Casa Națională de Pensii Publice",
+    "adresa": "Bd. Carol I nr. 38, Sector 2, București",
+    "tip_serviciu": "Pensii, Pensii de invaliditate, Pensii de urmaș, Pensii sociale",
+    "program": "Luni-Vineri 08:00-16:00",
+    "grad_ocupare": "Foarte ridicat dimineața"
+  },
+  {
+    "nume": "Direcția de Evidență a Persoanelor Sector 1",
+    "adresa": "Bd. Lascăr Catargi nr. 21, Sector 1, București",
+    "tip_serviciu": "Acte de identitate, Pașapoarte, Certificat de naștere, Certificat de căsătorie",
+    "program": "Luni-Vineri 08:00-16:00",
+    "grad_ocupare": "Foarte ridicat"
+  },
+  {
+    "nume": "Agenția Națională pentru Ocuparea Forței de Muncă - ANOFM",
+    "adresa": "Bd. Dacia nr. 47, Sector 1, București",
+    "tip_serviciu": "Înregistrare șomaj, Alocație șomaj, Cursuri de calificare, Mediere forță de muncă",
+    "program": "Luni-Vineri 08:00-16:00",
+    "grad_ocupare": "Ridicat dimineața"
+  },
+  {
+    "nume": "Oficiul pentru Împrumuturi Studențești",
+    "adresa": "Str. Ion Ghica nr. 13, Sector 3, București",
+    "tip_serviciu": "Împrumuturi studențești, Bursă, Ajutor social studenți",
+    "program": "Luni-Vineri 09:00-17:00",
+    "grad_ocupare": "Moderat"
+  },
+  {
+    "nume": "Oficiul Județean pentru Imigrări București",
+    "adresa": "Str. Nicolae Iorga nr. 2, Sector 1, București",
+    "tip_serviciu": "Vize, Permise de ședere, Cetățenie română, Documente pentru străini",
+    "program": "Luni-Vineri 08:00-16:00",
+    "grad_ocupare": "Ridicat"
+  },
+  {
+    "nume": "Direcția Generală de Asistență Socială și Protecția Familiei",
+    "adresa": "Bd. Carol I nr. 2, Sector 2, București",
+    "tip_serviciu": "Asistență Socială, Alocații, Ajutor Social, Protecție Familie",
+    "program": "Luni-Joi 08:00-16:00, Vineri 08:00-14:00",
+    "grad_ocupare": "Moderat"
+  },
+  {
+    "nume": "Oficiul Poștal Român - Poșta Română",
+    "adresa": "Calea Victoriei nr. 12, Sector 1, București",
+    "tip_serviciu": "Coletări, Scrisori, Plăți facturi, Transferuri bani",
+    "program": "Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00",
+    "grad_ocupare": "Moderat"
+  },
+  {
+    "nume": "Casa Județeană de Asigurări de Sănătate Ilfov",
+    "adresa": "Bd. Unirii nr. 1, Sector 3, București",
+    "tip_serviciu": "Asigurări de sănătate, Carduri sanitare, Medici de familie, Consultații",
+    "program": "Luni-Vineri 08:00-16:00",
+    "grad_ocupare": "Ridicat dimineața"
+  },
+  {
+    "nume": "Direcția Generală de Protecție Civilă",
+    "adresa": "Str. Gheorghe Manu nr. 5, Sector 1, București",
+    "tip_serviciu": "Protecție Civilă, Situații de urgență, Autorizații construcții, Siguranță",
+    "program": "Luni-Vineri 08:00-16:00",
+    "grad_ocupare": "Scăzut"
+  },
+  {
+    "nume": "Oficiul Național al Registrului Comerțului",
+    "adresa": "Bd. Aviatorilor nr. 86, Sector 1, București",
+    "tip_serviciu": "Înregistrare firme, Acte constitutive, Modificări statut, Certificat înregistrare",
+    "program": "Luni-Vineri 09:00-17:00",
+    "grad_ocupare": "Ridicat"
+  },
+  {
+    "nume": "Direcția Generală de Asistență Socială și Protecția Copilului Ilfov",
+    "adresa": "Str. Amzei nr. 10, Sector 1, București",
+    "tip_serviciu": "Asistență Socială, Alocații, Handicap, Protecție Copil",
+    "program": "Luni-Joi 08:00-16:00, Vineri 08:00-14:00",
+    "grad_ocupare": "Moderat"
+  },
+  {
+    "nume": "Primăria Sector 5",
+    "adresa": "Bd. Timișoara nr. 47, Sector 5, București",
+    "tip_serviciu": "Acte de identitate, Certificat de naștere, Certificat de căsătorie, Acte notariale",
+    "program": "Luni-Vineri 08:00-18:00",
+    "grad_ocupare": "Ridicat"
+  },
+  {
+    "nume": "Primăria Sector 6",
+    "adresa": "Bd. Iuliu Maniu nr. 28-30, Sector 6, București",
+    "tip_serviciu": "Acte de identitate, Certificat de naștere, Certificat de căsătorie, Acte notariale, Autorizații construcții",
+    "program": "Luni-Vineri 08:00-18:00",
+    "grad_ocupare": "Moderat"
+  },
+  {
+    "nume": "ANAF - Direcția Generală Regională a Finanțelor Publice București",
+    "adresa": "Bd. Gheorghe Magheru nr. 7, Sector 1, București",
+    "tip_serviciu": "Declarații fiscale, Certificat fiscal, Consultanță fiscală, Plăți taxe",
+    "program": "Luni-Vineri 08:00-16:00",
+    "grad_ocupare": "Foarte ridicat dimineața"
+  },
+  {
+    "nume": "Casa Națională de Asigurări de Sănătate",
+    "adresa": "Bd. Unirii nr. 1, Sector 3, București",
+    "tip_serviciu": "Asigurări de sănătate, Carduri sanitare, Medici de familie, Consultații medicale",
+    "program": "Luni-Vineri 08:00-16:00",
+    "grad_ocupare": "Ridicat dimineața"
+  },
+  {
+    "nume": "Oficiul Național pentru Persoane cu Dizabilități",
+    "adresa": "Str. Amzei nr. 10, Sector 1, București",
+    "tip_serviciu": "Certificat de handicap, Ajutor persoane cu dizabilități, Accesibilitate, Drepturi persoane cu dizabilități",
+    "program": "Luni-Vineri 08:00-16:00",
+    "grad_ocupare": "Moderat"
+  },
+  {
+    "nume": "Direcția Generală de Asistență Socială și Protecția Copilului Sector 2",
+    "adresa": "Bd. Aviatorilor nr. 44, Sector 2, București",
+    "tip_serviciu": "Asistență Socială, Alocații, Handicap, Protecție Copil, Ajutor Social",
+    "program": "Luni-Joi 08:00-16:00, Vineri 08:00-14:00",
+    "grad_ocupare": "Moderat"
+  },
+  {
+    "nume": "Oficiul Național pentru Proprietate Intelectuală",
+    "adresa": "Str. Ion Ghica nr. 5, Sector 1, București",
+    "tip_serviciu": "Înregistrare mărci, Brevete, Drepturi de autor, Proprietate intelectuală",
+    "program": "Luni-Vineri 09:00-17:00",
+    "grad_ocupare": "Scăzut"
+  },
+  {
+    "nume": "Agenția Națională de Administrare Fiscală - ANAF",
+    "adresa": "Bd. Gheorghe Magheru nr. 7, Sector 1, București",
+    "tip_serviciu": "Declarații fiscale, Certificat fiscal, Consultanță fiscală, Plăți taxe, TVA",
+    "program": "Luni-Vineri 08:00-16:00",
+    "grad_ocupare": "Foarte ridicat dimineața"
+  }
+]
+
