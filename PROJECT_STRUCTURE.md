@@ -42,9 +42,7 @@ VitalLink/
     │
     ├── tools/                     # 🛠️ Uneltele agentului
     │   ├── __init__.py
-    │   ├── rag.py                 # Tool pentru consultare legislație (RAG)
-    │   ├── sql.py                 # Tool pentru interogare baza de date (Text-to-SQL)
-    │   └── utils.py               # Funcții helper
+    │   └── sql.py                 # Tool pentru interogare baza de date (Text-to-SQL)
     │
     └── ui/                        # 🖥️ Interfața utilizator
         ├── __init__.py
@@ -78,7 +76,7 @@ VitalLink/
   - Embeddings din PDF-uri (legi)
   - Embeddings din web scraping (noutăți)
 - **Format:** Fișiere generate automat de ChromaDB
-- **Utilizare:** Căutare semantică pentru RAG (folosit de `src/tools/rag.py`)
+- **Utilizare:** Căutare semantică pentru RAG (folosit de `scripts/find_law.py` și `main.py`)
 
 #### `data/institutions.db`
 - **Scop:** SQLite - baza de date cu instituții, adrese, programe
@@ -135,14 +133,6 @@ VitalLink/
   - System prompt
   - Reguli anti-halucinație
   - Formatare răspunsuri
-
-#### `src/tools/rag.py`
-- **Rol:** Tool pentru consultare legislație
-- **Funcționalitate:**
-  - Primește query text
-  - Caută în `data/vector_store/` (PDF-uri + Scraping)
-  - Returnează top 3 chunks relevante
-  - Formatează output cu sursă
 
 #### `src/tools/sql.py`
 - **Rol:** Tool pentru interogare baza de date

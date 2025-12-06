@@ -173,19 +173,19 @@ Este critic ca numele coloanelor să fie descriptive, astfel încât LLM-ul să 
 
 [cite_start]**Obiectiv:** Crearea funcțiilor pe care Agentul le poate "apela" pentru a interacționa cu lumea exterioară[cite: 13].
 
-### 1\. Unealta Legislativă (`src/tools/rag.py`)
-
-  * **Nume:** `consult_legislation`
-
-  * **Descriere (Prompt pentru Agent):** *"Utilizează această unealtă ORI DE CÂTE ORI utilizatorul întreabă despre drepturi, legi, proceduri sau eligibilitate. Nu răspunde din memorie proprie."*
+### 1\. Unealta Legislativă (`scripts/find_law.py`)
 
   * **Funcționalitate:**
 
-      * Primește un query text.
+      * Primește un query text (mesaj informal).
 
-      * Caută în ChromaDB cele mai similare 3 pasaje.
+      * Optimizează query-ul folosind LLM dacă e necesar.
 
-      * Formatează output-ul: `Sursă: [Nume Doc] \n Text: [Conținut]`.
+      * Caută în ChromaDB cele mai similare pasaje (default: 5).
+
+      * Generează rezumat sintetizat al rezultatelor.
+
+      * Formatează output-ul cu sursă și conținut.
 
 ### 2\. Unealta de Locații (`src/tools/sql.py`)
 

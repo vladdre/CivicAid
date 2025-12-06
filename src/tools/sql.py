@@ -52,47 +52,57 @@ def get_sql_database():
     return SQLDatabase.from_uri(db_url)
 
 
-def save_results_to_file(query: str, results: str, sql_query: str = None) -> str:
+def save_results_to_file(query: str, results: str, vector_store_output: str = None, sql_query: str = None) -> str:
     """
     Salvează rezultatele în fișierul output.txt din directorul data.
     
-    Mai întâi apelează main.py pentru a obține rezultatele din vector store,
-    apoi adaugă rezultatele SQL la fișier.
+    Args:
+        query: Query-ul original
+        results: Rezultatele SQL
+        vector_store_output: Output-ul deja generat de process_query() (opțional)
+                           Dacă este furnizat, nu mai rulează subprocess
+        sql_query: Query-ul SQL generat (opțional, pentru debugging)
+    
+    Returns:
+        Calea către fișierul de output
     """
     OUTPUT_DIR.mkdir(exist_ok=True)
     output_file = OUTPUT_DIR / "output.txt"
     
-    # Step 1: Apelează main.py pentru a obține rezultatele din vector store
+    # Step 1: Obține output-ul din vector store
     main_output = ""
-    try:
-        import subprocess
-        import sys
-        
-        # Rulează main.py cu query-ul
-        result = subprocess.run(
-            [sys.executable, str(BASE_DIR / "main.py"), query],
-            capture_output=True,
-            text=True,
-            cwd=str(BASE_DIR),
-            timeout=300  # Timeout de 5 minute
-        )
-        
-        if result.returncode == 0:
-            # Citește output-ul generat de main.py
-            main_output_file = BASE_DIR / "output.txt"
-            if main_output_file.exists():
-                with open(main_output_file, 'r', encoding='utf-8') as f:
-                    main_output = f.read()
-        else:
-            # Dacă main.py a eșuat, continuă fără rezultatele din vector store
-            print(f"⚠️  main.py a returnat cod {result.returncode}: {result.stderr}")
-            
-    except subprocess.TimeoutExpired:
-        print("⚠️  main.py a depășit timeout-ul")
-    except Exception as e:
-        print(f"⚠️  Eroare la rularea main.py: {e}")
     
-    # Step 2: Combină output-ul din main.py cu rezultatele SQL
+    if vector_store_output:
+        # Folosește output-ul deja generat (optimizare: evită subprocess)
+        main_output = vector_store_output
+    else:
+        # Fallback: rulează subprocess doar dacă nu e furnizat (pentru compatibilitate)
+        try:
+            import subprocess
+            import sys
+            
+            result = subprocess.run(
+                [sys.executable, str(BASE_DIR / "main.py"), query],
+                capture_output=True,
+                text=True,
+                cwd=str(BASE_DIR),
+                timeout=300
+            )
+            
+            if result.returncode == 0:
+                main_output_file = BASE_DIR / "output.txt"
+                if main_output_file.exists():
+                    with open(main_output_file, 'r', encoding='utf-8') as f:
+                        main_output = f.read()
+            else:
+                print(f"⚠️  main.py a returnat cod {result.returncode}: {result.stderr}")
+                
+        except subprocess.TimeoutExpired:
+            print("⚠️  main.py a depășit timeout-ul")
+        except Exception as e:
+            print(f"⚠️  Eroare la rularea main.py: {e}")
+    
+    # Step 2: Combină output-ul din vector store cu rezultatele SQL
     combined_output = ""
     
     if main_output:
@@ -114,12 +124,17 @@ def save_results_to_file(query: str, results: str, sql_query: str = None) -> str
     return str(output_file)
 
 
-def query_institutions(natural_language_query: str) -> str:
+def query_institutions(natural_language_query: str, vector_store_output: str = None) -> str:
     """
     Transformă o întrebare în limbaj natural într-un query SQL.
     
     Caută direct în baza de date folosind cuvintele din întrebare.
     Salvează rezultatele într-un fișier în directorul data.
+    
+    Args:
+        natural_language_query: Query-ul în limbaj natural
+        vector_store_output: Output-ul deja generat de process_query() (opțional)
+                           Dacă este furnizat, va fi folosit în loc să ruleze subprocess
     """
     api_key = get_api_key()
     if not api_key:
@@ -171,8 +186,10 @@ Query SQL:"""
         else:
             formatted_result = format_sql_results(result)
         
-        # Salvează rezultatele în fișier
-        output_file = save_results_to_file(natural_language_query, formatted_result, sql_query)
+        # Salvează rezultatele în fișier (cu output-ul deja generat dacă e disponibil)
+        output_file = save_results_to_file(natural_language_query, formatted_result, 
+                                           vector_store_output=vector_store_output, 
+                                           sql_query=sql_query)
         
         # Returnează doar rezultatul formatat (fără mesajul despre fișier)
         return formatted_result
@@ -181,7 +198,8 @@ Query SQL:"""
         error_msg = f"❌ Eroare: {str(e)}"
         # Salvează și eroarea în fișier
         try:
-            save_results_to_file(natural_language_query, error_msg)
+            save_results_to_file(natural_language_query, error_msg, 
+                                 vector_store_output=vector_store_output)
         except:
             pass
         return error_msg

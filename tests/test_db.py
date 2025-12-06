@@ -11,8 +11,8 @@ Usage:
 import sys
 from pathlib import Path
 
-# Add parent directory to path
-sys.path.append(str(Path(__file__).parent))
+# Add parent directory to path (tests -> CivicAid root)
+sys.path.append(str(Path(__file__).parent.parent))
 
 from src.tools.sql import query_institutions, get_sql_database, get_api_key
 

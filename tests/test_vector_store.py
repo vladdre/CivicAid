@@ -8,7 +8,7 @@ Acest script permite testarea explicită a:
 4. Testarea cu diferite query-uri
 
 Usage:
-    python scripts/test_vector_store.py
+    python tests/test_vector_store.py
 """
 
 import os

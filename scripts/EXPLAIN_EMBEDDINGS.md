@@ -92,7 +92,7 @@ Top K chunks → Text original + Metadata → Afișare utilizator
 
 ### Script de Diagnostic
 ```bash
-python scripts/debug_embeddings.py
+python tests/debug_embeddings.py
 ```
 
 Acest script verifică:
@@ -111,7 +111,7 @@ Acest script verifică:
 
 2. **Verifică conținutul:**
    ```bash
-   python scripts/test_vector_store.py
+   python tests/test_vector_store.py
    ```
 
 3. **Verifică scorurile:**

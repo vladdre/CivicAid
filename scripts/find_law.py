@@ -31,6 +31,10 @@ load_dotenv()
 VECTOR_STORE_DIR = Path(__file__).parent.parent / "data" / "vector_store"
 COLLECTION_NAME = "civicaid_laws"
 
+# Cache pentru vector store instance (lazy loading - optimizare)
+_vector_store_instance = None
+_vector_store_embeddings = None
+
 
 def extract_keywords_and_query(user_message: str, api_key: str) -> Tuple[str, bool]:
     """
@@ -142,17 +146,23 @@ def find_relevant_laws(user_message: str, k: int = 5, use_optimization: bool = T
         print("❌ OPENAI_API_KEY nu este setată în .env")
         return []
     
-    # Încarcă vector store-ul
+    # Încarcă vector store-ul (lazy loading - reutilizează instanța dacă există)
+    global _vector_store_instance, _vector_store_embeddings
+    
     try:
-        embeddings = OpenAIEmbeddings(
-            model="text-embedding-3-small",
-            openai_api_key=api_key
-        )
-        vector_store = Chroma(
-            persist_directory=str(VECTOR_STORE_DIR),
-            embedding_function=embeddings,
-            collection_name=COLLECTION_NAME
-        )
+        if _vector_store_instance is None:
+            # Creează embeddings și vector store doar prima dată
+            _vector_store_embeddings = OpenAIEmbeddings(
+                model="text-embedding-3-small",
+                openai_api_key=api_key
+            )
+            _vector_store_instance = Chroma(
+                persist_directory=str(VECTOR_STORE_DIR),
+                embedding_function=_vector_store_embeddings,
+                collection_name=COLLECTION_NAME
+            )
+        
+        vector_store = _vector_store_instance
     except Exception as e:
         print(f"❌ Eroare la încărcarea vector store-ului: {e}")
         return []

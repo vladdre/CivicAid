@@ -29,15 +29,29 @@ load_dotenv()
 VECTOR_STORE_DIR = Path(__file__).parent / "data" / "vector_store"
 OUTPUT_FILE = Path(__file__).parent / "output.txt"
 
+# Cache pentru verificarea vector store-ului (optimizare)
+_vector_store_cache = {"exists": None, "checked": False}
+
 
 def check_vector_store_exists() -> bool:
     """
     Verifică dacă vector store-ul există și conține date.
     
+    Folosește cache pentru a evita verificări redundante (optimizare).
+    
     Returns:
         True dacă vector store-ul există și are conținut, False altfel
     """
+    global _vector_store_cache
+    
+    # Returnează din cache dacă a fost deja verificat
+    if _vector_store_cache["checked"]:
+        return _vector_store_cache["exists"]
+    
+    # Verificare efectivă
     if not VECTOR_STORE_DIR.exists():
+        _vector_store_cache["exists"] = False
+        _vector_store_cache["checked"] = True
         return False
     
     # Verifică dacă directorul nu este gol
@@ -45,6 +59,8 @@ def check_vector_store_exists() -> bool:
     try:
         files = list(VECTOR_STORE_DIR.iterdir())
         if len(files) == 0:
+            _vector_store_cache["exists"] = False
+            _vector_store_cache["checked"] = True
             return False
         
         # Verifică dacă există fișiere relevante ChromaDB
@@ -54,9 +70,21 @@ def check_vector_store_exists() -> bool:
             or f.is_dir()
             for f in files
         )
+        _vector_store_cache["exists"] = has_content
+        _vector_store_cache["checked"] = True
         return has_content
     except Exception:
+        _vector_store_cache["exists"] = False
+        _vector_store_cache["checked"] = True
         return False
+
+
+def reset_vector_store_cache():
+    """
+    Resetează cache-ul pentru vector store (util când se creează un vector store nou).
+    """
+    global _vector_store_cache
+    _vector_store_cache = {"exists": None, "checked": False}
 
 
 def create_vector_store():
@@ -99,6 +127,8 @@ def create_vector_store():
         
         if vector_store:
             print("\n✅ Vector store creat cu succes!\n")
+            # Resetează cache-ul pentru că am creat un vector store nou
+            reset_vector_store_cache()
         else:
             print("\n❌ Eroare la crearea vector store-ului.")
             sys.exit(1)

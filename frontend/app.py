@@ -237,8 +237,8 @@ def chat():
         # Rulează main.py pentru a obține rezultatele din vector store
         vector_store_response = process_query(message_content)
         
-        # Apoi rulează query-ul SQL (care va adăuga rezultatele la output.txt)
-        sql_response = query_institutions(message_content)
+        # Apoi rulează query-ul SQL (pasează output-ul pentru a evita dublarea)
+        sql_response = query_institutions(message_content, vector_store_output=vector_store_response)
         
         # Combină ambele răspunsuri
         ai_response = f"""{vector_store_response}

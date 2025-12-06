@@ -196,7 +196,7 @@ pip install -r requirements.txt
 
 După ce Task 1 și 2 sunt complete:
 - Task 3: Setup SQL Database (`scripts/setup_sql_db.py`)
-- Task 4: Tool Definitions (`src/tools/rag.py`, `src/tools/sql.py`)
+- Task 4: Tool Definitions (`src/tools/sql.py`, `scripts/find_law.py`)
 - Task 5: System Prompt (`src/prompts.py`)
 - Task 6: Agent Orchestrator (`src/agent.py`)
 - Task 7: Frontend (`src/ui/app.py`)

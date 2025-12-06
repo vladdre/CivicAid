@@ -5,7 +5,7 @@ Acest script testează dacă tool-ul SQL poate transforma întrebări naturale
 în query-uri SQL și să returneze rezultate relevante.
 
 Usage:
-    python scripts/test_sql_tool.py
+    python tests/test_sql_tool.py
 """
 
 import os
