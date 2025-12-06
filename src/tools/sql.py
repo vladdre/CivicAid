@@ -16,22 +16,28 @@ sys.path.append(str(Path(__file__).parent.parent.parent))
 BASE_DIR = Path(__file__).parent.parent.parent
 DB_FILE = BASE_DIR / "data" / "institutions.db"
 TEMP_FILE = BASE_DIR / ".temp"
+TMP_FILE = BASE_DIR / ".tmp"
 OUTPUT_DIR = BASE_DIR / "data"
 
 
 def get_api_key():
-    """Obține cheia API OpenAI din .temp sau .env."""
-    if TEMP_FILE.exists():
-        try:
-            with open(TEMP_FILE, 'r', encoding='utf-8') as f:
-                for line in f:
-                    line = line.strip()
-                    if line.startswith('OPENAI_API_KEY=') and not line.startswith('#'):
-                        key = line.split('=', 1)[1].strip()
-                        if key and key != 'sk-proj-your-api-key-here':
-                            return key
-        except Exception:
-            pass
+    """Obține cheia API OpenAI din .temp, .tmp sau .env."""
+    # Încearcă .temp mai întâi
+    for temp_file in [TEMP_FILE, TMP_FILE]:
+        if temp_file.exists():
+            try:
+                with open(temp_file, 'r', encoding='utf-8') as f:
+                    for line in f:
+                        line = line.strip()
+                        if line.startswith('OPENAI_API_KEY=') and not line.startswith('#'):
+                            key = line.split('=', 1)[1].strip()
+                            if key and key != 'sk-proj-your-api-key-here':
+                                return key
+                        # Dacă linia nu are '=', poate fi doar cheia direct
+                        elif line and not line.startswith('#') and line.startswith('sk-'):
+                            return line.strip()
+            except Exception:
+                pass
     return os.getenv("OPENAI_API_KEY")
 
 
@@ -47,28 +53,13 @@ def get_sql_database():
 
 
 def save_results_to_file(query: str, results: str, sql_query: str = None) -> str:
-    """Salvează rezultatele într-un fișier în directorul data."""
+    """Salvează doar rezultatele în fișierul output.txt din directorul data."""
     OUTPUT_DIR.mkdir(exist_ok=True)
     
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_file = OUTPUT_DIR / f"sql_results_{timestamp}.txt"
+    output_file = OUTPUT_DIR / "output.txt"
     
     with open(output_file, 'w', encoding='utf-8') as f:
-        f.write("=" * 60 + "\n")
-        f.write("REZULTATE INTEROGARE BAZĂ DE DATE\n")
-        f.write("=" * 60 + "\n\n")
-        f.write(f"Data și ora: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-        f.write(f"Întrebare: {query}\n\n")
-        
-        if sql_query:
-            f.write(f"Query SQL generat:\n{sql_query}\n\n")
-            f.write("-" * 60 + "\n\n")
-        
-        f.write("REZULTATE:\n")
-        f.write("-" * 60 + "\n\n")
         f.write(results)
-        f.write("\n\n")
-        f.write("=" * 60 + "\n")
     
     return str(output_file)
 
@@ -133,8 +124,8 @@ Query SQL:"""
         # Salvează rezultatele în fișier
         output_file = save_results_to_file(natural_language_query, formatted_result, sql_query)
         
-        # Returnează mesaj că rezultatele au fost salvate
-        return f"✅ Rezultatele au fost salvate în: {output_file}\n\n{formatted_result}"
+        # Returnează doar rezultatul formatat (fără mesajul despre fișier)
+        return formatted_result
         
     except Exception as e:
         error_msg = f"❌ Eroare: {str(e)}"

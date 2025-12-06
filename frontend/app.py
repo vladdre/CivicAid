@@ -1,9 +1,17 @@
 import json
 import os
+import sys
 import datetime
 import hashlib
+from pathlib import Path
 from functools import wraps
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
+
+# Add parent directory to path for imports
+sys.path.append(str(Path(__file__).parent.parent))
+
+# Import SQL tool
+from src.tools.sql import query_institutions
 
 app = Flask(__name__)
 app.secret_key = 'super_secret_key_change_this_in_production' # Needed for session
@@ -221,8 +229,12 @@ def chat():
     }
     db['messages'].append(user_msg)
     
-    # Dummy AI Response
-    ai_response = f"Simulated AI response to: {message_content}"
+    # Process query using OpenAI and SQL tool
+    try:
+        ai_response = query_institutions(message_content)
+    except Exception as e:
+        ai_response = f"❌ Eroare la procesarea întrebării: {str(e)}"
+    
     ai_msg = {
         'conversation_id': conversation_id,
         'role': 'assistant',
