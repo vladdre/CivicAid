@@ -236,6 +236,286 @@
     "tip_serviciu": "Declarații fiscale, Certificat fiscal, Consultanță fiscală, Plăți taxe, TVA",
     "program": "Luni-Vineri 08:00-16:00",
     "grad_ocupare": "Foarte ridicat dimineața"
+  },
+  {
+    "nume": "Casa Națională de Asigurări de Sănătate - CNAS",
+    "adresa": "Bd. Unirii nr. 1, Sector 3, București",
+    "tip_serviciu": "Asigurări de sănătate, Carduri sanitare, Medici de familie, Consultații medicale, Tratamente",
+    "program": "Luni-Vineri 08:00-16:00",
+    "grad_ocupare": "Ridicat dimineața"
+  },
+  {
+    "nume": "Oficiul Național pentru Protecția Consumatorilor",
+    "adresa": "Bd. Aviatorilor nr. 72, Sector 1, București",
+    "tip_serviciu": "Protecție consumatori, Reclamații, Consiliere juridică consumatori, Verificări comercianți",
+    "program": "Luni-Vineri 09:00-17:00",
+    "grad_ocupare": "Moderat"
+  },
+  {
+    "nume": "Autoritatea Națională pentru Protecția Datelor cu Caracter Personal",
+    "adresa": "Bd. Gheorghe Magheru nr. 28-30, Sector 1, București",
+    "tip_serviciu": "Protecție date personale, GDPR, Notificări prelucrare date, Reclamații GDPR",
+    "program": "Luni-Vineri 09:00-17:00",
+    "grad_ocupare": "Scăzut"
+  },
+  {
+    "nume": "Oficiul Național al Registrului Comerțului - ONRC",
+    "adresa": "Bd. Aviatorilor nr. 86, Sector 1, București",
+    "tip_serviciu": "Înregistrare firme, PFA, SRL, SA, Acte constitutive, Modificări statut, Certificat înregistrare",
+    "program": "Luni-Vineri 09:00-17:00",
+    "grad_ocupare": "Ridicat"
+  },
+  {
+    "nume": "Casa Națională de Pensii și Alte Drepturi de Asigurări Sociale",
+    "adresa": "Bd. Carol I nr. 38, Sector 2, București",
+    "tip_serviciu": "Pensii, Pensii de invaliditate, Pensii de urmaș, Pensii sociale, Alocații",
+    "program": "Luni-Vineri 08:00-16:00",
+    "grad_ocupare": "Foarte ridicat dimineața"
+  },
+  {
+    "nume": "Direcția Generală de Asistență Socială Sector 1",
+    "adresa": "Str. Amzei nr. 10, Sector 1, București",
+    "tip_serviciu": "Asistență Socială, Alocații, Ajutor Social, Venit Minim Garantat, Ajutor pentru energie",
+    "program": "Luni-Joi 08:00-16:00, Vineri 08:00-14:00",
+    "grad_ocupare": "Ridicat dimineața"
+  },
+  {
+    "nume": "Oficiul Național pentru Împrumuturi cu Garantie Statului",
+    "adresa": "Calea Victoriei nr. 120, Sector 1, București",
+    "tip_serviciu": "Împrumuturi garantate de stat, Consultanță financiară, Credite pentru antreprenori",
+    "program": "Luni-Vineri 09:00-17:00",
+    "grad_ocupare": "Scăzut"
+  },
+  {
+    "nume": "Agenția Națională pentru Ocuparea Forței de Muncă - ANOFM Sector 1",
+    "adresa": "Bd. Dacia nr. 47, Sector 1, București",
+    "tip_serviciu": "Înregistrare șomaj, Alocație șomaj, Cursuri de calificare, Mediere forță de muncă, Locuri de muncă",
+    "program": "Luni-Vineri 08:00-16:00",
+    "grad_ocupare": "Ridicat dimineața"
+  },
+  {
+    "nume": "Oficiul Județean pentru Imigrări București",
+    "adresa": "Str. Nicolae Iorga nr. 2, Sector 1, București",
+    "tip_serviciu": "Vize, Permise de ședere, Cetățenie română, Documente pentru străini, Rezidență",
+    "program": "Luni-Vineri 08:00-16:00",
+    "grad_ocupare": "Ridicat"
+  },
+  {
+    "nume": "Direcția de Evidență a Persoanelor Sector 2",
+    "adresa": "Bd. Aviatorilor nr. 44, Sector 2, București",
+    "tip_serviciu": "Acte de identitate, Pașapoarte, Certificat de naștere, Certificat de căsătorie, Carte identitate",
+    "program": "Luni-Vineri 08:00-16:00",
+    "grad_ocupare": "Foarte ridicat"
+  },
+  {
+    "nume": "Direcția de Evidență a Persoanelor Sector 3",
+    "adresa": "Calea Vitan nr. 55-59, Sector 3, București",
+    "tip_serviciu": "Acte de identitate, Pașapoarte, Certificat de naștere, Certificat de căsătorie, Carte identitate",
+    "program": "Luni-Vineri 08:00-16:00",
+    "grad_ocupare": "Ridicat"
+  },
+  {
+    "nume": "Direcția de Evidență a Persoanelor Sector 4",
+    "adresa": "Bd. Timișoara nr. 47, Sector 4, București",
+    "tip_serviciu": "Acte de identitate, Pașapoarte, Certificat de naștere, Certificat de căsătorie, Carte identitate",
+    "program": "Luni-Vineri 08:00-16:00",
+    "grad_ocupare": "Ridicat"
+  },
+  {
+    "nume": "Oficiul Poștal Român - Poșta Română Sector 1",
+    "adresa": "Calea Victoriei nr. 12, Sector 1, București",
+    "tip_serviciu": "Coletări, Scrisori, Plăți facturi, Transferuri bani, Servicii poștale",
+    "program": "Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00",
+    "grad_ocupare": "Moderat"
+  },
+  {
+    "nume": "Oficiul Poștal Român - Poșta Română Sector 2",
+    "adresa": "Bd. Aviatorilor nr. 44, Sector 2, București",
+    "tip_serviciu": "Coletări, Scrisori, Plăți facturi, Transferuri bani, Servicii poștale",
+    "program": "Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00",
+    "grad_ocupare": "Moderat"
+  },
+  {
+    "nume": "Oficiul pentru Împrumuturi Studențești Sector 1",
+    "adresa": "Str. Ion Ghica nr. 13, Sector 3, București",
+    "tip_serviciu": "Împrumuturi studențești, Bursă, Ajutor social studenți, Credite studenți",
+    "program": "Luni-Vineri 09:00-17:00",
+    "grad_ocupare": "Moderat"
+  },
+  {
+    "nume": "Oficiul Național pentru Persoane cu Dizabilități Sector 1",
+    "adresa": "Str. Amzei nr. 10, Sector 1, București",
+    "tip_serviciu": "Certificat de handicap, Ajutor persoane cu dizabilități, Accesibilitate, Drepturi persoane cu dizabilități, Pensie handicap",
+    "program": "Luni-Vineri 08:00-16:00",
+    "grad_ocupare": "Moderat"
+  },
+  {
+    "nume": "Direcția Generală de Asistență Socială Sector 3",
+    "adresa": "Str. Gheorghe Manu nr. 2-4, Sector 3, București",
+    "tip_serviciu": "Asistență Socială, Alocații, Ajutor Social, Venit Minim Garantat, Ajutor pentru energie, Ajutor pentru căldură",
+    "program": "Luni-Joi 08:00-16:00, Vineri 08:00-14:00",
+    "grad_ocupare": "Ridicat dimineața și după-amiază"
+  },
+  {
+    "nume": "Direcția Generală de Asistență Socială Sector 4",
+    "adresa": "Str. Enache Spiridon nr. 12, Sector 4, București",
+    "tip_serviciu": "Asistență Socială, Alocații, Ajutor Social, Venit Minim Garantat, Ajutor pentru energie, Ajutor pentru căldură, Gaz, Electricitate",
+    "program": "Luni-Joi 08:00-16:00, Vineri 08:00-14:00",
+    "grad_ocupare": "Ridicat dimineața (08:00-12:00)"
+  },
+  {
+    "nume": "Direcția Generală de Asistență Socială Sector 5",
+    "adresa": "Str. Mihai Bravu nr. 266, Sector 5, București",
+    "tip_serviciu": "Asistență Socială, Alocații, Ajutor Social, Venit Minim Garantat, Ajutor pentru energie",
+    "program": "Luni-Joi 08:00-16:00, Vineri 08:00-14:00",
+    "grad_ocupare": "Moderat"
+  },
+  {
+    "nume": "Direcția Generală de Asistență Socială Sector 6",
+    "adresa": "Str. Gheorghe Manu nr. 28-30, Sector 6, București",
+    "tip_serviciu": "Asistență Socială, Alocații, Ajutor Social, Venit Minim Garantat, Ajutor pentru energie, Ajutor pentru căldură",
+    "program": "Luni-Joi 08:00-16:00, Vineri 08:00-14:00",
+    "grad_ocupare": "Ridicat dimineața"
+  },
+  {
+    "nume": "Poliția Română - Secția de Poliție Sector 1",
+    "adresa": "Bd. Lascăr Catargi nr. 21, Sector 1, București",
+    "tip_serviciu": "Poliție, Declarații, Reclamații, Securitate publică, Intervenții",
+    "program": "Non-stop (24/7)",
+    "grad_ocupare": "Variabil"
+  },
+  {
+    "nume": "Poliția Română - Secția de Poliție Sector 2",
+    "adresa": "Bd. Aviatorilor nr. 44, Sector 2, București",
+    "tip_serviciu": "Poliție, Declarații, Reclamații, Securitate publică, Intervenții",
+    "program": "Non-stop (24/7)",
+    "grad_ocupare": "Variabil"
+  },
+  {
+    "nume": "Poliția Română - Secția de Poliție Sector 3",
+    "adresa": "Calea Vitan nr. 55-59, Sector 3, București",
+    "tip_serviciu": "Poliție, Declarații, Reclamații, Securitate publică, Intervenții",
+    "program": "Non-stop (24/7)",
+    "grad_ocupare": "Variabil"
+  },
+  {
+    "nume": "Poliția Română - Secția de Poliție Sector 4",
+    "adresa": "Bd. Timișoara nr. 47, Sector 4, București",
+    "tip_serviciu": "Poliție, Declarații, Reclamații, Securitate publică, Intervenții",
+    "program": "Non-stop (24/7)",
+    "grad_ocupare": "Variabil"
+  },
+  {
+    "nume": "Poliția Română - Secția de Poliție Sector 5",
+    "adresa": "Str. Mihai Bravu nr. 266, Sector 5, București",
+    "tip_serviciu": "Poliție, Declarații, Reclamații, Securitate publică, Intervenții",
+    "program": "Non-stop (24/7)",
+    "grad_ocupare": "Variabil"
+  },
+  {
+    "nume": "Poliția Română - Secția de Poliție Sector 6",
+    "adresa": "Bd. Iuliu Maniu nr. 28-30, Sector 6, București",
+    "tip_serviciu": "Poliție, Declarații, Reclamații, Securitate publică, Intervenții",
+    "program": "Non-stop (24/7)",
+    "grad_ocupare": "Variabil"
+  },
+  {
+    "nume": "Poliția Rutieră - Direcția Rutieră Sector 1",
+    "adresa": "Bd. Lascăr Catargi nr. 21, Sector 1, București",
+    "tip_serviciu": "Poliție Rutieră, Amenzi rutiere, Declarații accidente, Accident, Accident rutier, Accident auto, Coliziune, Permise conducere, Înmatriculări auto, Verificări tehnice",
+    "program": "Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00",
+    "grad_ocupare": "Ridicat dimineața și după-amiază"
+  },
+  {
+    "nume": "Poliția Rutieră - Direcția Rutieră Sector 2",
+    "adresa": "Bd. Aviatorilor nr. 44, Sector 2, București",
+    "tip_serviciu": "Poliție Rutieră, Amenzi rutiere, Declarații accidente, Accident, Accident rutier, Accident auto, Coliziune, Permise conducere, Înmatriculări auto, Verificări tehnice",
+    "program": "Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00",
+    "grad_ocupare": "Ridicat dimineața"
+  },
+  {
+    "nume": "Poliția Rutieră - Direcția Rutieră Sector 3",
+    "adresa": "Calea Vitan nr. 55-59, Sector 3, București",
+    "tip_serviciu": "Poliție Rutieră, Amenzi rutiere, Declarații accidente, Accident, Accident rutier, Accident auto, Coliziune, Permise conducere, Înmatriculări auto, Verificări tehnice",
+    "program": "Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00",
+    "grad_ocupare": "Moderat"
+  },
+  {
+    "nume": "Poliția Rutieră - Direcția Rutieră Sector 4",
+    "adresa": "Bd. Timișoara nr. 47, Sector 4, București",
+    "tip_serviciu": "Poliție Rutieră, Amenzi rutiere, Declarații accidente, Accident, Accident rutier, Accident auto, Coliziune, Permise conducere, Înmatriculări auto, Verificări tehnice",
+    "program": "Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00",
+    "grad_ocupare": "Ridicat dimineața și după-amiază"
+  },
+  {
+    "nume": "Poliția Rutieră - Direcția Rutieră Sector 5",
+    "adresa": "Str. Mihai Bravu nr. 266, Sector 5, București",
+    "tip_serviciu": "Poliție Rutieră, Amenzi rutiere, Declarații accidente, Accident, Accident rutier, Accident auto, Coliziune, Permise conducere, Înmatriculări auto, Verificări tehnice",
+    "program": "Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00",
+    "grad_ocupare": "Ridicat"
+  },
+  {
+    "nume": "Poliția Rutieră - Direcția Rutieră Sector 6",
+    "adresa": "Bd. Iuliu Maniu nr. 28-30, Sector 6, București",
+    "tip_serviciu": "Poliție Rutieră, Amenzi rutiere, Declarații accidente, Accident, Accident rutier, Accident auto, Coliziune, Permise conducere, Înmatriculări auto, Verificări tehnice",
+    "program": "Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00",
+    "grad_ocupare": "Moderat"
+  },
+  {
+    "nume": "Direcția Generală de Poliție Rutieră București",
+    "adresa": "Bd. Lascăr Catargi nr. 21, Sector 1, București",
+    "tip_serviciu": "Poliție Rutieră, Amenzi rutiere, Declarații accidente, Accident, Accident rutier, Accident auto, Coliziune, Permise conducere, Înmatriculări auto, Verificări tehnice, Contestații amenzi",
+    "program": "Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00",
+    "grad_ocupare": "Foarte ridicat"
+  },
+  {
+    "nume": "Registrul Auto Român - RAR Sector 1",
+    "adresa": "Bd. Lascăr Catargi nr. 21, Sector 1, București",
+    "tip_serviciu": "Înmatriculări auto, Certificat înmatriculare, Transfer auto, Verificări tehnice, ITP, Plăcuțe înmatriculare",
+    "program": "Luni-Vineri 08:00-18:00, Sâmbătă 08:00-14:00",
+    "grad_ocupare": "Foarte ridicat dimineața"
+  },
+  {
+    "nume": "Registrul Auto Român - RAR Sector 2",
+    "adresa": "Bd. Aviatorilor nr. 44, Sector 2, București",
+    "tip_serviciu": "Înmatriculări auto, Certificat înmatriculare, Transfer auto, Verificări tehnice, ITP, Plăcuțe înmatriculare",
+    "program": "Luni-Vineri 08:00-18:00, Sâmbătă 08:00-14:00",
+    "grad_ocupare": "Ridicat dimineața"
+  },
+  {
+    "nume": "Registrul Auto Român - RAR Sector 3",
+    "adresa": "Calea Vitan nr. 55-59, Sector 3, București",
+    "tip_serviciu": "Înmatriculări auto, Certificat înmatriculare, Transfer auto, Verificări tehnice, ITP, Plăcuțe înmatriculare",
+    "program": "Luni-Vineri 08:00-18:00, Sâmbătă 08:00-14:00",
+    "grad_ocupare": "Moderat"
+  },
+  {
+    "nume": "Registrul Auto Român - RAR Sector 4",
+    "adresa": "Bd. Timișoara nr. 47, Sector 4, București",
+    "tip_serviciu": "Înmatriculări auto, Certificat înmatriculare, Transfer auto, Verificări tehnice, ITP, Plăcuțe înmatriculare",
+    "program": "Luni-Vineri 08:00-18:00, Sâmbătă 08:00-14:00",
+    "grad_ocupare": "Ridicat dimineața și după-amiază"
+  },
+  {
+    "nume": "Registrul Auto Român - RAR Sector 5",
+    "adresa": "Str. Mihai Bravu nr. 266, Sector 5, București",
+    "tip_serviciu": "Înmatriculări auto, Certificat înmatriculare, Transfer auto, Verificări tehnice, ITP, Plăcuțe înmatriculare",
+    "program": "Luni-Vineri 08:00-18:00, Sâmbătă 08:00-14:00",
+    "grad_ocupare": "Ridicat"
+  },
+  {
+    "nume": "Registrul Auto Român - RAR Sector 6",
+    "adresa": "Bd. Iuliu Maniu nr. 28-30, Sector 6, București",
+    "tip_serviciu": "Înmatriculări auto, Certificat înmatriculare, Transfer auto, Verificări tehnice, ITP, Plăcuțe înmatriculare",
+    "program": "Luni-Vineri 08:00-18:00, Sâmbătă 08:00-14:00",
+    "grad_ocupare": "Moderat"
+  },
+  {
+    "nume": "Direcția Generală de Poliție București",
+    "adresa": "Bd. Lascăr Catargi nr. 21, Sector 1, București",
+    "tip_serviciu": "Poliție, Securitate publică, Intervenții, Declarații, Reclamații, Protecție și asistență",
+    "program": "Non-stop (24/7)",
+    "grad_ocupare": "Variabil"
   }
 ]
 
