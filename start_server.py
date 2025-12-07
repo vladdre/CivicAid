@@ -26,9 +26,11 @@ sys.path.insert(0, str(PROJECT_ROOT / "app"))
 
 # Paths
 VECTOR_STORE_DIR = PROJECT_ROOT / "data" / "vector_store"
+VECTOR_STORE_JSON_DIR = PROJECT_ROOT / "data" / "vector_store_json"
 RAW_LAWS_DIR = PROJECT_ROOT / "data" / "raw_laws"
 SQL_DB_FILE = PROJECT_ROOT / "data" / "institutions.db"
 INSTITUTIONS_JSON = PROJECT_ROOT / "data" / "institutions.json"
+LEGI_JSON = PROJECT_ROOT / "legi.json"
 
 
 def check_vector_store() -> bool:
@@ -38,6 +40,27 @@ def check_vector_store() -> bool:
     
     try:
         files = list(VECTOR_STORE_DIR.iterdir())
+        if len(files) == 0:
+            return False
+        
+        # Verifică dacă există fișiere relevante ChromaDB
+        has_content = any(
+            f.is_file() and (f.suffix in ['.sqlite', '.db'] or f.name.startswith('chroma'))
+            or f.is_dir()
+            for f in files
+        )
+        return has_content
+    except Exception:
+        return False
+
+
+def check_vector_store_json() -> bool:
+    """Verifică dacă vector store-ul JSON există și are conținut."""
+    if not VECTOR_STORE_JSON_DIR.exists():
+        return False
+    
+    try:
+        files = list(VECTOR_STORE_JSON_DIR.iterdir())
         if len(files) == 0:
             return False
         
@@ -69,7 +92,7 @@ def check_pdfs_exist() -> bool:
 def run_ingest_laws():
     """Rulează ingest_laws.py pentru a crea vector store."""
     print("\n" + "=" * 70)
-    print("📚 Creare Vector Store")
+    print("📚 Creare Vector Store (PDF)")
     print("=" * 70)
     
     if not check_pdfs_exist():
@@ -86,6 +109,29 @@ def run_ingest_laws():
     except Exception as e:
         print(f"\n❌ Eroare la crearea vector store-ului: {e}")
         print("   Continuăm fără vector store (unele funcții nu vor funcționa).\n")
+        return False
+
+
+def run_ingest_json_laws():
+    """Rulează ingest_json_laws.py pentru a crea vector store JSON."""
+    print("\n" + "=" * 70)
+    print("📚 Creare Vector Store (JSON)")
+    print("=" * 70)
+    
+    if not LEGI_JSON.exists():
+        print("\n⚠️  Nu există legi.json")
+        print("   Vector store JSON nu poate fi creat.")
+        print("   Continuăm fără vector store JSON (unele funcții nu vor funcționa).\n")
+        return False
+    
+    try:
+        # Import și rulează ingest_json_laws
+        from app.scripts.ingest_json_laws import main as ingest_json_main
+        ingest_json_main()
+        return True
+    except Exception as e:
+        print(f"\n❌ Eroare la crearea vector store-ului JSON: {e}")
+        print("   Continuăm fără vector store JSON (unele funcții nu vor funcționa).\n")
         return False
 
 
@@ -144,14 +190,23 @@ def main():
         print("\n⚠️  ATENȚIE: OPENAI_API_KEY nu este setată în .env")
         print("   Unele funcții nu vor funcționa fără API key.\n")
     
-    # Step 1: Verifică și creează vector store
-    print("\n📋 Verificare Vector Store...")
+    # Step 1: Verifică și creează vector store (PDF)
+    print("\n📋 Verificare Vector Store (PDF)...")
     if not check_vector_store():
         print("   ⚠️  Vector store nu există sau este gol.")
         print("   🚀 Pornesc crearea vector store-ului...")
         run_ingest_laws()
     else:
         print("   ✅ Vector store există și are conținut.")
+    
+    # Step 1b: Verifică și creează vector store (JSON)
+    print("\n📋 Verificare Vector Store (JSON)...")
+    if not check_vector_store_json():
+        print("   ⚠️  Vector store JSON nu există sau este gol.")
+        print("   🚀 Pornesc crearea vector store-ului JSON...")
+        run_ingest_json_laws()
+    else:
+        print("   ✅ Vector store JSON există și are conținut.")
     
     # Step 2: Verifică și creează baza de date SQL
     print("\n📋 Verificare Baza de Date SQL...")

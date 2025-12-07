@@ -59,6 +59,54 @@
       "title": "Cerere ANPC",
       "owner": "demo",
       "created_at": "2025-12-07T07:09:13.941531"
+    },
+    {
+      "id": 14,
+      "title": "Accident auto cu fugă de la locul faptei",
+      "owner": "Test",
+      "created_at": "2025-12-07T07:24:56.994518"
+    },
+    {
+      "id": 15,
+      "title": "Beneficii pentru pensionari cu pensie mică",
+      "owner": "Test",
+      "created_at": "2025-12-07T07:26:02.569487"
+    },
+    {
+      "id": 16,
+      "title": "Beneficii pentru pensionari cu pensie mică",
+      "owner": "Test",
+      "created_at": "2025-12-07T07:29:16.862386"
+    },
+    {
+      "id": 17,
+      "title": "Beneficii pentru pensionari cu pensie mică",
+      "owner": "Test",
+      "created_at": "2025-12-07T07:32:20.394882"
+    },
+    {
+      "id": 18,
+      "title": "Beneficii pentru pensionari cu pensie mică",
+      "owner": "Test",
+      "created_at": "2025-12-07T07:38:09.224211"
+    },
+    {
+      "id": 19,
+      "title": "Beneficii pentru pensionari cu pensie mică",
+      "owner": "AndreiKRP",
+      "created_at": "2025-12-07T07:43:29.863861"
+    },
+    {
+      "id": 20,
+      "title": "Accident de mașină",
+      "owner": "AndreiKRP",
+      "created_at": "2025-12-07T07:45:25.189333"
+    },
+    {
+      "id": 21,
+      "title": "Cerere ANPC",
+      "owner": "AndreiKRP",
+      "created_at": "2025-12-07T07:46:28.510268"
     }
   ],
   "messages": [
@@ -337,6 +385,174 @@
       "role": "assistant",
       "content": "✅ Cererea ANPC a fost trimisă cu succes!\n\n📧 De la: andrei.krp@gmail.com\n📧 Către: darie.vlad@icloud.com",
       "timestamp": "2025-12-07T07:12:07.808543"
+    },
+    {
+      "conversation_id": 14,
+      "role": "user",
+      "content": "am avut un accident cu masina si soferul din cealalta masina a fugit de la locul accidentului. ce sa fac",
+      "timestamp": "2025-12-07T07:24:56.994528"
+    },
+    {
+      "conversation_id": 14,
+      "role": "assistant",
+      "content": "- Conducătorul unui vehicul implicat într-un accident de circulație este obligat să nu părăsească locul faptei și să anunțe imediat poliția (ARTICOLUL 343).\n- Dacă victima părăsește locul faptei, conducătorul vehiculului trebuie să anunțe imediat evenimentul la cea mai apropiată unitate de poliție (ARTICOLUL 343).\n- Persoanele implicate în accidente de circulație care au rezultat în vătămarea integrității corporale sau a sănătății sunt obligate să anunțe poliția și să nu modifice sau să șteargă urmele accidentului (ARTICOLUL 343).",
+      "timestamp": "2025-12-07T07:24:56.994528"
+    },
+    {
+      "conversation_id": 14,
+      "role": "user",
+      "content": "unde pot sa ma duc sa anunt politia",
+      "timestamp": "2025-12-07T07:25:22.780904"
+    },
+    {
+      "conversation_id": 14,
+      "role": "assistant",
+      "content": "📍 REZULTATE INSTITUȚII\n\n1. Poliția Rutieră - Direcția Rutieră Sector 1\n   📍 Bd. Lascăr Catargi nr. 21, Sector 1, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n2. Poliția Rutieră - Direcția Rutieră Sector 2\n   📍 Bd. Aviatorilor nr. 44, Sector 2, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n3. Poliția Rutieră - Direcția Rutieră Sector 3\n   📍 Calea Vitan nr. 55-59, Sector 3, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n4. Poliția Rutieră - Direcția Rutieră Sector 4\n   📍 Bd. Timișoara nr. 47, Sector 4, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n5. Poliția Rutieră - Direcția Rutieră Sector 5\n   📍 Str. Mihai Bravu nr. 266, Sector 5, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n6. Poliția Rutieră - Direcția Rutieră Sector 6\n   📍 Bd. Iuliu Maniu nr. 28-30, Sector 6, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n7. Direcția Generală de Poliție Rutieră București\n   📍 Bd. Lascăr Catargi nr. 21, Sector 1, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00",
+      "timestamp": "2025-12-07T07:25:22.780904"
+    },
+    {
+      "conversation_id": 15,
+      "role": "user",
+      "content": "sunt un pensionar cu pensie de 1400 de lei. de ce pot beneficia?",
+      "timestamp": "2025-12-07T07:26:02.569504"
+    },
+    {
+      "conversation_id": 15,
+      "role": "assistant",
+      "content": "❌ Nu mai am informații relevante pentru această întrebare. Te rog să reformulezi întrebarea sau să oferi mai multe detalii.",
+      "timestamp": "2025-12-07T07:26:02.569504"
+    },
+    {
+      "conversation_id": 16,
+      "role": "user",
+      "content": "sunt un pensionar cu pensie de 1400 de lei. de ce pot beneficia?",
+      "timestamp": "2025-12-07T07:29:16.862394"
+    },
+    {
+      "conversation_id": 16,
+      "role": "assistant",
+      "content": "❌ Nu mai am informații relevante pentru această întrebare. Te rog să reformulezi întrebarea sau să oferi mai multe detalii.",
+      "timestamp": "2025-12-07T07:29:16.862394"
+    },
+    {
+      "conversation_id": 17,
+      "role": "user",
+      "content": "sunt un pensionar cu pensie de 1400 de lei. de ce pot beneficia?",
+      "timestamp": "2025-12-07T07:32:20.394891"
+    },
+    {
+      "conversation_id": 17,
+      "role": "assistant",
+      "content": "❌ Nu mai am informații relevante pentru această întrebare. Te rog să reformulezi întrebarea sau să oferi mai multe detalii.",
+      "timestamp": "2025-12-07T07:32:20.394891"
+    },
+    {
+      "conversation_id": 18,
+      "role": "user",
+      "content": "sunt un pensionar cu pensie de 1400 de lei. de ce pot beneficia?",
+      "timestamp": "2025-12-07T07:38:09.224220"
+    },
+    {
+      "conversation_id": 18,
+      "role": "assistant",
+      "content": "❌ Nu mai am informații relevante pentru această întrebare. Te rog să reformulezi întrebarea sau să oferi mai multe detalii.",
+      "timestamp": "2025-12-07T07:38:09.224220"
+    },
+    {
+      "conversation_id": 19,
+      "role": "user",
+      "content": "sunt un pensionar cu pensie de 1400 de lei. de ce pot beneficia?",
+      "timestamp": "2025-12-07T07:43:29.863870"
+    },
+    {
+      "conversation_id": 19,
+      "role": "assistant",
+      "content": "Ca pensionar cu o pensie de 1400 de lei, ai dreptul de a beneficia de sistemul public de asigurări sociale, conform Legii nr. 305/2022 și art. 50 din Constituție, care garantează dreptul la pensie pentru toți cetățenii, indiferent de starea de sănătate sau capacitatea de muncă. De asemenea, este important de menționat că persoanele cu handicap grav, care nu au avut capacitate de muncă, pot fi discriminate în accesul la anumite beneficii, dar au totuși dreptul de a primi pensie, conform art. 47 alin. (2) din Constituție.",
+      "timestamp": "2025-12-07T07:43:29.863870"
+    },
+    {
+      "conversation_id": 19,
+      "role": "user",
+      "content": "am handicap. cum pot obtine ajutor social",
+      "timestamp": "2025-12-07T07:44:28.703515"
+    },
+    {
+      "conversation_id": 19,
+      "role": "assistant",
+      "content": "- Persoanele cu handicap grav sau accentuat, persoanele încadrate în gradul I de invaliditate și reprezentanții legali ai minorilor cu handicap grav sau accentuat pot beneficia de ajutoare sociale.\n- Ajutoarele sociale se acordă în baza Legii nr. 416/2001 privind venitul minim garantat, cu modificările și completările ulterioare.\n- Venitul net din activități independente desfășurate de persoana fizică cu handicap grav sau accentuat se reduce proporțional cu numărul de zile calendaristice pentru care venitul este scutit de la plata impozitului, prin depunerea Declarației unice.",
+      "timestamp": "2025-12-07T07:44:28.703515"
+    },
+    {
+      "conversation_id": 19,
+      "role": "user",
+      "content": "handicapul il am dupa un accident de masina. soferul celalalt a fugit. ce pot sa fac",
+      "timestamp": "2025-12-07T07:44:59.844792"
+    },
+    {
+      "conversation_id": 19,
+      "role": "assistant",
+      "content": "❌ Nu mai am informații relevante pentru această întrebare. Te rog să reformulezi întrebarea sau să oferi mai multe detalii.",
+      "timestamp": "2025-12-07T07:44:59.844792"
+    },
+    {
+      "conversation_id": 20,
+      "role": "user",
+      "content": "am fost implicat intr un accident de masina",
+      "timestamp": "2025-12-07T07:45:25.189351"
+    },
+    {
+      "conversation_id": 20,
+      "role": "assistant",
+      "content": "- În caz de accident de circulație, conducătorul autovehiculului este obligat să rămână la locul accidentului și să anunțe imediat poliția (ARTICOLUL 343).\n- Dacă accidentul a dus la moartea sau vătămarea unei persoane, conducătorul trebuie să nu modifice sau să șteargă urmele accidentului și să anunțe poliția (ARTICOLUL 343).\n- Orice persoană implicată în accident sau care are cunoștință de acesta este obligată să anunțe poliția și să apeleze numărul de urgență 112 (ARTICOLUL 343).\n- Organizatorii de evenimente rutiere răspund administrativ, contravențional, civil sau penal pentru neîndeplinirea atribuțiilor privind desfășurarea în siguranță a acestora (Codul rutier).\n- Autoritățile publice locale au obligația de a lua măsuri pentru amenajarea corespunzătoare a drumurilor, semnalizate corespunzător, în zonele cu risc sporit de accidente (Codul rutier).",
+      "timestamp": "2025-12-07T07:45:25.189351"
+    },
+    {
+      "conversation_id": 20,
+      "role": "user",
+      "content": "soferul celalat a fugit. ce sa fac",
+      "timestamp": "2025-12-07T07:45:50.839993"
+    },
+    {
+      "conversation_id": 20,
+      "role": "assistant",
+      "content": "- În caz de accident de circulație, conducătorul de vehicul care a fost implicat în accident este obligat să anunțe imediat poliția (ARTICOLUL 343).\n- Dacă celălalt șofer a fugit, este important să raportezi incidentul la cea mai apropiată unitate de poliție.\n- Victima care părăsește locul faptei și conducătorul de vehicul care nu rămâne la locul accidentului pot fi sancționați (ARTICOLUL 343).",
+      "timestamp": "2025-12-07T07:45:50.839993"
+    },
+    {
+      "conversation_id": 20,
+      "role": "user",
+      "content": "unde pot sa anunt politia",
+      "timestamp": "2025-12-07T07:46:05.959654"
+    },
+    {
+      "conversation_id": 20,
+      "role": "assistant",
+      "content": "📍 REZULTATE INSTITUȚII\n\n1. Poliția Română - Secția de Poliție Sector 1\n   📍 Bd. Lascăr Catargi nr. 21, Sector 1, București\n   🕐 Non-stop (24/7)\n\n2. Poliția Română - Secția de Poliție Sector 2\n   📍 Bd. Aviatorilor nr. 44, Sector 2, București\n   🕐 Non-stop (24/7)\n\n3. Poliția Română - Secția de Poliție Sector 3\n   📍 Calea Vitan nr. 55-59, Sector 3, București\n   🕐 Non-stop (24/7)\n\n4. Poliția Română - Secția de Poliție Sector 4\n   📍 Bd. Timișoara nr. 47, Sector 4, București\n   🕐 Non-stop (24/7)\n\n5. Poliția Română - Secția de Poliție Sector 5\n   📍 Str. Mihai Bravu nr. 266, Sector 5, București\n   🕐 Non-stop (24/7)\n\n6. Poliția Română - Secția de Poliție Sector 6\n   📍 Bd. Iuliu Maniu nr. 28-30, Sector 6, București\n   🕐 Non-stop (24/7)\n\n7. Poliția Rutieră - Direcția Rutieră Sector 1\n   📍 Bd. Lascăr Catargi nr. 21, Sector 1, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n8. Poliția Rutieră - Direcția Rutieră Sector 2\n   📍 Bd. Aviatorilor nr. 44, Sector 2, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n9. Poliția Rutieră - Direcția Rutieră Sector 3\n   📍 Calea Vitan nr. 55-59, Sector 3, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n10. Poliția Rutieră - Direcția Rutieră Sector 4\n   📍 Bd. Timișoara nr. 47, Sector 4, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n11. Poliția Rutieră - Direcția Rutieră Sector 5\n   📍 Str. Mihai Bravu nr. 266, Sector 5, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n12. Poliția Rutieră - Direcția Rutieră Sector 6\n   📍 Bd. Iuliu Maniu nr. 28-30, Sector 6, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n13. Direcția Generală de Poliție Rutieră București\n   📍 Bd. Lascăr Catargi nr. 21, Sector 1, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n14. Direcția Generală de Poliție București\n   📍 Bd. Lascăr Catargi nr. 21, Sector 1, București\n   🕐 Non-stop (24/7)",
+      "timestamp": "2025-12-07T07:46:05.959654"
+    },
+    {
+      "conversation_id": 21,
+      "role": "user",
+      "content": "am nevoie de o cerere la ANPC",
+      "timestamp": "2025-12-07T07:46:28.510278"
+    },
+    {
+      "conversation_id": 21,
+      "role": "assistant",
+      "content": "📧 Pentru a genera și trimite cererea ANPC prin email, am nevoie de următoarele informații:\n\n**🔴 OBLIGATORIU:**\n\n- **Email-ul dvs. (expeditor)** - adresa de email de la care se va trimite cererea\n- **Email-ul instituției ANPC (destinatar)** - adresa de email către care se trimite cererea (ex: contact@anpc.ro)\n\n**📋 Informații personale:**\n\n- Nume și prenume complet\n- Adresa completă (strada, număr, localitate, județ)\n- Seria și numărul buletinului de identitate (opțional, dar recomandat)\n- Număr de telefon (opțional)\n\n**📝 Detalii despre cerere:**\n\n- Ce informații sau acțiuni solicitați de la ANPC?\n- Există o situație specifică pe care doriți să o menționați în cerere?\n- Aveți întrebări specifice sau documente pe care doriți să le solicitați?\n\n**💡 Exemplu de răspuns:**\n\n```\nNume: Ion Popescu\nAdresă: Str. Exemplu nr. 10, București, Sector 1\nEmail meu: ion.popescu@example.com\nEmail instituție ANPC: contact@anpc.ro\nTelefon: 0712345678\nBuletin: RO123456\nVreau să întreb despre procedura de returnare a produselor defecte după 15 zile.\n```\n\nVă rog să furnizați toate aceste informații într-un singur mesaj pentru a putea genera și trimite cererea completă.",
+      "timestamp": "2025-12-07T07:46:28.510278"
+    },
+    {
+      "conversation_id": 21,
+      "role": "user",
+      "content": "Nume: Ion Popescu\nAdresă: Str. Exemplu nr. 10, București, Sector 1\nEmail meu: andrei.krp@gmail.com\nEmail instituție ANPC: darie.vlad@icloud.com\nTelefon: 0712345678\nBuletin: RO123456\nVreau să întreb despre procedura de returnare a produselor defecte după 15 zile.",
+      "timestamp": "2025-12-07T07:47:10.478076"
+    },
+    {
+      "conversation_id": 21,
+      "role": "assistant",
+      "content": "✅ Cererea ANPC a fost trimisă cu succes!\n\n📧 De la: andrei.krp@gmail.com\n📧 Către: darie.vlad@icloud.com",
+      "timestamp": "2025-12-07T07:47:10.478076"
     }
   ]
 }

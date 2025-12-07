@@ -640,7 +640,8 @@ def process_query(user_message: str, conversation_history: list = None, verbose:
             user_message=user_message,
             conversation_history=conversation_history,
             refresh_token=refresh_token,
-            username=username
+            username=username,
+            verbose=verbose
         )
         
         if form_result.get('is_form_request'):

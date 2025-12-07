@@ -4,7 +4,6 @@ Tool pentru generarea automată a cererilor oficiale (ex: ANPC) pe baza input-ul
 
 import os
 import sys
-import re
 import base64
 import smtplib
 import json
@@ -27,52 +26,78 @@ TEMPLATE_FILE = PROJECT_ROOT / "data" / "cerere_ANPC.txt"
 OUTPUT_DIR = PROJECT_ROOT / "data" / "generated_forms"
 
 
-def detect_form_request(message: str) -> bool:
+def detect_form_request(message: str, conversation_history: list = None) -> bool:
     """
-    Detectează dacă mesajul utilizatorului cere generarea unui formular/cerere.
+    Detectează dacă mesajul utilizatorului cere generarea unui formular/cerere ANPC folosind AI.
     
     Args:
         message: Mesajul utilizatorului
+        conversation_history: Istoricul conversației (opțional, pentru context)
         
     Returns:
         True dacă mesajul cere generarea unui formular, False altfel
     """
-    message_lower = message.lower()
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        # Fallback la False dacă nu avem API key
+        return False
     
-    # Cuvinte cheie pentru trigger
-    form_keywords = [
-        'formular', 'form', 'cerere', 'solicitare',
-        'anpc', 'autoritatea', 'protecția consumatorilor', 'protectia consumatorilor',
-        'generează', 'genereaza', 'creează', 'creeaza',
-        'completare', 'complet', 'completă', 'completa',
-        'document', 'documente', 'petiție', 'petitie',
-        'email', 'trimite', 'trimite email', 'trimite mail',
-        'trimitere', 'trimite cerere', 'trimite formular',
-        'am nevoie de o cerere scrisă', 'am nevoie de o cerere scrisa',
-        'am nevoie de cerere', 'vreau cerere', 'vreau formular'
-    ]
-    
-    # Verifică dacă mesajul conține cuvinte cheie
-    for keyword in form_keywords:
-        if keyword in message_lower:
-            return True
-    
-    # Verifică pattern-uri specifice
-    patterns = [
-        r'(?:vrei|vreau|pot|poți|poate)\s+(?:să|sa)\s+(?:generez|generezi|generează|genereaza|creez|creezi|creează|creeaza|trimit|trimiți|trimite)\s+(?:un|o)\s+(?:formular|cerere|form|email)',
-        r'(?:generează|genereaza|creează|creeaza|trimite|trimiți)\s+(?:un|o)\s+(?:formular|cerere|form|email)\s+(?:anpc|pentru|la)',
-        r'(?:formular|cerere|form|email)\s+(?:anpc|pentru|la)',
-        r'(?:trimite|trimiți)\s+(?:email|mail|cerere|formular)\s+(?:la|pentru|către)',
-        r'(?:vrei|vreau)\s+(?:să|sa)\s+(?:trimiti|trimite|trimiți)\s+(?:email|mail|cerere|formular)',
-        r'am\s+nevoie\s+de\s+(?:o|un)\s+cerere\s+scris[ăa]',
-        r'am\s+nevoie\s+de\s+cerere',
-    ]
-    
-    for pattern in patterns:
-        if re.search(pattern, message_lower):
-            return True
-    
-    return False
+    try:
+        llm = ChatOpenAI(
+            model="gpt-4o-mini",
+            temperature=0.1,  # Temperatură mică pentru răspunsuri consistente
+            openai_api_key=api_key
+        )
+        
+        # Construiește context-ul din istoricul conversației
+        context = ""
+        if conversation_history:
+            # Ia ultimele 3 mesaje pentru context
+            recent_messages = conversation_history[-6:] if len(conversation_history) > 6 else conversation_history
+            context = "\n".join([
+                f"{msg.get('role', 'unknown')}: {msg.get('content', '')}"
+                for msg in recent_messages
+            ])
+        
+        prompt = f"""Analizează următorul mesaj al utilizatorului și determină dacă cere generarea sau trimiterea unui formular/cerere oficială către ANPC (Autoritatea Națională pentru Protecția Consumatorilor).
+
+Mesaj utilizator:
+{message}
+
+Context conversație (dacă există):
+{context if context else "N/A"}
+
+Instrucțiuni:
+- Returnează DOAR "DA" dacă utilizatorul cere explicit generarea, crearea, completarea sau trimiterea unui formular/cerere/document oficial către ANPC
+- Returnează DOAR "NU" dacă utilizatorul doar întreabă despre ANPC, despre drepturi, despre proceduri, sau face întrebări generale
+- Returnează "NU" dacă mesajul este doar o întrebare despre beneficii, drepturi, proceduri, fără să ceară generarea unui document
+- Returnează "DA" doar dacă există intenția clară de a genera/trimite un formular sau cerere oficială
+
+Exemple de mesaje care ar trebui să returneze "DA":
+- "am nevoie de o cerere scrisă la anpc"
+- "vreau să generez un formular anpc"
+- "poti sa faci o cerere pentru anpc?"
+- "trimite o cerere la anpc"
+- "am nevoie de un document pentru anpc"
+
+Exemple de mesaje care ar trebui să returneze "NU":
+- "sunt un pensionar cu pensie de 1400 de lei. de ce pot beneficia?"
+- "ce drepturi am ca consumator?"
+- "unde trebuie sa ma duc pentru o cerere?"
+- "cum fac o cerere la anpc?" (doar întreabă cum, nu cere generarea)
+- "ce trebuie sa fac pentru a trimite o cerere?" (doar întreabă ce trebuie făcut)
+
+Returnează DOAR "DA" sau "NU", fără explicații, fără punctuație, fără spații suplimentare."""
+
+        response = llm.invoke(prompt)
+        result = response.content.strip().upper()
+        
+        return result == "DA"
+        
+    except Exception as e:
+        print(f"Eroare la detectarea cererii de formular cu AI: {e}")
+        # Fallback la False în caz de eroare
+        return False
 
 
 def request_user_info() -> str:
@@ -627,7 +652,7 @@ def generate_pdf_from_text(text: str, output_filename: str = None) -> Path:
 
 def is_continuing_form_conversation(conversation_history: list) -> bool:
     """
-    Verifică dacă conversația continuă un proces de formular ANPC.
+    Verifică dacă conversația continuă un proces de formular ANPC folosind AI.
     
     Args:
         conversation_history: Istoricul conversației
@@ -638,18 +663,65 @@ def is_continuing_form_conversation(conversation_history: list) -> bool:
     if not conversation_history:
         return False
     
-    # Verifică ultimul mesaj al asistentului
-    for msg in reversed(conversation_history):
-        if msg.get('role') == 'assistant':
-            content = msg.get('content', '').lower()
-            # Verifică dacă conține cererea de informații pentru formular
-            if 'pentru a genera și trimite cererea anpc' in content or \
-               'email-ul dvs. (expeditor)' in content or \
-               'email-ul instituției anpc' in content:
-                return True
-            break
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        # Fallback la verificare simplă dacă nu avem API key
+        for msg in reversed(conversation_history):
+            if msg.get('role') == 'assistant':
+                content = msg.get('content', '').lower()
+                if ('pentru a genera și trimite cererea anpc' in content or \
+                   'email-ul dvs. (expeditor)' in content or \
+                   'email-ul instituției anpc' in content) and \
+                   ('anpc' in content or 'formular' in content or 'cerere' in content):
+                    return True
+                break
+        return False
     
-    return False
+    try:
+        llm = ChatOpenAI(
+            model="gpt-4o-mini",
+            temperature=0.1,
+            openai_api_key=api_key
+        )
+        
+        # Construiește context-ul din ultimele mesaje
+        recent_messages = conversation_history[-6:] if len(conversation_history) > 6 else conversation_history
+        context = "\n".join([
+            f"{msg.get('role', 'unknown')}: {msg.get('content', '')}"
+            for msg in recent_messages
+        ])
+        
+        prompt = f"""Analizează următorul istoric de conversație și determină dacă asistentul a cerut recent informații pentru generarea unui formular ANPC și utilizatorul răspunde la acea cerere.
+
+Istoric conversație:
+{context}
+
+Instrucțiuni:
+- Returnează "DA" dacă ultimul mesaj al asistentului a fost o cerere explicită de informații pentru generarea/trimiterea unui formular ANPC (de exemplu, cererea de nume, adresă, email, etc.)
+- Returnează "DA" dacă asistentul a menționat că are nevoie de informații pentru a genera o cerere ANPC
+- Returnează "NU" dacă conversația este despre altceva sau dacă asistentul nu a cerut informații pentru formular
+- Returnează "NU" dacă utilizatorul a schimbat subiectul și nu mai răspunde la cererea de formular
+
+Returnează DOAR "DA" sau "NU", fără explicații, fără punctuație, fără spații suplimentare."""
+
+        response = llm.invoke(prompt)
+        result = response.content.strip().upper()
+        
+        return result == "DA"
+        
+    except Exception as e:
+        print(f"Eroare la verificarea continuării conversației de formular cu AI: {e}")
+        # Fallback la verificare simplă
+        for msg in reversed(conversation_history):
+            if msg.get('role') == 'assistant':
+                content = msg.get('content', '').lower()
+                if ('pentru a genera și trimite cererea anpc' in content or \
+                   'email-ul dvs. (expeditor)' in content or \
+                   'email-ul instituției anpc' in content) and \
+                   ('anpc' in content or 'formular' in content or 'cerere' in content):
+                    return True
+                break
+        return False
 
 
 def get_user_email_from_db(username: str) -> Optional[str]:
@@ -675,7 +747,7 @@ def get_user_email_from_db(username: str) -> Optional[str]:
     return None
 
 
-def generate_anpc_form(user_message: str, conversation_history: list = None, refresh_token: str = None, username: str = None) -> dict:
+def generate_anpc_form(user_message: str, conversation_history: list = None, refresh_token: str = None, username: str = None, verbose: bool = False) -> dict:
     """
     Funcție principală pentru generarea cererii ANPC.
     
@@ -689,8 +761,12 @@ def generate_anpc_form(user_message: str, conversation_history: list = None, ref
         Dict cu status, mesaj și path către PDF (dacă a fost generat)
     """
     # Verifică dacă este trigger pentru formular SAU dacă continuă o conversație de formular
-    is_form_trigger = detect_form_request(user_message)
+    is_form_trigger = detect_form_request(user_message, conversation_history)
     is_continuing = is_continuing_form_conversation(conversation_history or [])
+    
+    # Debug: verifică dacă detectează greșit (doar dacă verbose este True)
+    if verbose:
+        print(f"🔍 Debug formular: is_form_trigger={is_form_trigger}, is_continuing={is_continuing}, message='{user_message[:50]}...'")
     
     if not is_form_trigger and not is_continuing:
         return {
