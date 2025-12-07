@@ -50,9 +50,9 @@
     },
     {
       "id": 12,
-      "title": "Accident auto cu fugă de la fața locului",
+      "title": "Accident cu fugă de la locul faptei",
       "owner": "demo",
-      "created_at": "2025-12-07T05:47:29.730045"
+      "created_at": "2025-12-07T06:12:56.238914"
     }
   ],
   "messages": [
@@ -227,14 +227,86 @@
     {
       "conversation_id": 12,
       "role": "user",
-      "content": "am fost într un accident de mașină și celălalt participant la accident a fugit ce fac",
-      "timestamp": "2025-12-07T05:47:29.730054"
+      "content": "am fost implicat într un accident și cealaltă persoană a plecat de la locul accidentului Ce pot să fac",
+      "timestamp": "2025-12-07T06:12:56.238926"
     },
     {
       "conversation_id": 12,
       "role": "assistant",
-      "content": "- În cazul unui accident de circulație, conducătorul unui vehicul implicat este obligat să nu părăsească locul faptei și să anunțe imediat poliția (ARTICOLUL 343).\n- Dacă celălalt participant la accident a fugit, este necesar să anunți imediat evenimentul la cea mai apropiată unitate de poliție (ARTICOLUL 343).\n- Este interzisă modificarea sau ștergerea urmelor accidentului (ARTICOLUL 343).\n- Victima care părăsește locul faptei trebuie să fie raportată de către conducătorul vehiculului (ARTICOLUL 343).",
-      "timestamp": "2025-12-07T05:47:29.730054"
+      "content": "- Conducătorul unui vehicul implicat într-un accident de circulație este obligat să nu părăsească locul faptei și să anunțe imediat poliția (Codul rutier, ARTICOLUL 343).\n- Dacă victima părăsește locul faptei, conducătorul vehiculului trebuie să anunțe imediat evenimentul la cea mai apropiată unitate de poliție (Codul rutier, ARTICOLUL 343).\n- Orice persoană care are cunoștință de producerea unui accident de circulație în urma căruia a rezultat vătămarea integrității corporale sau a sănătății unei persoane este obligată să anunțe de îndată poliția și să apeleze numărul național unic pentru apeluri de urgență 112 (Codul rutier).\n- Este necesar să se prezinte la unitatea de poliție pe raza căreia s-a produs accidentul pentru întocmirea documentelor de constatare (Codul rutier).",
+      "timestamp": "2025-12-07T06:12:56.238926"
+    },
+    {
+      "conversation_id": 12,
+      "role": "user",
+      "content": "Unde pot să mă duc",
+      "timestamp": "2025-12-07T06:13:15.780738"
+    },
+    {
+      "conversation_id": 12,
+      "role": "assistant",
+      "content": "📍 REZULTATE INSTITUȚII\n\n1. Poliția Rutieră - Direcția Rutieră Sector 1\n   📍 Bd. Lascăr Catargi nr. 21, Sector 1, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n2. Poliția Rutieră - Direcția Rutieră Sector 2\n   📍 Bd. Aviatorilor nr. 44, Sector 2, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n3. Poliția Rutieră - Direcția Rutieră Sector 3\n   📍 Calea Vitan nr. 55-59, Sector 3, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n4. Poliția Rutieră - Direcția Rutieră Sector 4\n   📍 Bd. Timișoara nr. 47, Sector 4, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n5. Poliția Rutieră - Direcția Rutieră Sector 5\n   📍 Str. Mihai Bravu nr. 266, Sector 5, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n6. Poliția Rutieră - Direcția Rutieră Sector 6\n   📍 Bd. Iuliu Maniu nr. 28-30, Sector 6, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n7. Direcția Generală de Poliție Rutieră București\n   📍 Bd. Lascăr Catargi nr. 21, Sector 1, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00",
+      "timestamp": "2025-12-07T06:13:15.780738"
+    },
+    {
+      "conversation_id": 12,
+      "role": "user",
+      "content": "ok ok cum funcționează pensia de invaliditate",
+      "timestamp": "2025-12-07T06:13:37.445832"
+    },
+    {
+      "conversation_id": 12,
+      "role": "assistant",
+      "content": "- Pensia de invaliditate este un drept de pensie acordat persoanelor care nu mai pot desfășura activitate din cauza unei incapacități de muncă.\n- Venitul impozabil lunar din pensii se stabilește prin deducerea din venitul din pensie a sumei neimpozabile lunare.\n- Drepturile de pensie restante se defalcă pe lunile la care se referă, în vederea calculării impozitului datorat.\n- Veniturile din pensiile de urmaș vor fi individualizate în funcție de numărul acestora, iar impozitarea se va face în raport cu drepturile cuvenite fiecărui urmaș.\n- Persoanele fizice care au calitatea de pensionari beneficiază de impozite reduse pentru veniturile din pensii de până la suma de 4.000 lei lunar inclusiv.",
+      "timestamp": "2025-12-07T06:13:37.445832"
+    },
+    {
+      "conversation_id": 12,
+      "role": "user",
+      "content": "ce e legea petrolului",
+      "timestamp": "2025-12-07T06:13:53.363504"
+    },
+    {
+      "conversation_id": 12,
+      "role": "assistant",
+      "content": "- Pensia de invaliditate este un drept de pensie acordat persoanelor care nu mai pot desfășura activitate din cauza unei incapacități de muncă.\n- Venitul impozabil lunar din pensii se stabilește prin deducerea din venitul din pensie a sumei neimpozabile lunare.\n- Drepturile primite în conformitate cu prevederile Legii nr. 411/2004, Legii nr. 204/2006 și Legii nr. 1/2020 reprezintă venituri din pensii.\n- ARTICOLUL 153, alin. (1), litera F^2 din Codul fiscal se referă la entitățile care plătesc venituri din pensii, altele decât cele prevăzute la lit. f2.\n- ARTICOLUL 154, alin. (1), litera H din Codul fiscal menționează că persoanele fizice care au calitatea de pensionari beneficiază de impozite reduse pentru veniturile din pensii de până la suma de 4.000 lei lunar inclusiv.",
+      "timestamp": "2025-12-07T06:13:53.363504"
+    },
+    {
+      "conversation_id": 12,
+      "role": "user",
+      "content": "Care sunt drepturile constituționale în proces",
+      "timestamp": "2025-12-07T06:14:22.754673"
+    },
+    {
+      "conversation_id": 12,
+      "role": "assistant",
+      "content": "❌ Nu mai am informații relevante pentru această întrebare. Te rog să reformulezi întrebarea sau să oferi mai multe detalii.",
+      "timestamp": "2025-12-07T06:14:22.754673"
+    },
+    {
+      "conversation_id": 12,
+      "role": "user",
+      "content": "am fost implicat într un accident și cealaltă persoană a plecat de la locul accidentului Ce pot să fac",
+      "timestamp": "2025-12-07T06:23:04.332676"
+    },
+    {
+      "conversation_id": 12,
+      "role": "assistant",
+      "content": "- Persoana implicată într-un accident de circulație are obligația de a anunța imediat poliția, în cazul în care a rezultat moartea sau vătămarea integrității corporale ori a sănătății unei persoane (ARTICOLUL 343).\n- Conducătorul unui vehicul implicat într-un accident este obligat să nu părăsească locul faptei și să nu modifice sau să șteargă urmele accidentului (Codul rutier).\n- Dacă cealaltă persoană a părăsit locul accidentului, este important să se anunțe poliția pentru întocmirea documentelor de constatare (Codul rutier).\n- Repararea vehiculelor se face pe baza documentului de constatare eliberat de unitatea de poliție sau de societățile din domeniul asigurărilor (Codul rutier).",
+      "timestamp": "2025-12-07T06:23:04.332676"
+    },
+    {
+      "conversation_id": 12,
+      "role": "user",
+      "content": "și unde pot să mă duc",
+      "timestamp": "2025-12-07T06:23:31.710420"
+    },
+    {
+      "conversation_id": 12,
+      "role": "assistant",
+      "content": "📍 REZULTATE INSTITUȚII\n\n1. Poliția Rutieră - Direcția Rutieră Sector 1\n   📍 Bd. Lascăr Catargi nr. 21, Sector 1, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n2. Poliția Rutieră - Direcția Rutieră Sector 2\n   📍 Bd. Aviatorilor nr. 44, Sector 2, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n3. Poliția Rutieră - Direcția Rutieră Sector 3\n   📍 Calea Vitan nr. 55-59, Sector 3, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n4. Poliția Rutieră - Direcția Rutieră Sector 4\n   📍 Bd. Timișoara nr. 47, Sector 4, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n5. Poliția Rutieră - Direcția Rutieră Sector 5\n   📍 Str. Mihai Bravu nr. 266, Sector 5, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n6. Poliția Rutieră - Direcția Rutieră Sector 6\n   📍 Bd. Iuliu Maniu nr. 28-30, Sector 6, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n7. Direcția Generală de Poliție Rutieră București\n   📍 Bd. Lascăr Catargi nr. 21, Sector 1, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00",
+      "timestamp": "2025-12-07T06:23:31.710420"
     }
   ]
 }

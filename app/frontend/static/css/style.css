@@ -459,15 +459,17 @@ textarea {
     border: none;
     color: var(--navy-blue);
     cursor: pointer;
-    padding: 4px;
+    padding: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 4px;
+    border-radius: 6px;
     transition: color 0.1s, background-color 0.1s;
     position: relative;
     z-index: 2;
-    margin-right: 4px;
+    margin-right: 8px;
+    min-width: 40px;
+    min-height: 40px;
 }
 
 #voice-btn:hover {
@@ -494,8 +496,8 @@ textarea {
 }
 
 .voice-icon {
-    width: 1em;
-    height: 1em;
+    width: 24px;
+    height: 24px;
 }
 
 #send-btn {
@@ -503,19 +505,26 @@ textarea {
     border: none;
     color: var(--navy-blue);
     cursor: pointer;
-    padding: 4px;
+    padding: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 4px;
+    border-radius: 6px;
     transition: color 0.1s, background-color 0.1s;
     position: relative;
     z-index: 2;
+    min-width: 40px;
+    min-height: 40px;
 }
 
 #send-btn:hover {
     color: var(--navy-blue-hover);
     background-color: var(--navy-blue-very-light);
+}
+
+.send-icon {
+    width: 24px;
+    height: 24px;
 }
 
 
