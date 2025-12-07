@@ -104,14 +104,14 @@ CivicAID/
 │   ├── vector_store_json/            # Vector store ChromaDB (legi.json)
 │   ├── raw_laws/                     # PDF-uri cu legi (de adăugat manual)
 │   ├── scraped_content/              # Text brut extras de pe site-uri
-│   ├── generated_forms/              # Formulare generate (ANPC)
+│   ├── generated_forms/              # Formulare generate
 │   ├── chat.json                     # Baza de date conversații
 │   ├── users.json                    # Baza de date utilizatori
 │   ├── institutions.json              # Date instituții
 │   ├── institutions.db                # Baza de date SQLite
 │   ├── output.txt                    # Output temporar
 │   ├── search_results.txt            # Rezultate căutare
-│   └── cerere_ANPC.txt               # Template cerere ANPC
+│   └── cerere_ANPC.txt               # Template cereri
 │
 ├── 📂 docs/                          # Documentație
 │   ├── PROJECT_STRUCTURE.md           # Structura detaliată a proiectului
