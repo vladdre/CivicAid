@@ -113,6 +113,36 @@
       "title": "Cerere ANPC",
       "owner": "AndreiKRP",
       "created_at": "2025-12-07T07:53:10.528084"
+    },
+    {
+      "id": 23,
+      "title": "Drepturi și beneficii pentru pensionari",
+      "owner": "AndreiKRP",
+      "created_at": "2025-12-07T08:53:38.660913"
+    },
+    {
+      "id": 24,
+      "title": "Drepturi pensionari",
+      "owner": "AndreiKRP",
+      "created_at": "2025-12-07T08:55:57.496430"
+    },
+    {
+      "id": 25,
+      "title": "Drepturi pensionari",
+      "owner": "AndreiKRP",
+      "created_at": "2025-12-07T08:56:59.623054"
+    },
+    {
+      "id": 26,
+      "title": "Informații după accident auto",
+      "owner": "AndreiKRP",
+      "created_at": "2025-12-07T09:15:14.062790"
+    },
+    {
+      "id": 27,
+      "title": "Formulare ANPC necesară",
+      "owner": "AndreiKRP",
+      "created_at": "2025-12-07T09:19:29.055915"
     }
   ],
   "messages": [
@@ -571,6 +601,150 @@
       "role": "assistant",
       "content": "📧 Pentru a genera și trimite cererea ANPC prin email, am nevoie de următoarele informații:\n\n🔴 OBLIGATORIU:\n\n- Email-ul dvs. (expeditor) - adresa de email de la care se va trimite cererea\n- Email-ul instituției ANPC (destinatar) - adresa de email către care se trimite cererea (ex: contact@anpc.ro)\n\n📋 Informații personale:\n\n- Nume și prenume complet\n- Adresa completă (strada, număr, localitate, județ)\n- Seria și numărul buletinului de identitate (opțional, dar recomandat)\n- Număr de telefon (opțional)\n\n📝 Detalii despre cerere:\n\n- Ce informații sau acțiuni solicitați de la ANPC?\n- Există o situație specifică pe care doriți să o menționați în cerere?\n- Aveți întrebări specifice sau documente pe care doriți să le solicitați?\n\n💡 Exemplu de răspuns:\n\nNume: Ion Popescu\nAdresă: Str. Exemplu nr. 10, București, Sector 1\nEmail meu: ion.popescu@example.com\nEmail instituție ANPC: contact@anpc.ro\nTelefon: 0712345678\nBuletin: NZ123456\nVreau să întreb despre procedura de returnare a produselor defecte după 15 zile.\n\n\nVă rog să furnizați toate aceste informații într-un singur mesaj pentru a putea genera și trimite cererea completă.",
       "timestamp": "2025-12-07T07:53:10.528093"
+    },
+    {
+      "conversation_id": 23,
+      "role": "user",
+      "content": "ce drepturi am ca pensionar?",
+      "timestamp": "2025-12-07T08:53:38.660926"
+    },
+    {
+      "conversation_id": 23,
+      "role": "assistant",
+      "content": "Ca pensionar, ai dreptul de a primi o pensie și de a accesa sistemul public de asigurări sociale, conform Legii nr. 305/2022. Statul se angajează să asigure aceste drepturi, indiferent de starea de sănătate sau capacitatea de muncă. De asemenea, pensia de invaliditate este reglementată prin Legea nr. 263/2010, care stipulează că aceasta se acordă în funcție de situații imprevizibile intervenite în perioada asigurată.",
+      "timestamp": "2025-12-07T08:53:38.660926"
+    },
+    {
+      "conversation_id": 24,
+      "role": "user",
+      "content": "ce drepturi am ca pensionar?",
+      "timestamp": "2025-12-07T08:55:57.496441"
+    },
+    {
+      "conversation_id": 24,
+      "role": "assistant",
+      "content": "- Drepturile de pensie se stabilesc prin deducerea din câştigul salarial mediu brut a contribuţiilor sociale obligatorii și a impozitului pe venit.\n- Pensia se impozitează în funcție de perioada pentru care este plătită, iar impozitul se calculează pe baza pensiei aferente fiecărei luni.\n- Veniturile din pensiile de urmaș se individualizează și se impozitează conform drepturilor cuvenite fiecărui urmaș.\n- Venitul impozabil lunar din pensii se stabilește prin deducerea unei sume neimpozabile lunare din venitul din pensie.\n- Persoanele care realizează venituri din pensii pot efectua plăți pentru contribuția de asigurări sociale de sănătate până la împlinirea termenului de plată.\n- Se pot acorda bonificații de până la 10% din contribuția de asigurări sociale de sănătate, stabilite prin legea anuală a bugetului de stat.",
+      "timestamp": "2025-12-07T08:55:57.496441"
+    },
+    {
+      "conversation_id": 25,
+      "role": "user",
+      "content": "ce drepturi am ca pensionar?",
+      "timestamp": "2025-12-07T08:56:59.623065"
+    },
+    {
+      "conversation_id": 25,
+      "role": "assistant",
+      "content": "Ca pensionar, ai dreptul de a primi o pensie și de a accesa sistemul public de asigurări sociale, conform Legii nr. 305/2022. Statul se angajează să asigure aceste drepturi, indiferent de starea de sănătate sau capacitatea de muncă. De asemenea, pensia de invaliditate este acordată în funcție de situații imprevizibile care au intervenit în perioada asigurată, conform Legii nr. 263/2010.",
+      "timestamp": "2025-12-07T08:56:59.623065"
+    },
+    {
+      "conversation_id": 26,
+      "role": "user",
+      "content": "Am fost implicat intr un accident auto. Ce ar trebui sa stiu?",
+      "timestamp": "2025-12-07T09:15:14.062816"
+    },
+    {
+      "conversation_id": 26,
+      "role": "assistant",
+      "content": "- În cazul asigurării de răspundere civilă, ARTICOLUL 2223 prevede că asigurătorul se obligă să plătească despăgubiri pentru prejudiciul de care asiguratul răspunde față de terțe persoane prejudiciate și pentru cheltuielile făcute de asigurat în procesul civil.\n- Drepturile terțelor persoane păgubite se exercită împotriva celor răspunzători de producerea pagubei, conform ARTICOLULUI 2224. Asigurătorul poate fi chemat în judecată de persoanele păgubite în limitele obligațiilor ce îi revin din contractul de asigurare.\n- ARTICOLUL 2225 se referă la stabilirea despăgubirii.\n- Conducătorii vehiculelor implicate în accident au obligația de a se prezenta la unitatea de poliție competentă pentru întocmirea documentelor de constatare, conform Codului rutier. Excepții de la această obligație sunt prevăzute pentru cei care încheie o constatare amiabilă de accident sau pentru cei care dețin o asigurare facultativă de avarii auto, în cazul în care accidentul a avut ca rezultat doar avarierea propriului vehicul.",
+      "timestamp": "2025-12-07T09:15:14.062816"
+    },
+    {
+      "conversation_id": 26,
+      "role": "user",
+      "content": "Daca celalalt sofer implicat a plecat ce pot face?",
+      "timestamp": "2025-12-07T09:17:20.467943"
+    },
+    {
+      "conversation_id": 26,
+      "role": "assistant",
+      "content": "- Dacă celălalt șofer a părăsit locul accidentului, conducătorul vehiculului implicat este obligat să anunțe imediat poliția.\n- ARTICOLUL 343 prevede că, în cazul în care un accident de circulație a avut loc, conducătorul vehiculului trebuie să ia măsuri de anunțare a poliției și să nu părăsească locul faptei.\n- Persoanele implicate în accident au obligația de a se prezenta la unitatea de poliție pe raza căreia s-a produs evenimentul pentru întocmirea documentelor de constatare.",
+      "timestamp": "2025-12-07T09:17:20.467943"
+    },
+    {
+      "conversation_id": 26,
+      "role": "user",
+      "content": "Unde trebuie sa merg?",
+      "timestamp": "2025-12-07T09:17:43.384824"
+    },
+    {
+      "conversation_id": 26,
+      "role": "assistant",
+      "content": "📍 REZULTATE INSTITUȚII\n\n1. DGASPC Sector 1\n   📍 Str. Amzei nr. 10, Sector 1, București\n   🕐 Luni-Joi 08:00-16:00, Vineri 08:00-14:00\n\n2. DGASPC Sector 2\n   📍 Bd. Aviatorilor nr. 44, Sector 2, București\n   🕐 Luni-Joi 08:00-16:00, Vineri 08:00-14:00\n\n3. DGASPC Sector 3\n   📍 Str. Gheorghe Manu nr. 2-4, Sector 3, București\n   🕐 Luni-Joi 08:00-16:00, Vineri 08:00-14:00\n\n4. DGASPC Sector 4\n   📍 Str. Enache Spiridon nr. 12, Sector 4, București\n   🕐 Luni-Joi 08:00-16:00, Vineri 08:00-14:00\n\n5. DGASPC Sector 5\n   📍 Str. Mihai Bravu nr. 266, Sector 5, București\n   🕐 Luni-Joi 08:00-16:00, Vineri 08:00-14:00\n\n6. DGASPC Sector 6\n   📍 Str. Gheorghe Manu nr. 28-30, Sector 6, București\n   🕐 Luni-Joi 08:00-16:00, Vineri 08:00-14:00\n\n7. Direcția Generală de Asistență Socială și Protecția Copilului București\n   📍 Str. Amzei nr. 10, Sector 1, București\n   🕐 Luni-Joi 08:00-16:00, Vineri 08:00-14:00\n\n8. Direcția Generală de Asistență Socială și Protecția Familiei\n   📍 Bd. Carol I nr. 2, Sector 2, București\n   🕐 Luni-Joi 08:00-16:00, Vineri 08:00-14:00\n\n9. Direcția Generală de Asistență Socială și Protecția Copilului Ilfov\n   📍 Str. Amzei nr. 10, Sector 1, București\n   🕐 Luni-Joi 08:00-16:00, Vineri 08:00-14:00\n\n10. Direcția Generală de Asistență Socială și Protecția Copilului Sector 2\n   📍 Bd. Aviatorilor nr. 44, Sector 2, București\n   🕐 Luni-Joi 08:00-16:00, Vineri 08:00-14:00\n\n11. Direcția Generală de Asistență Socială Sector 1\n   📍 Str. Amzei nr. 10, Sector 1, București\n   🕐 Luni-Joi 08:00-16:00, Vineri 08:00-14:00\n\n12. Direcția Generală de Asistență Socială Sector 3\n   📍 Str. Gheorghe Manu nr. 2-4, Sector 3, București\n   🕐 Luni-Joi 08:00-16:00, Vineri 08:00-14:00\n\n13. Direcția Generală de Asistență Socială Sector 4\n   📍 Str. Enache Spiridon nr. 12, Sector 4, București\n   🕐 Luni-Joi 08:00-16:00, Vineri 08:00-14:00\n\n14. Direcția Generală de Asistență Socială Sector 5\n   📍 Str. Mihai Bravu nr. 266, Sector 5, București\n   🕐 Luni-Joi 08:00-16:00, Vineri 08:00-14:00\n\n15. Direcția Generală de Asistență Socială Sector 6\n   📍 Str. Gheorghe Manu nr. 28-30, Sector 6, București\n   🕐 Luni-Joi 08:00-16:00, Vineri 08:00-14:00\n\n16. Poliția Română - Secția de Poliție Sector 1\n   📍 Bd. Lascăr Catargi nr. 21, Sector 1, București\n   🕐 Non-stop (24/7)\n\n17. Poliția Română - Secția de Poliție Sector 2\n   📍 Bd. Aviatorilor nr. 44, Sector 2, București\n   🕐 Non-stop (24/7)\n\n18. Poliția Română - Secția de Poliție Sector 3\n   📍 Calea Vitan nr. 55-59, Sector 3, București\n   🕐 Non-stop (24/7)\n\n19. Poliția Română - Secția de Poliție Sector 4\n   📍 Bd. Timișoara nr. 47, Sector 4, București\n   🕐 Non-stop (24/7)\n\n20. Poliția Română - Secția de Poliție Sector 5\n   📍 Str. Mihai Bravu nr. 266, Sector 5, București\n   🕐 Non-stop (24/7)\n\n21. Poliția Română - Secția de Poliție Sector 6\n   📍 Bd. Iuliu Maniu nr. 28-30, Sector 6, București\n   🕐 Non-stop (24/7)\n\n22. Poliția Rutieră - Direcția Rutieră Sector 1\n   📍 Bd. Lascăr Catargi nr. 21, Sector 1, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n23. Poliția Rutieră - Direcția Rutieră Sector 2\n   📍 Bd. Aviatorilor nr. 44, Sector 2, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n24. Poliția Rutieră - Direcția Rutieră Sector 3\n   📍 Calea Vitan nr. 55-59, Sector 3, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n25. Poliția Rutieră - Direcția Rutieră Sector 4\n   📍 Bd. Timișoara nr. 47, Sector 4, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n26. Poliția Rutieră - Direcția Rutieră Sector 5\n   📍 Str. Mihai Bravu nr. 266, Sector 5, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n27. Poliția Rutieră - Direcția Rutieră Sector 6\n   📍 Bd. Iuliu Maniu nr. 28-30, Sector 6, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n28. Direcția Generală de Poliție Rutieră București\n   📍 Bd. Lascăr Catargi nr. 21, Sector 1, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n29. Direcția Generală de Poliție București\n   📍 Bd. Lascăr Catargi nr. 21, Sector 1, București\n   🕐 Non-stop (24/7)",
+      "timestamp": "2025-12-07T09:17:43.384824"
+    },
+    {
+      "conversation_id": 26,
+      "role": "user",
+      "content": "Unde pot sa merg la politie?",
+      "timestamp": "2025-12-07T09:18:42.887179"
+    },
+    {
+      "conversation_id": 26,
+      "role": "assistant",
+      "content": "📍 REZULTATE INSTITUȚII\n\n1. Poliția Rutieră - Direcția Rutieră Sector 1\n   📍 Bd. Lascăr Catargi nr. 21, Sector 1, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n2. Poliția Rutieră - Direcția Rutieră Sector 2\n   📍 Bd. Aviatorilor nr. 44, Sector 2, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n3. Poliția Rutieră - Direcția Rutieră Sector 3\n   📍 Calea Vitan nr. 55-59, Sector 3, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n4. Poliția Rutieră - Direcția Rutieră Sector 4\n   📍 Bd. Timișoara nr. 47, Sector 4, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n5. Poliția Rutieră - Direcția Rutieră Sector 5\n   📍 Str. Mihai Bravu nr. 266, Sector 5, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n6. Poliția Rutieră - Direcția Rutieră Sector 6\n   📍 Bd. Iuliu Maniu nr. 28-30, Sector 6, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n7. Direcția Generală de Poliție Rutieră București\n   📍 Bd. Lascăr Catargi nr. 21, Sector 1, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00",
+      "timestamp": "2025-12-07T09:18:42.887179"
+    },
+    {
+      "conversation_id": 27,
+      "role": "user",
+      "content": "frate am nevoie și eu de o formulare pentru ANPC",
+      "timestamp": "2025-12-07T09:19:29.055935"
+    },
+    {
+      "conversation_id": 27,
+      "role": "assistant",
+      "content": "📧 Pentru a genera și trimite cererea ANPC prin email, am nevoie de următoarele informații:\n\n🔴 OBLIGATORIU:\n\n- Email-ul dvs. (expeditor) - adresa de email de la care se va trimite cererea\n- Email-ul instituției ANPC (destinatar) - adresa de email către care se trimite cererea (ex: contact@anpc.ro)\n\n📋 Informații personale:\n\n- Nume și prenume complet\n- Adresa completă (strada, număr, localitate, județ)\n- Seria și numărul buletinului de identitate (opțional, dar recomandat)\n- Număr de telefon (opțional)\n\n📝 Detalii despre cerere:\n\n- Ce informații sau acțiuni solicitați de la ANPC?\n- Există o situație specifică pe care doriți să o menționați în cerere?\n- Aveți întrebări specifice sau documente pe care doriți să le solicitați?\n\n💡 Exemplu de răspuns:\n\nNume: Ion Popescu\nAdresă: Str. Exemplu nr. 10, București, Sector 1\nEmail meu: ion.popescu@example.com\nEmail instituție ANPC: contact@anpc.ro\nTelefon: 0712345678\nBuletin: NZ123456\nVreau să întreb despre procedura de returnare a produselor defecte după 15 zile.\n\n\nVă rog să furnizați toate aceste informații într-un singur mesaj pentru a putea genera și trimite cererea completă.",
+      "timestamp": "2025-12-07T09:19:29.055935"
+    },
+    {
+      "conversation_id": 27,
+      "role": "user",
+      "content": "Nume: Ion Popescu\nAdresă: Str. Exemplu nr. 10, București, Sector 1\nEmail meu: andrei.krp@gmail.com\nEmail instituție ANPC: darie.vlad@icloud.com\nTelefon: 0712345678\nBuletin: NZ123456",
+      "timestamp": "2025-12-07T09:22:20.927243"
+    },
+    {
+      "conversation_id": 27,
+      "role": "assistant",
+      "content": "📧 Pentru a genera și trimite cererea ANPC prin email, am nevoie de următoarele informații:\n\n🔴 OBLIGATORIU:\n\n- Email-ul dvs. (expeditor) - adresa de email de la care se va trimite cererea\n- Email-ul instituției ANPC (destinatar) - adresa de email către care se trimite cererea (ex: contact@anpc.ro)\n\n📋 Informații personale:\n\n- Nume și prenume complet\n- Adresa completă (strada, număr, localitate, județ)\n- Seria și numărul buletinului de identitate (opțional, dar recomandat)\n- Număr de telefon (opțional)\n\n📝 Detalii despre cerere:\n\n- Ce informații sau acțiuni solicitați de la ANPC?\n- Există o situație specifică pe care doriți să o menționați în cerere?\n- Aveți întrebări specifice sau documente pe care doriți să le solicitați?\n\n💡 Exemplu de răspuns:\n\nNume: Ion Popescu\nAdresă: Str. Exemplu nr. 10, București, Sector 1\nEmail meu: ion.popescu@example.com\nEmail instituție ANPC: contact@anpc.ro\nTelefon: 0712345678\nBuletin: NZ123456\nVreau să întreb despre procedura de returnare a produselor defecte după 15 zile.\n\n\nVă rog să furnizați toate aceste informații într-un singur mesaj pentru a putea genera și trimite cererea completă.",
+      "timestamp": "2025-12-07T09:22:20.927243"
+    },
+    {
+      "conversation_id": 27,
+      "role": "user",
+      "content": "Nume: Ion Popescu\nAdresă: Str. Exemplu nr. 10, București, Sector 1\nEmail meu: andrei.krp@gmail.com\nEmail instituție ANPC: darie.vlad@icloud.com\nTelefon: 0712345678\nBuletin: NZ123456\nVreau să întreb despre procedura de returnare a produselor defecte după 15 zile.",
+      "timestamp": "2025-12-07T09:22:52.659670"
+    },
+    {
+      "conversation_id": 27,
+      "role": "assistant",
+      "content": "✅ Cererea ANPC a fost trimisă cu succes!\n\n📧 De la: andrei.krp@gmail.com\n📧 Către: darie.vlad@icloud.com",
+      "timestamp": "2025-12-07T09:22:52.659670"
+    },
+    {
+      "conversation_id": 25,
+      "role": "user",
+      "content": "Cum pot beneficia si de pensii de handicap?",
+      "timestamp": "2025-12-07T09:25:18.877454"
+    },
+    {
+      "conversation_id": 25,
+      "role": "assistant",
+      "content": "- Ca pensionar, ai dreptul de a primi o pensie și de a accesa sistemul public de asigurări sociale, conform Legii nr. 305/2022.\n- Veniturile din pensii de handicap sunt reglementate de Legea nr. 448/2006, republicată, cu modificările și completările ulterioare.\n- ARTICOLUL 154, alin. (1), litera E prevede că persoanele fizice care au calitatea de pensionari beneficiază de venituri din pensii de până la suma de 4.000 lei lunar.",
+      "timestamp": "2025-12-07T09:25:18.877454"
+    },
+    {
+      "conversation_id": 23,
+      "role": "user",
+      "content": "Unde pot sa depun dosarul?",
+      "timestamp": "2025-12-07T09:26:18.239130"
+    },
+    {
+      "conversation_id": 23,
+      "role": "assistant",
+      "content": "📍 REZULTATE INSTITUȚII\n\n1. Oficiul Național pentru Persoane cu Dizabilități Sector 1\n   📍 Str. Amzei nr. 10, Sector 1, București\n   🕐 Luni-Vineri 08:00-16:00",
+      "timestamp": "2025-12-07T09:26:18.239130"
     }
   ]
 }
