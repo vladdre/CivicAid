@@ -244,7 +244,7 @@ python scrapper.py
 ### 🧠 Core (`app/core/`)
 
 #### `query_processor.py`
-**Scop:** Procesarea principală a query-urilor (RAG + SQL + ANPC forms).
+**Scop:** Procesarea principală a query-urilor (RAG + SQL + forms).
 
 **Funcții principale:**
 - `process_query(user_message, conversation_history, verbose, refresh_token, username)`: Funcția principală de procesare
