@@ -23,6 +23,18 @@
       "title": "Accident auto cu fugă de responsabilitate",
       "owner": "demo",
       "created_at": "2025-12-07T04:40:49.308750"
+    },
+    {
+      "id": 8,
+      "title": "Accident auto cu fugă de la locul faptei",
+      "owner": "demo",
+      "created_at": "2025-12-07T05:11:31.365018"
+    },
+    {
+      "id": 9,
+      "title": "Definiție pensie de invaliditate",
+      "owner": "demo",
+      "created_at": "2025-12-07T05:17:53.676837"
     }
   ],
   "messages": [
@@ -133,6 +145,42 @@
       "role": "assistant",
       "content": "❌ Nu mai am informații relevante pentru această întrebare. Te rog să reformulezi întrebarea sau să oferi mai multe detalii.",
       "timestamp": "2025-12-07T04:42:37.861213"
+    },
+    {
+      "conversation_id": 8,
+      "role": "user",
+      "content": "am fost intr un accident auto si celaalta persoana implicata a fugit de la locul accidentului. ce sa fac",
+      "timestamp": "2025-12-07T05:11:31.365033"
+    },
+    {
+      "conversation_id": 8,
+      "role": "assistant",
+      "content": "\n======================================================================\n📋 REZUMAT SINTETIZAT\n======================================================================\n\n- Conducătorul unui vehicul implicat într-un accident de circulație este obligat să anunțe imediat poliția și să nu părăsească locul faptei (Codul rutier).\n- Orice persoană implicată sau care are cunoștință de producerea unui accident de circulație în urma căruia a rezultat vătămarea integrității corporale sau a sănătății unei persoane este obligată să anunțe poliția (Codul rutier).\n- Persoanele implicate în accidente de circulație care au rezultat doar în avarierea vehiculelor sunt obligate să se prezinte la unitatea de poliție competentă pe raza căreia s-a produs accidentul în termen de cel mult 24 de ore pentru întocmirea documentelor de constatare (Codul rutier).\n- Conducătorii vehiculelor care încheie o constatare amiabilă de accident sunt exceptați de la obligația de a se prezenta la unitatea de poliție (Codul rutier).\n",
+      "timestamp": "2025-12-07T05:11:31.365033"
+    },
+    {
+      "conversation_id": 8,
+      "role": "user",
+      "content": "unde sa merg pentru asta",
+      "timestamp": "2025-12-07T05:12:04.235879"
+    },
+    {
+      "conversation_id": 8,
+      "role": "assistant",
+      "content": "📍 REZULTATE INSTITUȚII\n\n1. Poliția Rutieră - Direcția Rutieră Sector 1\n   📍 Bd. Lascăr Catargi nr. 21, Sector 1, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n2. Poliția Rutieră - Direcția Rutieră Sector 2\n   📍 Bd. Aviatorilor nr. 44, Sector 2, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n3. Poliția Rutieră - Direcția Rutieră Sector 3\n   📍 Calea Vitan nr. 55-59, Sector 3, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n4. Poliția Rutieră - Direcția Rutieră Sector 4\n   📍 Bd. Timișoara nr. 47, Sector 4, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n5. Poliția Rutieră - Direcția Rutieră Sector 5\n   📍 Str. Mihai Bravu nr. 266, Sector 5, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n6. Poliția Rutieră - Direcția Rutieră Sector 6\n   📍 Bd. Iuliu Maniu nr. 28-30, Sector 6, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n7. Direcția Generală de Poliție Rutieră București\n   📍 Bd. Lascăr Catargi nr. 21, Sector 1, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00",
+      "timestamp": "2025-12-07T05:12:04.235879"
+    },
+    {
+      "conversation_id": 9,
+      "role": "user",
+      "content": "ce este pendisa de invaliditate",
+      "timestamp": "2025-12-07T05:17:53.676846"
+    },
+    {
+      "conversation_id": 9,
+      "role": "assistant",
+      "content": "\n======================================================================\n📋 REZUMAT SINTETIZAT\n======================================================================\n\n- Pendisa de invaliditate se referă la indemnizațiile de asigurări sociale de sănătate, acordate în baza Ordonanței de urgență a Guvernului nr. 158/2005 privind concediile și indemnizațiile de asigurări sociale de sănătate.\n- Aceste indemnizații sunt reglementate prin Legea nr. 399/2006, cu modificările și completările ulterioare.\n- Indemnizațiile pot fi primite de persoanele care se află în incapacitate temporară de muncă din cauza unui accident de muncă sau a unei boli profesionale.\n",
+      "timestamp": "2025-12-07T05:17:53.676846"
     }
   ]
 }

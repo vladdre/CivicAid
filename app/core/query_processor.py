@@ -29,6 +29,7 @@ load_dotenv()
 
 # Configuration
 VECTOR_STORE_DIR = PROJECT_ROOT / "data" / "vector_store"
+VECTOR_STORE_JSON_DIR = PROJECT_ROOT / "data" / "vector_store_json"
 OUTPUT_FILE = PROJECT_ROOT / "data" / "output.txt"
 LEGI_JSON = PROJECT_ROOT / "legi.json"
 CHECKPOINT_JSON = PROJECT_ROOT / "checkpoint.json"
@@ -375,22 +376,103 @@ Răspuns (DA/NU):"""
 
 def search_in_json_files(user_query: str, api_key: str, verbose: bool = False) -> Optional[str]:
     """
-    Caută informații relevante în fișierele JSON (legi.json și checkpoint.json).
+    Caută informații relevante în vector store-ul JSON (din legi.json).
+    Folosește vector store-ul JSON dacă există, altfel caută direct în JSON.
     
     Args:
         user_query: Întrebarea utilizatorului
         api_key: OpenAI API key
+        verbose: Dacă True, afișează print-uri
         
     Returns:
-        Text relevant găsit în JSON-uri sau None dacă nu s-a găsit nimic relevant
+        Text relevant găsit sau None dacă nu s-a găsit nimic relevant
     """
-    json_files = []
-    if LEGI_JSON.exists():
-        json_files.append(("legi.json", LEGI_JSON))
-    if CHECKPOINT_JSON.exists():
-        json_files.append(("checkpoint.json", CHECKPOINT_JSON))
+    # Încearcă să folosească vector store-ul JSON (prioritate)
+    if VECTOR_STORE_JSON_DIR.exists():
+        try:
+            from langchain_openai import OpenAIEmbeddings
+            from langchain_community.vectorstores import Chroma
+            
+            if verbose:
+                print("   🔍 Căutare în vector store JSON...")
+            
+            # Încarcă vector store-ul JSON
+            embeddings = OpenAIEmbeddings(
+                model="text-embedding-3-small",
+                openai_api_key=api_key
+            )
+            
+            vector_store = Chroma(
+                persist_directory=str(VECTOR_STORE_JSON_DIR),
+                embedding_function=embeddings,
+                collection_name="civicaid_json_laws"
+            )
+            
+            # Caută în vector store
+            results = vector_store.similarity_search_with_score(user_query, k=3)
+            
+            if not results or len(results) == 0:
+                if verbose:
+                    print("   ⚠️  Nu s-au găsit rezultate în vector store JSON")
+                return None
+            
+            # Extrage conținutul și metadata
+            relevant_texts = []
+            for doc, score in results:
+                # Filtrează rezultatele cu scor prea mic (relevanță scăzută)
+                if score > 1.5:  # Threshold pentru relevanță
+                    continue
+                
+                law_id = doc.metadata.get('law_id', 'Necunoscut')
+                content = doc.page_content
+                relevant_texts.append(f"[{law_id}]\n{content}")
+            
+            if not relevant_texts:
+                if verbose:
+                    print("   ⚠️  Nu s-au găsit rezultate relevante în vector store JSON")
+                return None
+            
+            # Sintetizează rezultatele
+            combined_text = "\n\n---\n\n".join(relevant_texts)
+            
+            llm = ChatOpenAI(
+                model="gpt-4o-mini",
+                temperature=0,
+                openai_api_key=api_key
+            )
+            
+            synthesis_prompt = f"""Ești un asistent juridic. Sintetizează informațiile relevante găsite în documente pentru întrebarea utilizatorului.
+
+Întrebare utilizator: {user_query}
+
+Informații găsite în documente:
+{combined_text}
+
+Task: Creează un rezumat concis și precis al informațiilor relevante pentru întrebare. Dacă informațiile nu sunt relevante sau nu răspund la întrebare, returnează DOAR "NU_SUNT_RELEVANTE".
+
+Rezumat:"""
+            
+            response = llm.invoke(synthesis_prompt)
+            result = response.content.strip()
+            
+            if result.upper() == "NU_SUNT_RELEVANTE" or len(result) < 50:
+                if verbose:
+                    print("   ⚠️  Rezultatele nu sunt relevante")
+                return None
+            
+            if verbose:
+                print("   ✅ Informații relevante găsite în vector store JSON")
+            
+            return result
+            
+        except Exception as e:
+            if verbose:
+                print(f"   ⚠️  Eroare la căutarea în vector store JSON: {e}")
+                print("   🔄 Revenire la căutare directă în JSON...")
+            # Continuă cu căutarea directă în JSON dacă vector store-ul nu funcționează
     
-    if not json_files:
+    # Fallback: căutare directă în JSON (doar legi.json, checkpoint.json este doar pentru rezervă)
+    if not LEGI_JSON.exists():
         return None
     
     try:
@@ -399,6 +481,9 @@ def search_in_json_files(user_query: str, api_key: str, verbose: bool = False) -
             temperature=0,
             openai_api_key=api_key
         )
+        
+        if verbose:
+            print("   🔍 Căutare directă în legi.json...")
         
         # Extrage cuvinte cheie din query pentru căutare
         keywords_prompt = f"""Extrage cuvintele cheie principale din următoarea întrebare pentru căutare în documente legale.
@@ -412,56 +497,57 @@ Cuvinte cheie:"""
         keywords = keywords_response.content.strip().lower()
         keyword_list = [k.strip() for k in keywords.split(",")][:5]
         
-        # Caută în fișierele JSON
+        # Caută în legi.json
         relevant_texts = []
         
-        for file_name, file_path in json_files:
-            try:
-                with open(file_path, 'r', encoding='utf-8') as f:
-                    data = json.load(f)
+        try:
+            with open(LEGI_JSON, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            
+            # Caută în structura JSON
+            def search_recursive(obj, path="", depth=0):
+                """Caută recursiv în structura JSON"""
+                if depth > 5:  # Limitează adâncimea pentru performanță
+                    return []
                 
-                # Caută în structura JSON
-                def search_recursive(obj, path="", depth=0):
-                    """Caută recursiv în structura JSON"""
-                    if depth > 5:  # Limitează adâncimea pentru performanță
-                        return []
-                    
-                    found = []
-                    
-                    if isinstance(obj, dict):
-                        for key, value in obj.items():
-                            current_path = f"{path}.{key}" if path else key
-                            
-                            # Verifică cheia
-                            key_lower = str(key).lower()
-                            if any(kw in key_lower for kw in keyword_list):
-                                if isinstance(value, str) and len(value) > 100:
-                                    found.append((current_path, value[:2000]))  # Limitează lungimea
-                            
-                            # Verifică valoarea
-                            if isinstance(value, str):
-                                value_lower = value.lower()
-                                if any(kw in value_lower for kw in keyword_list):
-                                    if len(value) > 100:
-                                        found.append((current_path, value[:2000]))
-                            elif isinstance(value, (dict, list)):
-                                found.extend(search_recursive(value, current_path, depth + 1))
-                    
-                    elif isinstance(obj, list):
-                        for i, item in enumerate(obj[:10]):  # Limitează numărul de elemente
-                            found.extend(search_recursive(item, f"{path}[{i}]", depth + 1))
-                    
-                    return found
+                found = []
                 
-                found_texts = search_recursive(data)
+                if isinstance(obj, dict):
+                    for key, value in obj.items():
+                        current_path = f"{path}.{key}" if path else key
+                        
+                        # Verifică cheia
+                        key_lower = str(key).lower()
+                        if any(kw in key_lower for kw in keyword_list):
+                            if isinstance(value, str) and len(value) > 100:
+                                found.append((current_path, value[:2000]))  # Limitează lungimea
+                        
+                        # Verifică valoarea
+                        if isinstance(value, str):
+                            value_lower = value.lower()
+                            if any(kw in value_lower for kw in keyword_list):
+                                if len(value) > 100:
+                                    found.append((current_path, value[:2000]))
+                        elif isinstance(value, (dict, list)):
+                            found.extend(search_recursive(value, current_path, depth + 1))
                 
-                if found_texts:
-                    # Selectează cele mai relevante (primele 3)
-                    for path, text in found_texts[:3]:
-                        relevant_texts.append(f"[{file_name}:{path}]\n{text}")
+                elif isinstance(obj, list):
+                    for i, item in enumerate(obj[:10]):  # Limitează numărul de elemente
+                        found.extend(search_recursive(item, f"{path}[{i}]", depth + 1))
                 
-            except Exception as e:
-                continue
+                return found
+            
+            found_texts = search_recursive(data)
+            
+            if found_texts:
+                # Selectează cele mai relevante (primele 3)
+                for path, text in found_texts[:3]:
+                    relevant_texts.append(f"[legi.json:{path}]\n{text}")
+            
+        except Exception as e:
+            if verbose:
+                print(f"   ⚠️  Eroare la citirea legi.json: {e}")
+            return None
         
         if not relevant_texts:
             return None
@@ -489,6 +575,8 @@ Rezumat:"""
         return result
         
     except Exception as e:
+        if verbose:
+            print(f"   ⚠️  Eroare la căutarea în JSON: {e}")
         return None
 
 
@@ -572,22 +660,40 @@ def process_query(user_message: str, conversation_history: list = None, verbose:
         is_relevant = is_summary_relevant(summary, user_message, api_key)
         
         if not is_relevant:
-            # Rezumatul nu este relevant - caută în fișierele JSON ca fallback
+            # Rezumatul nu este relevant - caută în vectorii JSON ca fallback
             if verbose:
-                print("\n⚠️  Rezumatul nu este suficient de relevant. Căutare în fișiere JSON...")
+                print("\n⚠️  Rezumatul nu este suficient de relevant. Căutare în vectorii JSON...")
             
             json_result = search_in_json_files(user_message, api_key, verbose=verbose)
             
             if json_result:
-                # Am găsit informații relevante în JSON
+                # Am găsit informații relevante în vectorii JSON
                 summary = json_result
                 if verbose:
-                    print("✅ Informații relevante găsite în fișiere JSON!\n")
+                    print("✅ Informații relevante găsite în vectorii JSON!\n")
             else:
-                # Nu s-au găsit informații relevante nici în JSON
+                # Nu s-au găsit informații relevante nici în vectorii JSON
                 if verbose:
-                    print("❌ Nu s-au găsit informații relevante nici în fișiere JSON.\n")
+                    print("❌ Nu s-au găsit informații relevante nici în vectorii JSON.\n")
                 return "❌ Nu mai am informații relevante pentru această întrebare. Te rog să reformulezi întrebarea sau să oferi mai multe detalii."
+    
+    # Step 4b: Dacă nu există rezumat sau dacă rezumatul este gol, încercă vectorii JSON
+    if (not summary or len(summary.strip()) < 50) and api_key:
+        if verbose:
+            print("\n⚠️  Nu există rezumat sau rezumatul este prea scurt. Căutare în vectorii JSON...")
+        
+        json_result = search_in_json_files(user_message, api_key, verbose=verbose)
+        
+        if json_result:
+            # Am găsit informații relevante în vectorii JSON
+            summary = json_result
+            if verbose:
+                print("✅ Informații relevante găsite în vectorii JSON!\n")
+        else:
+            # Nu s-au găsit informații relevante nici în vectorii JSON
+            if verbose:
+                print("❌ Nu s-au găsit informații relevante nici în vectorii JSON.\n")
+            return "❌ Nu mai am informații relevante pentru această întrebare. Te rog să reformulezi întrebarea sau să oferi mai multe detalii."
     
     # Step 5: Combină output-ul detaliat cu rezumatul
     final_output = ""
