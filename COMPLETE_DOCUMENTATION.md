@@ -292,7 +292,7 @@ python scrapper.py
 - Autentificare utilizatori (login/register)
 - Chat interface cu istoric conversații
 - Voice-to-text pentru input vocal
-- OAuth Google pentru trimitere email ANPC
+- OAuth Google pentru trimitere formulare pe email
 - Gestionare sesiuni și conversații
 
 #### `query_classifier.py`
