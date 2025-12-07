@@ -698,13 +698,7 @@ def process_query(user_message: str, conversation_history: list = None, verbose:
     # Step 5: Combină output-ul detaliat cu rezumatul
     final_output = ""
     if summary:
-        final_output = f"""
-{'='*70}
-📋 REZUMAT SINTETIZAT
-{'='*70}
-
-{summary}
-"""
+        final_output = summary
     else:
         final_output = output
     

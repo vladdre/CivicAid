@@ -35,6 +35,18 @@
       "title": "Definiție pensie de invaliditate",
       "owner": "demo",
       "created_at": "2025-12-07T05:17:53.676837"
+    },
+    {
+      "id": 10,
+      "title": "Accident auto",
+      "owner": "demo",
+      "created_at": "2025-12-07T05:23:58.550083"
+    },
+    {
+      "id": 11,
+      "title": "Locații pentru raportarea accidentului auto",
+      "owner": "demo",
+      "created_at": "2025-12-07T05:26:32.661251"
     }
   ],
   "messages": [
@@ -181,6 +193,30 @@
       "role": "assistant",
       "content": "\n======================================================================\n📋 REZUMAT SINTETIZAT\n======================================================================\n\n- Pendisa de invaliditate se referă la indemnizațiile de asigurări sociale de sănătate, acordate în baza Ordonanței de urgență a Guvernului nr. 158/2005 privind concediile și indemnizațiile de asigurări sociale de sănătate.\n- Aceste indemnizații sunt reglementate prin Legea nr. 399/2006, cu modificările și completările ulterioare.\n- Indemnizațiile pot fi primite de persoanele care se află în incapacitate temporară de muncă din cauza unui accident de muncă sau a unei boli profesionale.\n",
       "timestamp": "2025-12-07T05:17:53.676846"
+    },
+    {
+      "conversation_id": 10,
+      "role": "user",
+      "content": "am avut un accident de masina",
+      "timestamp": "2025-12-07T05:23:58.550093"
+    },
+    {
+      "conversation_id": 10,
+      "role": "assistant",
+      "content": "- În caz de accident de mașină, conducătorul autovehiculului trebuie să anunțe imediat poliția pentru întocmirea documentelor de constatare.\n- Persoanele care au asigurare facultativă pot fi despăgubite fără a se prezenta la unitatea de poliție.\n- Repararea vehiculelor avariate se face pe baza documentului de constatare eliberat de poliție sau de societățile de asigurări.\n- ARTICOLUL 2223 din Codul civil prevede că asigurătorul se obligă să plătească despăgubiri pentru prejudiciile cauzate terțelor persoane.\n- Drepturile terțelor persoane păgubite se exercită împotriva celor răspunzători de producerea pagubei, conform ARTICOLUL 2224.\n- ARTICOLUL 2225 stabilește modalitățile de determinare a despăgubirii.",
+      "timestamp": "2025-12-07T05:23:58.550093"
+    },
+    {
+      "conversation_id": 11,
+      "role": "user",
+      "content": "unde pot sa merg daca am facut un accident cu masina",
+      "timestamp": "2025-12-07T05:26:32.661261"
+    },
+    {
+      "conversation_id": 11,
+      "role": "assistant",
+      "content": "📍 REZULTATE INSTITUȚII\n\n1. Poliția Rutieră - Direcția Rutieră Sector 1\n   📍 Bd. Lascăr Catargi nr. 21, Sector 1, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n2. Poliția Rutieră - Direcția Rutieră Sector 2\n   📍 Bd. Aviatorilor nr. 44, Sector 2, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n3. Poliția Rutieră - Direcția Rutieră Sector 3\n   📍 Calea Vitan nr. 55-59, Sector 3, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n4. Poliția Rutieră - Direcția Rutieră Sector 4\n   📍 Bd. Timișoara nr. 47, Sector 4, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n5. Poliția Rutieră - Direcția Rutieră Sector 5\n   📍 Str. Mihai Bravu nr. 266, Sector 5, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n6. Poliția Rutieră - Direcția Rutieră Sector 6\n   📍 Bd. Iuliu Maniu nr. 28-30, Sector 6, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n7. Direcția Generală de Poliție Rutieră București\n   📍 Bd. Lascăr Catargi nr. 21, Sector 1, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00",
+      "timestamp": "2025-12-07T05:26:32.661261"
     }
   ]
 }
