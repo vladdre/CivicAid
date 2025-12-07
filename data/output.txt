@@ -1,15 +1,3 @@
-
-======================================================================
-📋 REZUMAT SINTETIZAT
-======================================================================
-
-- Persoanele cu handicap beneficiază de protecție specială conform ARTICOLUL 50 din Constituția României, care asigură egalitate de șanse și participare efectivă în viața comunității.
-- Statul garantează accesul la servicii sociale, îngrijire și activități de recuperare pentru persoanele cu handicap, conform Codului Fiscal, care menționează organizațiile ce oferă astfel de servicii (art. 485, alin. (1), lit. e).
-- Persoanele cu handicap grav sau accentuat au drepturi specifice, inclusiv reducerea taxelor speciale cu 50% (Codul Fiscal, art. 456, alin. (1), lit. t).
-- Există și reglementări privind veniturile obținute de persoanele cu handicap, care sunt scutite de impozite în anumite condiții (Codul Fiscal, art. 154, alin. (1), lit. e).
-- Informațiile sunt limitate la aspectele legale și nu detaliază locuri specifice unde persoanele cu handicap pot merge.
-
-
 ======================================================================
 📍 REZULTATE INSTITUȚII (SQL)
 ======================================================================

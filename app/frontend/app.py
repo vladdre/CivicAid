@@ -3,37 +3,42 @@ import os
 import sys
 import datetime
 import hashlib
-import threading
 from pathlib import Path
 from functools import wraps
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 
-# Add parent directory to path for imports
-sys.path.append(str(Path(__file__).parent.parent))
+# Add project root to path for imports
+PROJECT_ROOT = Path(__file__).parent.parent.parent
+sys.path.append(str(PROJECT_ROOT))
+sys.path.append(str(PROJECT_ROOT / "app"))
 
-# Import process_query after adding parent to path
-from main import process_query
+# Import process_query
+from app.core.query_processor import process_query
 
 # Import SQL tool
-from src.tools.sql import query_institutions
+from app.tools.sql import query_institutions
 
 # Import title generator
-from title_generator import generate_conversation_title
+from app.frontend.title_generator import generate_conversation_title
 
 # Import query classifier
-from query_classifier import needs_database_results
+from app.frontend.query_classifier import needs_database_results
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    template_folder=str(PROJECT_ROOT / 'app' / 'frontend' / 'templates'),
+    static_folder=str(PROJECT_ROOT / 'app' / 'frontend' / 'static')
+)
 app.secret_key = 'super_secret_key_change_this_in_production' # Needed for session
 
-# Files
-DB_FILE = 'chat.json'
-USERS_FILE = 'users.json'
+# Files - paths relative to project root
+DB_FILE = PROJECT_ROOT / 'data' / 'chat.json'
+USERS_FILE = PROJECT_ROOT / 'data' / 'users.json'
 
 # --- Auth Helpers ---
 
 def load_users():
-    if os.path.exists(USERS_FILE):
+    if USERS_FILE.exists():
         try:
             with open(USERS_FILE, 'r', encoding='utf-8') as f:
                 return json.load(f)
@@ -42,6 +47,7 @@ def load_users():
     return {}
 
 def save_users(users):
+    USERS_FILE.parent.mkdir(parents=True, exist_ok=True)
     with open(USERS_FILE, 'w', encoding='utf-8') as f:
         json.dump(users, f, indent=2, ensure_ascii=False)
 
@@ -81,7 +87,7 @@ def login_required(f):
 # --- Chat DB Helpers ---
 
 def load_db():
-    if not os.path.exists(DB_FILE):
+    if not DB_FILE.exists():
         return {'conversations': [], 'messages': []}
     try:
         with open(DB_FILE, 'r') as f:
@@ -90,8 +96,9 @@ def load_db():
         return {'conversations': [], 'messages': []}
 
 def save_db(data):
+    DB_FILE.parent.mkdir(parents=True, exist_ok=True)
     with open(DB_FILE, 'w') as f:
-        json.dump(data, f, indent=4)
+        json.dump(data, f, indent=2, ensure_ascii=False)
 
 # --- Routes ---
 
@@ -203,9 +210,14 @@ def chat():
         
         new_id = max_id + 1
         
-        # Generate title based on user message (use fallback for speed, generate async later)
-        # Use first 50 chars as fallback for immediate response
-        title = message_content[:50] + "..." if len(message_content) > 50 else message_content
+        # Generate title based on user message
+        # Generate title immediately for new conversations
+        try:
+            title = generate_conversation_title(message_content)
+        except Exception as e:
+            # Fallback: use first 50 chars if generation fails
+            print(f"Error generating title: {e}")
+            title = message_content[:50] + "..." if len(message_content) > 50 else message_content
         
         conversation = {
             'id': new_id,
@@ -216,20 +228,10 @@ def chat():
         db['conversations'].append(conversation)
         conversation_id = new_id
     else:
-        # Update title for existing conversation if it's still the default
+        # Verify ownership for existing conversation
         conv = next((c for c in db['conversations'] if c['id'] == conversation_id), None)
-        if conv:
-            # Update title if it's still a generic one or if we want to refresh it
-            # For now, we'll update it only if it starts with "Consultare"
-            if conv.get('title', '').startswith('Consultare'):
-                # Use fallback for speed
-                new_title = message_content[:50] + "..." if len(message_content) > 50 else message_content
-                conv['title'] = new_title
-        else:
-            # Verify ownership
-            conv = next((c for c in db['conversations'] if c['id'] == conversation_id), None)
-            if conv and conv.get('owner') and conv['owner'] != current_user:
-                return jsonify({'error': 'Unauthorized'}), 403
+        if conv and conv.get('owner') and conv['owner'] != current_user:
+            return jsonify({'error': 'Unauthorized'}), 403
     
     timestamp = datetime.datetime.now().isoformat()
 
@@ -283,26 +285,6 @@ def chat():
     # Get current conversation title
     updated_conv = next((c for c in db['conversations'] if c['id'] == conversation_id), None)
     conversation_title = updated_conv['title'] if updated_conv else None
-    
-    # Update title in background (async) for better performance
-    def update_title_async():
-        try:
-            db_temp = load_db()
-            conv = next((c for c in db_temp['conversations'] if c['id'] == conversation_id), None)
-            if conv:
-                # Only update if title is still a fallback (first 50 chars)
-                if len(conv.get('title', '')) <= 53 and '...' in conv.get('title', ''):
-                    new_title = generate_conversation_title(message_content)
-                    conv['title'] = new_title
-                    save_db(db_temp)
-        except Exception as e:
-            print(f"Error updating title: {e}")
-    
-    # Start background thread for title generation
-    if updated_conv and (len(updated_conv.get('title', '')) <= 53 and '...' in updated_conv.get('title', '')):
-        thread = threading.Thread(target=update_title_async)
-        thread.daemon = True
-        thread.start()
 
     return jsonify({
         'conversation_id': conversation_id,
@@ -331,13 +313,6 @@ def delete_conversation(conversation_id):
     
     # 3. Remove messages associated with it
     db['messages'] = [m for m in db['messages'] if m['conversation_id'] != conversation_id]
-    
-    # 4. Re-index User's conversations
-    all_conversations = db['conversations']
-    user_convs = sorted([c for c in all_conversations if c.get('owner') == current_user], key=lambda x: x['id'])
-    
-    for index, conv in enumerate(user_convs):
-        conv['title'] = f"Consultare {index + 1}"
     
     save_db(db)
     

@@ -583,3 +583,117 @@ textarea {
         transform: rotate(360deg);
     }
 }
+
+/* Delete Confirmation Modal */
+.delete-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 31, 63, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.delete-modal {
+    background-color: var(--sidebar-bg);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 31, 63, 0.2);
+    max-width: 450px;
+    width: 90%;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.delete-modal-content {
+    padding: 24px;
+}
+
+.delete-modal-content h3 {
+    color: var(--navy-blue);
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.delete-modal-content p {
+    color: var(--text-color);
+    font-size: 15px;
+    line-height: 1.5;
+    margin-bottom: 12px;
+}
+
+.delete-modal-content p strong {
+    color: var(--navy-blue);
+    font-weight: 600;
+}
+
+.delete-warning {
+    color: var(--navy-blue-light);
+    font-size: 13px;
+    font-style: italic;
+    margin-top: 8px;
+}
+
+.delete-modal-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+    justify-content: flex-end;
+}
+
+.delete-btn-cancel,
+.delete-btn-confirm {
+    padding: 10px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.delete-btn-cancel {
+    background-color: var(--navy-blue-very-light);
+    color: var(--navy-blue);
+    border: 1px solid var(--navy-blue-lighter);
+}
+
+.delete-btn-cancel:hover {
+    background-color: var(--navy-blue-lighter);
+    color: var(--navy-blue);
+}
+
+.delete-btn-confirm {
+    background-color: var(--navy-blue);
+    color: white;
+}
+
+.delete-btn-confirm:hover {
+    background-color: var(--navy-blue-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 31, 63, 0.2);
+}

@@ -18,8 +18,10 @@ from pathlib import Path
 from typing import Tuple
 from dotenv import load_dotenv
 
-# Add parent directory to path
-sys.path.append(str(Path(__file__).parent.parent))
+# Add project root to path
+PROJECT_ROOT = Path(__file__).parent.parent.parent
+sys.path.append(str(PROJECT_ROOT))
+sys.path.append(str(PROJECT_ROOT / "app"))
 
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_community.vectorstores import Chroma
@@ -28,7 +30,7 @@ from langchain_community.vectorstores import Chroma
 load_dotenv()
 
 # Configuration
-VECTOR_STORE_DIR = Path(__file__).parent.parent / "data" / "vector_store"
+VECTOR_STORE_DIR = PROJECT_ROOT / "data" / "vector_store"
 COLLECTION_NAME = "civicaid_laws"
 
 # Cache pentru vector store instance (lazy loading - optimizare)

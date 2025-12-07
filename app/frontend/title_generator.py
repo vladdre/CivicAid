@@ -34,16 +34,25 @@ def generate_conversation_title(user_message: str) -> str:
             openai_api_key=api_key
         )
         
-        prompt = f"""Generează un titlu foarte scurt (maximum 50 caractere) pentru o conversație bazat pe următorul mesaj al utilizatorului.
+        prompt = f"""Generează un titlu scurt și descriptiv (maximum 50 caractere) pentru o conversație bazat pe următorul mesaj al utilizatorului.
 
 Mesaj utilizator: {user_message}
 
-Cerințe:
-- Titlul trebuie să fie foarte scurt și concis (max 50 caractere)
-- Trebuie să reflecte esența întrebării sau subiectului
+Cerințe STRICTE:
+- Titlul trebuie să fie scurt, concis și descriptiv (max 50 caractere)
+- Trebuie să reflecte ESENȚA întrebării sau subiectului, NU să fie o copie a mesajului
+- Transformă mesajul într-un titlu clar și relevant (ex: "am facut accident cu masina" → "Accident rutier" sau "Accident de mașină")
 - Folosește limba română
-- Nu include ghilimele sau caractere speciale
-- Dacă mesajul este prea scurt sau neclar, folosește primele cuvinte relevante
+- Nu include ghilimele, puncte finale sau caractere speciale
+- NU copia mesajul exact - creează un titlu nou care să rezume subiectul
+- Dacă mesajul este despre un subiect specific, extrage subiectul (ex: "pensie", "accident", "ajutor social")
+- Titlul trebuie să fie util pentru a identifica conversația în listă
+
+Exemple:
+- "am facut accident cu masina" → "Accident rutier"
+- "ce drepturi am ca pensionar" → "Drepturi pensionari"
+- "unde trebuie sa ma duc sa depun cererea" → "Depunere cerere"
+- "sunt o persoana in varsta cu pensie de 2000 de lei" → "Pensie persoane în vârstă"
 
 Titlu:"""
         

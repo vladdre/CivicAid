@@ -16,8 +16,10 @@ import sys
 from pathlib import Path
 from dotenv import load_dotenv
 
-# Add parent directory to path for imports
-sys.path.append(str(Path(__file__).parent.parent))
+# Add project root to path for imports
+PROJECT_ROOT = Path(__file__).parent.parent.parent
+sys.path.append(str(PROJECT_ROOT))
+sys.path.append(str(PROJECT_ROOT / "app"))
 
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -28,8 +30,8 @@ from langchain_community.vectorstores import Chroma
 load_dotenv()
 
 # Configuration
-RAW_LAWS_DIR = Path(__file__).parent.parent / "data" / "raw_laws"
-VECTOR_STORE_DIR = Path(__file__).parent.parent / "data" / "vector_store"
+RAW_LAWS_DIR = PROJECT_ROOT / "data" / "raw_laws"
+VECTOR_STORE_DIR = PROJECT_ROOT / "data" / "vector_store"
 
 # Chunking parameters (as per technical specs)
 CHUNK_SIZE = 1000

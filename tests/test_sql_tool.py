@@ -16,7 +16,7 @@ from dotenv import load_dotenv
 # Add parent directory to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from src.tools.sql import query_institutions, get_sql_database, get_api_key
+from app.tools.sql import query_institutions, get_sql_database, get_api_key
 
 # Load environment variables
 load_dotenv()

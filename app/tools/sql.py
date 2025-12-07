@@ -11,13 +11,15 @@ from langchain_community.utilities import SQLDatabase
 from langchain_openai import ChatOpenAI
 
 load_dotenv()
-sys.path.append(str(Path(__file__).parent.parent.parent))
 
-BASE_DIR = Path(__file__).parent.parent.parent
-DB_FILE = BASE_DIR / "data" / "institutions.db"
-TEMP_FILE = BASE_DIR / ".temp"
-TMP_FILE = BASE_DIR / ".tmp"
-OUTPUT_DIR = BASE_DIR / "data"
+PROJECT_ROOT = Path(__file__).parent.parent.parent
+sys.path.append(str(PROJECT_ROOT))
+sys.path.append(str(PROJECT_ROOT / "app"))
+
+DB_FILE = PROJECT_ROOT / "data" / "institutions.db"
+TEMP_FILE = PROJECT_ROOT / ".temp"
+TMP_FILE = PROJECT_ROOT / ".tmp"
+OUTPUT_DIR = PROJECT_ROOT / "data"
 
 
 def get_api_key():
@@ -46,7 +48,7 @@ def get_sql_database():
     if not DB_FILE.exists():
         raise FileNotFoundError(
             f"Baza de date nu există: {DB_FILE}\n"
-            f"Rulează mai întâi: python scripts/setup_sql_db.py"
+            f"Rulează mai întâi: python app/scripts/setup_sql_db.py"
         )
     db_url = f"sqlite:///{DB_FILE}"
     return SQLDatabase.from_uri(db_url)

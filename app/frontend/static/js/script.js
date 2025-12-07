@@ -51,9 +51,7 @@ async function loadConversations() {
             delBtn.innerHTML = '&times;'; // Multiplication sign x
             delBtn.onclick = (e) => {
                 e.stopPropagation(); // Prevent loading chat
-                if (confirm('Delete this chat?')) {
-                    deleteChat(conv.id);
-                }
+                showDeleteConfirmation(conv.id, conv.title);
             };
 
             item.appendChild(titleSpan);
@@ -176,7 +174,7 @@ async function sendMessage() {
     } catch (error) {
         console.error("Error sending message:", error);
         hideLoadingIndicator();
-        appendMessage('assistant', "Error: Could not reach server.");
+        // Silent error - no notification to user
     }
 }
 
@@ -303,5 +301,53 @@ function toggleSidebar() {
         const isCollapsed = sidebar.classList.contains('collapsed');
         localStorage.setItem('sidebarCollapsed', isCollapsed);
     }
+}
+
+function showDeleteConfirmation(chatId, chatTitle) {
+    // Create modal overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'delete-modal-overlay';
+    overlay.id = 'delete-modal-overlay';
+    
+    // Create modal
+    const modal = document.createElement('div');
+    modal.className = 'delete-modal';
+    
+    modal.innerHTML = `
+        <div class="delete-modal-content">
+            <h3>Ștergere conversație</h3>
+            <p>Ești sigur că vrei să ștergi conversația "<strong>${escapeHtml(chatTitle)}</strong>"?</p>
+            <p class="delete-warning">Această acțiune nu poate fi anulată.</p>
+            <div class="delete-modal-buttons">
+                <button class="delete-btn-cancel" onclick="closeDeleteModal()">Nu</button>
+                <button class="delete-btn-confirm" onclick="confirmDeleteChat(${chatId})">Da</button>
+            </div>
+        </div>
+    `;
+    
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+    
+    // Close on overlay click
+    overlay.onclick = (e) => {
+        if (e.target === overlay) {
+            closeDeleteModal();
+        }
+    };
+    
+    // Store chatId for confirmation
+    overlay.dataset.chatId = chatId;
+}
+
+function closeDeleteModal() {
+    const overlay = document.getElementById('delete-modal-overlay');
+    if (overlay) {
+        overlay.remove();
+    }
+}
+
+function confirmDeleteChat(chatId) {
+    closeDeleteModal();
+    deleteChat(chatId);
 }
 

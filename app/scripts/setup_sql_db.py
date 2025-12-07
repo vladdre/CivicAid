@@ -18,13 +18,14 @@ from sqlalchemy import create_engine, Column, Integer, Text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# Add parent directory to path for imports
-sys.path.append(str(Path(__file__).parent.parent))
+# Add project root to path for imports
+PROJECT_ROOT = Path(__file__).parent.parent.parent
+sys.path.append(str(PROJECT_ROOT))
+sys.path.append(str(PROJECT_ROOT / "app"))
 
 # Configuration
-BASE_DIR = Path(__file__).parent.parent
-JSON_FILE = BASE_DIR / "data" / "institutions.json"
-DB_FILE = BASE_DIR / "data" / "institutions.db"
+JSON_FILE = PROJECT_ROOT / "data" / "institutions.json"
+DB_FILE = PROJECT_ROOT / "data" / "institutions.db"
 
 # SQLAlchemy setup
 Base = declarative_base()
