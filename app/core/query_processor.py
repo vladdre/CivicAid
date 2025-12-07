@@ -13,6 +13,7 @@ Funcționalitate:
 
 import os
 import sys
+import json
 from pathlib import Path
 from typing import Optional
 from dotenv import load_dotenv
@@ -29,6 +30,8 @@ load_dotenv()
 # Configuration
 VECTOR_STORE_DIR = PROJECT_ROOT / "data" / "vector_store"
 OUTPUT_FILE = PROJECT_ROOT / "data" / "output.txt"
+LEGI_JSON = PROJECT_ROOT / "legi.json"
+CHECKPOINT_JSON = PROJECT_ROOT / "checkpoint.json"
 
 # Cache pentru verificarea vector store-ului (optimizare)
 _vector_store_cache = {"exists": None, "checked": False}
@@ -189,13 +192,15 @@ def run_find_law(user_message: str, conversation_history: list = None, verbose: 
         return error_msg, None
 
 
-def summarize_results(results: list, user_query: str, verbose: bool = False) -> str:
+def summarize_results(results: list, user_query: str, conversation_history: list = None, verbose: bool = False) -> str:
     """
     Sintetizează rezultatele din cele 5 chunks într-un rezumat concis.
     
     Args:
         results: Lista de documente (chunks) relevante
         user_query: Query-ul original al utilizatorului
+        conversation_history: Istoricul conversației (opțional) pentru context
+        verbose: Dacă True, afișează print-uri
         
     Returns:
         Rezumat sintetizat ca string
@@ -231,10 +236,35 @@ def summarize_results(results: list, user_query: str, verbose: bool = False) -> 
             openai_api_key=api_key
         )
         
+        # Construiește contextul conversației dacă există
+        context_section = ""
+        if conversation_history and len(conversation_history) > 0:
+            # Include ultimele 3-4 mesaje pentru context
+            recent_history = conversation_history[-6:] if len(conversation_history) > 6 else conversation_history
+            context_lines = []
+            for msg in recent_history:
+                role = msg.get("role", "user")
+                content = msg.get("content", "")
+                if role == "user":
+                    context_lines.append(f"Utilizator: {content}")
+                elif role == "assistant":
+                    # Trunchiază răspunsurile lungi
+                    content_preview = content[:200] + "..." if len(content) > 200 else content
+                    context_lines.append(f"Asistent: {content_preview}")
+            
+            if context_lines:
+                context_section = f"""
+
+Context conversație anterioară:
+{chr(10).join(context_lines)}
+
+IMPORTANT: Dacă întrebarea este o întrebare de follow-up, folosește contextul pentru a înțelege la ce se referă utilizatorul.
+"""
+        
         # Prompt pentru rezumat
         prompt = f"""Ești un asistent juridic care sintetizează informații din documente legale românești.
 
-Task: Creează un rezumat concis și precis al informațiilor relevante pentru întrebarea utilizatorului.
+Task: Creează un rezumat concis și precis al informațiilor relevante pentru întrebarea utilizatorului.{context_section}
 
 Întrebare utilizator: {user_query}
 
@@ -279,6 +309,187 @@ Rezumat:"""
         
     except Exception as e:
         return f"⚠️  Eroare la generarea rezumatului: {e}"
+
+
+def is_summary_relevant(summary: str, user_query: str, api_key: str) -> bool:
+    """
+    Verifică dacă rezumatul generat este relevant pentru întrebarea utilizatorului.
+    
+    Args:
+        summary: Rezumatul generat
+        user_query: Întrebarea utilizatorului
+        api_key: OpenAI API key
+        
+    Returns:
+        True dacă rezumatul este relevant, False altfel
+    """
+    if not summary or len(summary.strip()) < 50:
+        return False
+    
+    # Mesaje care indică că rezumatul nu este relevant
+    irrelevant_indicators = [
+        "nu s-au găsit",
+        "nu am găsit",
+        "nu există",
+        "nu s-au găsit rezultate",
+        "nu s-au găsit articole",
+        "nu s-au găsit informații",
+        "nu am informații",
+        "nu pot",
+        "nu pot genera",
+        "nu pot găsi",
+    ]
+    
+    summary_lower = summary.lower()
+    for indicator in irrelevant_indicators:
+        if indicator in summary_lower:
+            return False
+    
+    try:
+        llm = ChatOpenAI(
+            model="gpt-4o-mini",
+            temperature=0,
+            openai_api_key=api_key
+        )
+        
+        prompt = f"""Evaluează dacă următorul rezumat este relevant pentru întrebarea utilizatorului.
+
+Întrebare utilizator: {user_query}
+
+Rezumat generat:
+{summary}
+
+Răspunde DOAR cu "DA" dacă rezumatul conține informații relevante și utile pentru întrebare, sau "NU" dacă rezumatul nu este relevant, este prea general, sau nu răspunde la întrebare.
+
+Răspuns (DA/NU):"""
+        
+        response = llm.invoke(prompt)
+        answer = response.content.strip().upper()
+        
+        return answer.startswith("DA")
+        
+    except Exception as e:
+        # În caz de eroare, consideră că rezumatul este relevant pentru a nu bloca procesarea
+        return True
+
+
+def search_in_json_files(user_query: str, api_key: str, verbose: bool = False) -> Optional[str]:
+    """
+    Caută informații relevante în fișierele JSON (legi.json și checkpoint.json).
+    
+    Args:
+        user_query: Întrebarea utilizatorului
+        api_key: OpenAI API key
+        
+    Returns:
+        Text relevant găsit în JSON-uri sau None dacă nu s-a găsit nimic relevant
+    """
+    json_files = []
+    if LEGI_JSON.exists():
+        json_files.append(("legi.json", LEGI_JSON))
+    if CHECKPOINT_JSON.exists():
+        json_files.append(("checkpoint.json", CHECKPOINT_JSON))
+    
+    if not json_files:
+        return None
+    
+    try:
+        llm = ChatOpenAI(
+            model="gpt-4o-mini",
+            temperature=0,
+            openai_api_key=api_key
+        )
+        
+        # Extrage cuvinte cheie din query pentru căutare
+        keywords_prompt = f"""Extrage cuvintele cheie principale din următoarea întrebare pentru căutare în documente legale.
+
+Întrebare: {user_query}
+
+Returnează DOAR 3-5 cuvinte cheie separate prin virgulă, fără explicații.
+Cuvinte cheie:"""
+        
+        keywords_response = llm.invoke(keywords_prompt)
+        keywords = keywords_response.content.strip().lower()
+        keyword_list = [k.strip() for k in keywords.split(",")][:5]
+        
+        # Caută în fișierele JSON
+        relevant_texts = []
+        
+        for file_name, file_path in json_files:
+            try:
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                
+                # Caută în structura JSON
+                def search_recursive(obj, path="", depth=0):
+                    """Caută recursiv în structura JSON"""
+                    if depth > 5:  # Limitează adâncimea pentru performanță
+                        return []
+                    
+                    found = []
+                    
+                    if isinstance(obj, dict):
+                        for key, value in obj.items():
+                            current_path = f"{path}.{key}" if path else key
+                            
+                            # Verifică cheia
+                            key_lower = str(key).lower()
+                            if any(kw in key_lower for kw in keyword_list):
+                                if isinstance(value, str) and len(value) > 100:
+                                    found.append((current_path, value[:2000]))  # Limitează lungimea
+                            
+                            # Verifică valoarea
+                            if isinstance(value, str):
+                                value_lower = value.lower()
+                                if any(kw in value_lower for kw in keyword_list):
+                                    if len(value) > 100:
+                                        found.append((current_path, value[:2000]))
+                            elif isinstance(value, (dict, list)):
+                                found.extend(search_recursive(value, current_path, depth + 1))
+                    
+                    elif isinstance(obj, list):
+                        for i, item in enumerate(obj[:10]):  # Limitează numărul de elemente
+                            found.extend(search_recursive(item, f"{path}[{i}]", depth + 1))
+                    
+                    return found
+                
+                found_texts = search_recursive(data)
+                
+                if found_texts:
+                    # Selectează cele mai relevante (primele 3)
+                    for path, text in found_texts[:3]:
+                        relevant_texts.append(f"[{file_name}:{path}]\n{text}")
+                
+            except Exception as e:
+                continue
+        
+        if not relevant_texts:
+            return None
+        
+        # Sintetizează rezultatele găsite
+        combined_text = "\n\n---\n\n".join(relevant_texts)
+        
+        synthesis_prompt = f"""Ești un asistent juridic. Sintetizează informațiile relevante găsite în documente pentru întrebarea utilizatorului.
+
+Întrebare utilizator: {user_query}
+
+Informații găsite în documente:
+{combined_text}
+
+Task: Creează un rezumat concis și precis al informațiilor relevante pentru întrebare. Dacă informațiile nu sunt relevante sau nu răspund la întrebare, returnează DOAR "NU_SUNT_RELEVANTE".
+
+Rezumat:"""
+        
+        response = llm.invoke(synthesis_prompt)
+        result = response.content.strip()
+        
+        if result.upper() == "NU_SUNT_RELEVANTE" or len(result) < 50:
+            return None
+        
+        return result
+        
+    except Exception as e:
+        return None
 
 
 def write_output_to_file(output: str, output_file: Path):
@@ -351,11 +562,34 @@ def process_query(user_message: str, conversation_history: list = None, verbose:
             print("\n" + "=" * 70)
             print("📝 Sintetizare Rezultate")
             print("=" * 70)
-        summary = summarize_results(results, user_message, verbose=verbose)
+        summary = summarize_results(results, user_message, conversation_history=conversation_history, verbose=verbose)
         if verbose:
             print("✅ Rezumat generat!\n")
     
-    # Step 4: Combină output-ul detaliat cu rezumatul
+    # Step 4: Verifică relevanța rezumatului
+    api_key = os.getenv("OPENAI_API_KEY")
+    if summary and api_key:
+        is_relevant = is_summary_relevant(summary, user_message, api_key)
+        
+        if not is_relevant:
+            # Rezumatul nu este relevant - caută în fișierele JSON ca fallback
+            if verbose:
+                print("\n⚠️  Rezumatul nu este suficient de relevant. Căutare în fișiere JSON...")
+            
+            json_result = search_in_json_files(user_message, api_key, verbose=verbose)
+            
+            if json_result:
+                # Am găsit informații relevante în JSON
+                summary = json_result
+                if verbose:
+                    print("✅ Informații relevante găsite în fișiere JSON!\n")
+            else:
+                # Nu s-au găsit informații relevante nici în JSON
+                if verbose:
+                    print("❌ Nu s-au găsit informații relevante nici în fișiere JSON.\n")
+                return "❌ Nu mai am informații relevante pentru această întrebare. Te rog să reformulezi întrebarea sau să oferi mai multe detalii."
+    
+    # Step 5: Combină output-ul detaliat cu rezumatul
     final_output = ""
     if summary:
         final_output = f"""
@@ -368,7 +602,7 @@ def process_query(user_message: str, conversation_history: list = None, verbose:
     else:
         final_output = output
     
-    # Step 5: Scrie outputul în fișier (doar pentru CLI, nu pentru API)
+    # Step 6: Scrie outputul în fișier (doar pentru CLI, nu pentru API)
     # Comentat pentru optimizare - nu este necesar pentru API calls
     # write_output_to_file(final_output, OUTPUT_FILE)
     

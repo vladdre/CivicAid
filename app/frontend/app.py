@@ -253,12 +253,43 @@ def chat():
     
     # Process query using OpenAI and SQL tool
     try:
-        # Verifică dacă query-ul necesită rezultate din baza de date
-        needs_db = needs_database_results(message_content)
+        # Construiește mesajul complet cu context pentru procesare
+        # Dacă există context și mesajul pare a fi o întrebare de follow-up, combină contextul
+        enhanced_message = message_content
+        if conversation_history and len(conversation_history) > 0:
+            # Verifică dacă mesajul curent este o întrebare de follow-up scurtă
+            import re
+            follow_up_patterns = [
+                r'^(unde|ce|care|cum)\s+',
+                r'^(unde|ce|care|cum)\?',
+                r'^(unde|ce|care|cum)\s+(?:să|sa|trebuie|pot)',
+            ]
+            
+            is_follow_up = any(re.search(pattern, message_content.lower()) for pattern in follow_up_patterns)
+            
+            if is_follow_up:
+                # Extrage informațiile relevante din contextul anterior
+                context_summary = []
+                for msg in conversation_history[-4:]:  # Ultimele 4 mesaje
+                    if msg.get('role') == 'user':
+                        content = msg.get('content', '')
+                        # Extrage doar informațiile cheie (primele 100 caractere)
+                        if len(content) > 100:
+                            content = content[:100] + "..."
+                        context_summary.append(content)
+                
+                if context_summary:
+                    # Combină contextul cu mesajul curent pentru o înțelegere mai bună
+                    context_text = " ".join(context_summary)
+                    enhanced_message = f"{context_text} {message_content}"
+        
+        # Verifică dacă query-ul necesită rezultate din baza de date (cu context)
+        needs_db = needs_database_results(message_content, conversation_history=conversation_history)
         
         if needs_db:
             # Pentru întrebări legate de locație: doar rezultate din baza de date, fără rezumat
-            sql_response = query_institutions(message_content, 
+            # Folosim enhanced_message pentru a include contextul
+            sql_response = query_institutions(enhanced_message, 
                                              vector_store_output=None,
                                              conversation_history=conversation_history)
             
@@ -267,7 +298,8 @@ def chat():
 {sql_response}"""
         else:
             # Pentru restul întrebărilor: doar rezumat, fără rezultate din baza de date
-            vector_store_response = process_query(message_content, conversation_history=conversation_history)
+            # Folosim enhanced_message pentru a include contextul
+            vector_store_response = process_query(enhanced_message, conversation_history=conversation_history)
             ai_response = vector_store_response
     except Exception as e:
         ai_response = f"❌ Eroare la procesarea întrebării: {str(e)}"

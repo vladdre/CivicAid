@@ -5,6 +5,24 @@
       "title": "Accident auto și pași de urmat",
       "owner": "demo",
       "created_at": "2025-12-07T03:08:56.731472"
+    },
+    {
+      "id": 2,
+      "title": "Accident auto cu plecare de la locul faptei",
+      "owner": "demo",
+      "created_at": "2025-12-07T03:57:57.055657"
+    },
+    {
+      "id": 6,
+      "title": "Beneficii pentru pensionari",
+      "owner": "demo",
+      "created_at": "2025-12-07T04:33:31.278535"
+    },
+    {
+      "id": 7,
+      "title": "Accident auto cu fugă de responsabilitate",
+      "owner": "demo",
+      "created_at": "2025-12-07T04:40:49.308750"
     }
   ],
   "messages": [
@@ -31,6 +49,90 @@
       "role": "assistant",
       "content": "📍 REZULTATE INSTITUȚII\n\n1. Poliția Rutieră - Direcția Rutieră Sector 1\n   📍 Bd. Lascăr Catargi nr. 21, Sector 1, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n2. Poliția Rutieră - Direcția Rutieră Sector 2\n   📍 Bd. Aviatorilor nr. 44, Sector 2, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n3. Poliția Rutieră - Direcția Rutieră Sector 3\n   📍 Calea Vitan nr. 55-59, Sector 3, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n4. Poliția Rutieră - Direcția Rutieră Sector 4\n   📍 Bd. Timișoara nr. 47, Sector 4, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n5. Poliția Rutieră - Direcția Rutieră Sector 5\n   📍 Str. Mihai Bravu nr. 266, Sector 5, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n6. Poliția Rutieră - Direcția Rutieră Sector 6\n   📍 Bd. Iuliu Maniu nr. 28-30, Sector 6, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n7. Direcția Generală de Poliție Rutieră București\n   📍 Bd. Lascăr Catargi nr. 21, Sector 1, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00",
       "timestamp": "2025-12-07T03:09:20.677924"
+    },
+    {
+      "conversation_id": 2,
+      "role": "user",
+      "content": "Am avut un accident de masina, persoana cealalta implicata in accident a plecat de la locul accidentului, nu am apucat sa facem amiabila, ce pot sa fac?",
+      "timestamp": "2025-12-07T03:57:57.055668"
+    },
+    {
+      "conversation_id": 2,
+      "role": "assistant",
+      "content": "📍 REZULTATE INSTITUȚII\n\n1. Poliția Rutieră - Direcția Rutieră Sector 1\n   📍 Bd. Lascăr Catargi nr. 21, Sector 1, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n2. Poliția Rutieră - Direcția Rutieră Sector 2\n   📍 Bd. Aviatorilor nr. 44, Sector 2, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n3. Poliția Rutieră - Direcția Rutieră Sector 3\n   📍 Calea Vitan nr. 55-59, Sector 3, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n4. Poliția Rutieră - Direcția Rutieră Sector 4\n   📍 Bd. Timișoara nr. 47, Sector 4, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n5. Poliția Rutieră - Direcția Rutieră Sector 5\n   📍 Str. Mihai Bravu nr. 266, Sector 5, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n6. Poliția Rutieră - Direcția Rutieră Sector 6\n   📍 Bd. Iuliu Maniu nr. 28-30, Sector 6, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n7. Direcția Generală de Poliție Rutieră București\n   📍 Bd. Lascăr Catargi nr. 21, Sector 1, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00",
+      "timestamp": "2025-12-07T03:57:57.055668"
+    },
+    {
+      "conversation_id": 2,
+      "role": "user",
+      "content": "ok dar ce fac?",
+      "timestamp": "2025-12-07T03:58:12.312352"
+    },
+    {
+      "conversation_id": 2,
+      "role": "assistant",
+      "content": "\n======================================================================\n📋 REZUMAT SINTETIZAT\n======================================================================\n\n- ARTICOLUL 29 definește acțiunea civilă ca ansamblul mijloacelor procesuale prevăzute de lege pentru protecția dreptului subiectiv pretins de o parte sau a unei alte situații juridice, precum și pentru asigurarea apărării părților în proces.\n- ARTICOLUL 30 stipulează că oricine are o pretenție împotriva unei alte persoane sau urmărește soluționarea unei situații juridice are dreptul să facă o cerere în fața instanței competente. \n- Cererile în justiție sunt clasificate în principale, accesorii, aditionale și incidentale. Cererea principală este cererea introductivă de instanță și poate cuprinde capete de cerere principale și accesorii.\n- ARTICOLUL 152 menționează că cererea de chemare în judecată sau pentru exercitarea unei căi de atac este valabilă chiar dacă poartă o denumire greșită.\n- ARTICOLUL 153 prevede că instanța poate hotărî asupra unei cereri numai dacă părțile au fost citate.\n",
+      "timestamp": "2025-12-07T03:58:12.312352"
+    },
+    {
+      "conversation_id": 6,
+      "role": "user",
+      "content": "sunt un pensionar cu pensie de 1400 de lei. ce beneficii am?",
+      "timestamp": "2025-12-07T04:33:31.278549"
+    },
+    {
+      "conversation_id": 6,
+      "role": "assistant",
+      "content": "\n======================================================================\n📋 REZUMAT SINTETIZAT\n======================================================================\n\n- Pensionarii cu o pensie sub nivelul prevăzut de Ordonanța de urgență a Guvernului nr. 6/2009 (1.000 lei pentru anul 2022) pot beneficia de indemnizația socială pentru pensionari.\n- Pensia minimă garantată este de 800 lei lunar pentru anul 2021, 1.000 lei lunar pentru anul 2022 și 1.125 lei lunar pentru anul 2023, conform Ordonanței de urgență a Guvernului nr. 132/2021.\n- Pensionarii pot solicita ajutoare financiare, cum ar fi ajutorul de 1.200 lei pentru luna ianuarie 2022, în baza Ordonanței de urgență a Guvernului nr. 132/2021.\n",
+      "timestamp": "2025-12-07T04:33:31.278549"
+    },
+    {
+      "conversation_id": 6,
+      "role": "user",
+      "content": "pot sa am si pensie de handicap?",
+      "timestamp": "2025-12-07T04:34:10.371917"
+    },
+    {
+      "conversation_id": 6,
+      "role": "assistant",
+      "content": "\n======================================================================\n📋 REZUMAT SINTETIZAT\n======================================================================\n\n- Cetățenii au dreptul de a primi o pensie și de a accesa sistemul public de asigurări sociale, indiferent de starea de sănătate sau capacitatea de muncă.\n- Statul își asumă angajamentul de a asigura persoanelor cu handicap egalitatea de șanse, conform ARTICOLULUI 50 din Constituție.\n- Persoanele cu handicap grav care nu au realizat un stagiu de cotizare pot fi discriminate față de cei care au capacitate de muncă, conform argumentelor prezentate în excepțiile de neconstituționalitate.\n- ARTICOLUL 47 alin. (2) din Constituție garantează drepturi pentru toți cetățenii.\n",
+      "timestamp": "2025-12-07T04:34:10.371917"
+    },
+    {
+      "conversation_id": 6,
+      "role": "user",
+      "content": "ce documente imi trebuie?",
+      "timestamp": "2025-12-07T04:34:36.404165"
+    },
+    {
+      "conversation_id": 6,
+      "role": "assistant",
+      "content": "\n======================================================================\n📋 REZUMAT SINTETIZAT\n======================================================================\n\n======================================================================\n📋 REZUMAT SINTETIZAT\n======================================================================\n\n- Pensionarii cu o pensie sub nivelul prevăzut la ARTICOLUL 1 din Ordonanța de urgență a Guvernului nr. 6/2009 (1.000 lei pentru anul 2022) pot beneficia de indemnizația socială pentru pensionari.\n- Cetățenii au dreptul de a primi o pensie și de a accesa sistemul public de asigurări sociale, indiferent de starea de sănătate sau capacitatea de muncă.\n- Persoanele care solicită sprijin material trebuie să aibă domiciliul în România și un act de identitate valabil.\n- Veniturile care se iau în considerare includ pensii din sistemul public de pensii, pensii din sisteme neintegrate, drepturi acordate în baza legilor cu caracter special și indemnizația socială pentru pensionari.\n- Pentru a obține pensia de handicap, este necesar un dosar care să includă documente medicale și alte acte specifice, însă detalii precise nu sunt furnizate în documentele disponibile.\n",
+      "timestamp": "2025-12-07T04:34:36.404165"
+    },
+    {
+      "conversation_id": 7,
+      "role": "user",
+      "content": "am fost intr un acccident cu masina si cealalta persoana a fugit. ce pot sa fac",
+      "timestamp": "2025-12-07T04:40:49.308759"
+    },
+    {
+      "conversation_id": 7,
+      "role": "assistant",
+      "content": "\n======================================================================\n📋 REZUMAT SINTETIZAT\n======================================================================\n\n- Conducătorul de vehicul care a fost implicat într-un accident rutier trebuie să rămână la locul accidentului.\n- Dacă victima părăsește locul faptei, conducătorul vehiculului trebuie să anunțe imediat evenimentul la cea mai apropiată unitate de poliție.\n- ARTICOLUL 343 prevede că împiedicarea sau îngreunarea circulației pe drumurile publice prin instalarea sau modificarea mijloacelor de semnalizare rutieră fără autorizație se pedepsește cu închisoare de la 3 luni la 2 ani sau cu amendă.\n",
+      "timestamp": "2025-12-07T04:40:49.308759"
+    },
+    {
+      "conversation_id": 7,
+      "role": "user",
+      "content": "si daca sunt pensionar si nu am pensie speciala",
+      "timestamp": "2025-12-07T04:42:37.861213"
+    },
+    {
+      "conversation_id": 7,
+      "role": "assistant",
+      "content": "❌ Nu mai am informații relevante pentru această întrebare. Te rog să reformulezi întrebarea sau să oferi mai multe detalii.",
+      "timestamp": "2025-12-07T04:42:37.861213"
     }
   ]
 }
