@@ -257,7 +257,7 @@ python scrapper.py
 - `write_output_to_file(output, output_file)`: Scrie output în fișier (doar pentru CLI)
 
 **Flux de procesare:**
-1. Verifică dacă este cerere de formular ANPC
+1. Verifică dacă este cerere de formular
 2. Verifică/creează vector store
 3. Rulează `find_law.py` pentru căutare semantică
 4. Generează rezumat sintetizat
