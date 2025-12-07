@@ -2,12 +2,15 @@
 langchain>=0.1.0
 langchain-openai>=0.0.5
 langchain-community>=0.0.20
+langchain-text-splitters>=0.0.1
+langchain-core>=0.1.0
 
 # Vector Store
 chromadb>=0.4.22
 
 # PDF Processing
 pypdf>=3.17.0
+PyPDF2>=3.0.0  # Pentru scrapper.py
 
 # Web Scraping
 requests>=2.31.0
@@ -16,6 +19,7 @@ lxml>=4.9.0
 
 # Frontend
 streamlit>=1.29.0
+flask>=2.3.0  # Pentru app/frontend/app.py
 
 # Database
 sqlalchemy>=2.0.23
