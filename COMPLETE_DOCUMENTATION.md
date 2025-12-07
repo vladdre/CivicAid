@@ -419,9 +419,6 @@ result = query_institutions("Unde găsesc case de pensii?")
 - `complete_form_template(user_info, conversation_context)`: Completează template-ul cererii
 - `send_email_with_gmail_api(form_text, sender_email, recipient_email, refresh_token, user_name)`: Trimite email prin Gmail API
 - `send_email_with_form(form_text, sender_email, recipient_email, user_name, refresh_token)`: Trimite email (Gmail API sau SMTP)
-- `generate_pdf_from_text(text, output_filename)`: Generează PDF din text
-- `is_continuing_form_conversation(conversation_history)`: Verifică dacă conversația continuă un proces de formular
-- `get_user_email_from_db(username)`: Obține email-ul utilizatorului din baza de date
 - `generate_anpc_form(user_message, conversation_history, refresh_token, username, verbose)`: Funcția principală
 
 **Utilizare:**
