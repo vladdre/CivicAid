@@ -556,13 +556,13 @@ User Query
     ↓
 query_processor.py
     ↓
-    ├─→ Verifică formular ANPC?
+    ├─→ Verifică daca e formular?
     │       ↓
     │   anpc_form.py → Generează și trimite cerere
     │
     ├─→ Necesită legislație?
     │       ↓
-    │   find_law.py → Vector Store → Rezumat
+    │   find_law.py → Vector Store (PDF/JSON) → Rezumat
     │
     └─→ Necesită instituții?
             ↓
@@ -597,7 +597,7 @@ User Response
 **Tehnologie:** ChromaDB cu OpenAI Embeddings
 
 **Proces:**
-1. **Load:** PDF-uri → Text (PyPDFLoader)
+1. **Load:** PDF-uri/JSON → Text (PyPDFLoader)
 2. **Split:** Text → Chunks (RecursiveCharacterTextSplitter, size=1000, overlap=200)
 3. **Embed:** Chunks → Vectors (OpenAIEmbeddings, text-embedding-3-small)
 4. **Store:** Vectors → ChromaDB
@@ -615,7 +615,7 @@ User Response
 3. Execută pe SQLite
 4. Formatează rezultatele
 
-### 3. ANPC Form Generator
+### 3. Form Generator
 
 **Tehnologie:** OpenAI GPT-4o + Gmail API / SMTP
 
@@ -623,8 +623,7 @@ User Response
 1. Detectează cererea de formular
 2. Extrage informații utilizator
 3. Completează template folosind AI
-4. Generează PDF (opțional)
-5. Trimite email prin Gmail API sau SMTP
+4. Trimite email prin Gmail API sau SMTP
 
 ### 4. Frontend Web
 
@@ -633,7 +632,7 @@ User Response
 **Funcționalități:**
 - Autentificare utilizatori
 - Chat interface cu istoric
-- Voice-to-text
+- Voice-to-text (optional)
 - OAuth Google pentru email
 - Gestionare conversații
 
@@ -648,13 +647,13 @@ User Response
 3. **Generarea titlului asincronă** - Nu mai blochează răspunsul
 4. **Cache pentru vector store** - Evită verificări redundante
 5. **Lazy loading vector store** - Reutilizează instanța
+6. **Web Scraping eficientizat** - Filtram numarul total de date (Binary search si ultimul dintre indecsi egali)
 
 ### Posibile (Viitor)
 
 1. Apeluri OpenAI paralele (asyncio)
-2. Optimizarea prompt-urilor
-3. Caching pentru rezultate similare
-4. Database connection pooling
+2. Caching pentru rezultate similare
+3. Database connection pooling
 
 ---
 
@@ -686,10 +685,10 @@ pip install -r requirements.txt
 **Cauze posibile:**
 - PDF-urile nu conțin informații relevante
 - Vector store-ul nu a fost actualizat
-- Mesajul este prea specific sau prea general
+- Mesajul este prea general
 
 **Soluție:**
-- Verifică ce PDF-uri ai în `data/raw_laws/`
+- Verifică ce PDF/JSON ai în `data/raw_laws/`
 - Rulează din nou `ingest_laws.py` pentru a reindexa
 - Încearcă să reformulezi mesajul
 
@@ -714,7 +713,7 @@ python -m app.scripts.setup_sql_db
 - **Total fișiere Python:** 33
 - **Total fișiere Markdown:** 11
 - **Liniile de cod:** ~10,000+
-- **Componente principale:** 4 (RAG, SQL, ANPC Forms, Frontend)
+- **Componente principale:** 4 (RAG, SQL, Forms, Frontend)
 - **Tool-uri disponibile:** 2 (consult_legislation, get_institution_address)
 
 ---
@@ -731,8 +730,3 @@ Proiect academic pentru consultarea legislației românești.
 - [ChromaDB Documentation](https://docs.trychroma.com/)
 - [OpenAI API Documentation](https://platform.openai.com/docs)
 - [Flask Documentation](https://flask.palletsprojects.com/)
-
----
-
-**Ultima actualizare:** Consolidare documentație - Toate fișierele .md comprimate într-un singur document complet.
-
