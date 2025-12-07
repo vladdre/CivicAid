@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChatGPT Clone</title>
+    <title>CivicAID</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
@@ -20,12 +21,24 @@
             <div class="user-profile">
                 <div class="user-avatar">{{ username[0].upper() }}</div>
                 <div style="flex-grow: 1;">{{ username }}</div>
-                <a href="/logout" style="color: #c5c5d2; text-decoration: none; font-size: 12px;">Log out</a>
+                <a href="/logout" style="color: #000000; text-decoration: none; font-size: 12px; opacity: 0.8;">Log out</a>
             </div>
         </div>
 
         <!-- Main Chat Area -->
         <div class="main-content">
+            <!-- Header with Logo -->
+            <header class="app-header">
+                <button class="sidebar-toggle" onclick="toggleSidebar()" id="sidebar-toggle-btn" title="Toggle sidebar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="CivicAID Logo" class="header-logo">
+                <h1 class="header-title">CivicAID</h1>
+            </header>
             <div class="chat-area" id="chat-area">
                 <!-- Messages will be loaded here -->
                 <div class="welcome-message" id="welcome-message">
@@ -49,6 +62,12 @@
             </div>
         </div>
     </div>
+    <script>
+        // Global variable for AI response logo path
+        const AI_RESPONSE_LOGO = "{{ url_for('static', filename='images/response_logo.png') }}";
+        // Global variable for username
+        const USERNAME = "{{ username }}";
+    </script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 

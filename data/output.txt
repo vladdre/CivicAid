@@ -3,14 +3,49 @@
 📋 REZUMAT SINTETIZAT
 ======================================================================
 
-- Informațiile despre ARTICOLUL 269 nu sunt disponibile în documentele furnizate.
-- Este posibil ca articolul să nu fie inclus în sursele consultate sau să nu fie relevant pentru conținutul documentelor. 
-
-Concluzie: Te rog să verifici sursele suplimentare pentru a găsi detalii despre ARTICOLUL 269.
+- Persoanele cu handicap beneficiază de protecție specială conform ARTICOLUL 50 din Constituția României, care asigură egalitate de șanse și participare efectivă în viața comunității.
+- Statul garantează accesul la servicii sociale, îngrijire și activități de recuperare pentru persoanele cu handicap, conform Codului Fiscal, care menționează organizațiile ce oferă astfel de servicii (art. 485, alin. (1), lit. e).
+- Persoanele cu handicap grav sau accentuat au drepturi specifice, inclusiv reducerea taxelor speciale cu 50% (Codul Fiscal, art. 456, alin. (1), lit. t).
+- Există și reglementări privind veniturile obținute de persoanele cu handicap, care sunt scutite de impozite în anumite condiții (Codul Fiscal, art. 154, alin. (1), lit. e).
+- Informațiile sunt limitate la aspectele legale și nu detaliază locuri specifice unde persoanele cu handicap pot merge.
 
 
 ======================================================================
 📍 REZULTATE INSTITUȚII (SQL)
 ======================================================================
 
-Nu am găsit instituții care să corespundă cerințelor tale.
+1. DGASPC Sector 1
+   📍 Str. Amzei nr. 10, Sector 1, București
+   🕐 Luni-Joi 08:00-16:00, Vineri 08:00-14:00
+
+2. DGASPC Sector 3
+   📍 Str. Gheorghe Manu nr. 2-4, Sector 3, București
+   🕐 Luni-Joi 08:00-16:00, Vineri 08:00-14:00
+
+3. DGASPC Sector 4
+   📍 Str. Enache Spiridon nr. 12, Sector 4, București
+   🕐 Luni-Joi 08:00-16:00, Vineri 08:00-14:00
+
+4. DGASPC Sector 6
+   📍 Str. Gheorghe Manu nr. 28-30, Sector 6, București
+   🕐 Luni-Joi 08:00-16:00, Vineri 08:00-14:00
+
+5. Direcția Generală de Asistență Socială și Protecția Copilului București
+   📍 Str. Amzei nr. 10, Sector 1, București
+   🕐 Luni-Joi 08:00-16:00, Vineri 08:00-14:00
+
+6. Direcția Generală de Asistență Socială și Protecția Copilului Ilfov
+   📍 Str. Amzei nr. 10, Sector 1, București
+   🕐 Luni-Joi 08:00-16:00, Vineri 08:00-14:00
+
+7. Oficiul Național pentru Persoane cu Dizabilități
+   📍 Str. Amzei nr. 10, Sector 1, București
+   🕐 Luni-Vineri 08:00-16:00
+
+8. Direcția Generală de Asistență Socială și Protecția Copilului Sector 2
+   📍 Bd. Aviatorilor nr. 44, Sector 2, București
+   🕐 Luni-Joi 08:00-16:00, Vineri 08:00-14:00
+
+9. Oficiul Național pentru Persoane cu Dizabilități Sector 1
+   📍 Str. Amzei nr. 10, Sector 1, București
+   🕐 Luni-Vineri 08:00-16:00

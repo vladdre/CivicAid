@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - ChatGPT Clone</title>
+    <title>Login - CivicAID</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
@@ -12,10 +13,8 @@
 <body class="auth-body">
     <div class="auth-container">
         <div class="auth-logo">
-            <div class="avatar ai-av" style="width: 40px; height: 40px; margin: 0 auto; background-color: #10a37f;">
-                ChatGPT</div>
+            <img src="{{ url_for('static', filename='images/login_logo.png') }}" alt="CivicAID Logo" class="auth-logo-img">
         </div>
-        <h2>Welcome back</h2>
 
         {% if error %}
         <div class="error-message">{{ error }}</div>

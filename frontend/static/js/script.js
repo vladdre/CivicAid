@@ -3,6 +3,13 @@ let currentConversationId = null;
 document.addEventListener('DOMContentLoaded', () => {
     loadConversations();
 
+    // Restore sidebar state
+    const sidebar = document.querySelector('.sidebar');
+    const savedState = localStorage.getItem('sidebarCollapsed');
+    if (savedState === 'true' && sidebar) {
+        sidebar.classList.add('collapsed');
+    }
+
     // Allow submitting with Enter (but Shift+Enter for newline)
     const textarea = document.getElementById('message-input');
     textarea.addEventListener('keydown', (e) => {
@@ -112,7 +119,7 @@ function startNewChat() {
     currentConversationId = null;
     document.getElementById('chat-area').innerHTML = `
         <div class="welcome-message" id="welcome-message">
-            <h1>ChatGPT Clone</h1>
+            <h1>CivicAID</h1>
         </div>
     `;
     loadConversations(); // Update active state
@@ -136,6 +143,9 @@ async function sendMessage() {
     appendMessage('user', content);
     scrollToBottom();
 
+    // Show loading indicator
+    showLoadingIndicator();
+
     try {
         const response = await fetch('/api/chat', {
             method: 'POST',
@@ -148,18 +158,24 @@ async function sendMessage() {
 
         const data = await response.json();
 
-        // Show AI response
-        appendMessage('assistant', data.ai_message);
+        // Hide loading indicator
+        hideLoadingIndicator();
 
-        // If this was a new conversation, update ID and reload sidebar
+        // Show AI response with typewriter effect
+        appendMessageWithTypewriter('assistant', data.ai_message);
+
+        // If this was a new conversation, update ID
         if (!currentConversationId) {
             currentConversationId = data.conversation_id;
         }
+        
+        // Reload conversations to update title in sidebar
         loadConversations();
         scrollToBottom();
 
     } catch (error) {
         console.error("Error sending message:", error);
+        hideLoadingIndicator();
         appendMessage('assistant', "Error: Could not reach server.");
     }
 }
@@ -169,17 +185,66 @@ function appendMessage(role, content) {
     const div = document.createElement('div');
     div.className = `message ${role}`;
 
-    const avatar = role === 'user' ? 'U' : 'AI';
-    const avClass = role === 'user' ? 'user-av' : 'ai-av'; // Add specific classes for color
+    const avClass = role === 'user' ? 'user-av' : 'ai-av';
+    
+    // For user, show first letter of username (like in sidebar), for assistant show logo image
+    let avatarHtml;
+    if (role === 'user') {
+        const userInitial = typeof USERNAME !== 'undefined' && USERNAME.length > 0 ? USERNAME[0].toUpperCase() : 'U';
+        avatarHtml = '<div class="avatar ' + avClass + '">' + userInitial + '</div>';
+    } else {
+        const logoPath = typeof AI_RESPONSE_LOGO !== 'undefined' ? AI_RESPONSE_LOGO : '/static/images/response_logo.png';
+        avatarHtml = '<div class="avatar ' + avClass + '"><img src="' + logoPath + '" alt="AI" class="ai-avatar-img"></div>';
+    }
 
     div.innerHTML = `
         <div class="message-content">
-            <div class="avatar ${avClass}">${avatar}</div>
+            ${avatarHtml}
             <div class="text">${escapeHtml(content)}</div>
         </div>
     `;
 
     chatArea.appendChild(div);
+}
+
+function appendMessageWithTypewriter(role, content) {
+    const chatArea = document.getElementById('chat-area');
+    const div = document.createElement('div');
+    div.className = `message ${role}`;
+
+    const avClass = role === 'user' ? 'user-av' : 'ai-av';
+    
+    // For assistant show logo image
+    const logoPath = typeof AI_RESPONSE_LOGO !== 'undefined' ? AI_RESPONSE_LOGO : '/static/images/response_logo.png';
+    const avatarHtml = '<div class="avatar ' + avClass + '"><img src="' + logoPath + '" alt="AI" class="ai-avatar-img"></div>';
+
+    div.innerHTML = `
+        <div class="message-content">
+            ${avatarHtml}
+            <div class="text typewriter-text"></div>
+        </div>
+    `;
+
+    chatArea.appendChild(div);
+    const textElement = div.querySelector('.typewriter-text');
+    
+    // Typewriter effect - write text character by character
+    const escapedContent = escapeHtml(content);
+    let index = 0;
+    const speed = 2; // milliseconds per character (adjust for speed: lower = faster)
+    
+    function typeWriter() {
+        if (index < escapedContent.length) {
+            textElement.textContent = escapedContent.substring(0, index + 1);
+            textElement.textContent = escapedContent.substring(0, index + 1);
+            index++;
+            setTimeout(typeWriter, speed);
+            // Auto-scroll while typing
+            scrollToBottom();
+        }
+    }
+    
+    typeWriter();
 }
 
 function scrollToBottom() {
@@ -197,3 +262,46 @@ function escapeHtml(text) {
     };
     return text.replace(/[&<>"']/g, function (m) { return map[m]; });
 }
+
+function showLoadingIndicator() {
+    const chatArea = document.getElementById('chat-area');
+    const loadingDiv = document.createElement('div');
+    loadingDiv.id = 'loading-indicator';
+    loadingDiv.className = 'message assistant loading-message';
+    
+    loadingDiv.innerHTML = `
+        <div class="message-content">
+            <div class="avatar ai-av">
+                <img src="${typeof AI_RESPONSE_LOGO !== 'undefined' ? AI_RESPONSE_LOGO : '/static/images/response_logo.png'}" alt="AI" class="ai-avatar-img">
+            </div>
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <div class="loading-text">Consult legislatia...</div>
+            </div>
+        </div>
+    `;
+    
+    chatArea.appendChild(loadingDiv);
+    scrollToBottom();
+}
+
+function hideLoadingIndicator() {
+    const loadingIndicator = document.getElementById('loading-indicator');
+    if (loadingIndicator) {
+        loadingIndicator.remove();
+    }
+}
+
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const toggleBtn = document.getElementById('sidebar-toggle-btn');
+    
+    if (sidebar) {
+        sidebar.classList.toggle('collapsed');
+        
+        // Salvează starea în localStorage
+        const isCollapsed = sidebar.classList.contains('collapsed');
+        localStorage.setItem('sidebarCollapsed', isCollapsed);
+    }
+}
+

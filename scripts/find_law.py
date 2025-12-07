@@ -36,7 +36,7 @@ _vector_store_instance = None
 _vector_store_embeddings = None
 
 
-def extract_keywords_and_query(user_message: str, api_key: str, conversation_history: list = None) -> Tuple[str, bool]:
+def extract_keywords_and_query(user_message: str, api_key: str, conversation_history: list = None, verbose: bool = False) -> Tuple[str, bool]:
     """
     Încearcă să transforme un mesaj informal într-un query mai bun pentru căutare semantică.
     
@@ -122,8 +122,9 @@ Răspuns:"""
         
         # Verifică dacă LLM-ul a decis că nu poate fi îmbunătățit
         if "NU_POATE_FI_IMBUNATIT" in optimized_query.upper() or optimized_query.upper().startswith("NU"):
-            print(f"ℹ️  Query-ul nu poate fi îmbunătățit cu informații utile.")
-            print(f"   Folosesc mesajul original: \"{user_message}\"")
+            if verbose:
+                print(f"ℹ️  Query-ul nu poate fi îmbunătățit cu informații utile.")
+                print(f"   Folosesc mesajul original: \"{user_message}\"")
             return user_message, False
         
         # Verifică dacă query-ul optimizat este prea similar cu originalul
@@ -133,21 +134,24 @@ Răspuns:"""
         
         # Dacă sunt identice sau foarte similare, nu a fost îmbunătățit
         if original_lower == optimized_lower or len(set(original_lower.split()) & set(optimized_lower.split())) / max(len(original_lower.split()), 1) > 0.9:
-            print(f"ℹ️  Query-ul optimizat este prea similar cu originalul.")
-            print(f"   Folosesc mesajul original: \"{user_message}\"")
+            if verbose:
+                print(f"ℹ️  Query-ul optimizat este prea similar cu originalul.")
+                print(f"   Folosesc mesajul original: \"{user_message}\"")
             return user_message, False
         
         # Query-ul a fost îmbunătățit
-        print(f"✅ Query îmbunătățit: \"{user_message}\" → \"{optimized_query}\"")
+        if verbose:
+            print(f"✅ Query îmbunătățit: \"{user_message}\" → \"{optimized_query}\"")
         return optimized_query, True
         
     except Exception as e:
-        print(f"⚠️  Eroare la optimizarea query-ului: {e}")
-        print(f"   Folosesc mesajul original: \"{user_message}\"")
+        if verbose:
+            print(f"⚠️  Eroare la optimizarea query-ului: {e}")
+            print(f"   Folosesc mesajul original: \"{user_message}\"")
         return user_message, False
 
 
-def find_relevant_laws(user_message: str, k: int = 5, use_optimization: bool = True, conversation_history: list = None) -> list:
+def find_relevant_laws(user_message: str, k: int = 5, use_optimization: bool = True, conversation_history: list = None, verbose: bool = False) -> list:
     """
     Găsește articole de lege relevante pentru un mesaj dat.
     
@@ -155,25 +159,30 @@ def find_relevant_laws(user_message: str, k: int = 5, use_optimization: bool = T
         user_message: Mesajul utilizatorului (poate fi informal)
         k: Numărul de rezultate de returnat (default: 5)
         use_optimization: Dacă să optimizeze query-ul folosind LLM (default: True)
+        conversation_history: Istoricul conversației (opțional)
+        verbose: Dacă True, afișează print-uri (default: False pentru API calls)
         
     Returns:
         Listă de documente relevante
     """
-    print("=" * 70)
-    print("🔎 Căutare Articole de Lege Relevante")
-    print("=" * 70)
-    print(f"\n📝 Mesaj primit: \"{user_message}\"\n")
+    if verbose:
+        print("=" * 70)
+        print("🔎 Căutare Articole de Lege Relevante")
+        print("=" * 70)
+        print(f"\n📝 Mesaj primit: \"{user_message}\"\n")
     
     # Verifică dacă vector store-ul există
     if not VECTOR_STORE_DIR.exists():
-        print(f"❌ Vector store nu există la: {VECTOR_STORE_DIR}")
-        print("   Rulează mai întâi: python scripts/ingest_laws.py")
+        if verbose:
+            print(f"❌ Vector store nu există la: {VECTOR_STORE_DIR}")
+            print("   Rulează mai întâi: python scripts/ingest_laws.py")
         return []
     
     # Verifică API key
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
-        print("❌ OPENAI_API_KEY nu este setată în .env")
+        if verbose:
+            print("❌ OPENAI_API_KEY nu este setată în .env")
         return []
     
     # Încarcă vector store-ul (lazy loading - reutilizează instanța dacă există)
@@ -194,34 +203,38 @@ def find_relevant_laws(user_message: str, k: int = 5, use_optimization: bool = T
         
         vector_store = _vector_store_instance
     except Exception as e:
-        print(f"❌ Eroare la încărcarea vector store-ului: {e}")
+        if verbose:
+            print(f"❌ Eroare la încărcarea vector store-ului: {e}")
         return []
     
     # Încearcă să optimizeze query-ul dacă e necesar (cu context din conversație)
     search_query = user_message
     was_improved = False
     if use_optimization:
-        search_query, was_improved = extract_keywords_and_query(user_message, api_key, conversation_history)
-        if not was_improved:
+        search_query, was_improved = extract_keywords_and_query(user_message, api_key, conversation_history, verbose=verbose)
+        if verbose and not was_improved:
             print()  # Linie goală pentru claritate
     
     # Caută în vector store cu scoruri
-    print(f"\n🔍 Căutare în vector store cu query: \"{search_query}\"...\n")
+    if verbose:
+        print(f"\n🔍 Căutare în vector store cu query: \"{search_query}\"...\n")
     
     try:
         # Folosim similarity_search_with_score pentru a vedea relevanța
         results_with_scores = vector_store.similarity_search_with_score(search_query, k=k)
         
         if not results_with_scores:
-            print("⚠️  Nu s-au găsit rezultate relevante.")
+            if verbose:
+                print("⚠️  Nu s-au găsit rezultate relevante.")
             return []
         
-        # Afișează scorurile pentru debugging
-        print("📊 Scoruri de similaritate (mai mic = mai relevant):")
-        for i, (doc, score) in enumerate(results_with_scores, 1):
-            source = doc.metadata.get("source", "Necunoscut")
-            print(f"   {i}. [{source}] Score: {score:.4f}")
-        print()
+        # Afișează scorurile pentru debugging (doar dacă verbose)
+        if verbose:
+            print("📊 Scoruri de similaritate (mai mic = mai relevant):")
+            for i, (doc, score) in enumerate(results_with_scores, 1):
+                source = doc.metadata.get("source", "Necunoscut")
+                print(f"   {i}. [{source}] Score: {score:.4f}")
+            print()
         
         # Extrage doar documentele (fără scoruri) pentru return
         results = [doc for doc, score in results_with_scores]

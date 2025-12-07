@@ -3,6 +3,7 @@ import os
 import sys
 import datetime
 import hashlib
+import threading
 from pathlib import Path
 from functools import wraps
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
@@ -15,6 +16,12 @@ from main import process_query
 
 # Import SQL tool
 from src.tools.sql import query_institutions
+
+# Import title generator
+from title_generator import generate_conversation_title
+
+# Import query classifier
+from query_classifier import needs_database_results
 
 app = Flask(__name__)
 app.secret_key = 'super_secret_key_change_this_in_production' # Needed for session
@@ -196,16 +203,9 @@ def chat():
         
         new_id = max_id + 1
         
-        # Calculate Title Index relative to User
-        user_convs = [c for c in db['conversations'] if c.get('owner') == current_user]
-        # Regex to find max "Chat N" could be safer, but simpler: count + 1
-        # To avoid duplicates if some are deleted, let's just count total ever created? No data for that.
-        # Let's verify if "Chat X" exists, if so increment.
-        chat_num = len(user_convs) + 1
-        while any(c['title'] == f"Consultare {chat_num}" for c in user_convs):
-            chat_num += 1
-            
-        title = f"Consultare {chat_num}"
+        # Generate title based on user message (use fallback for speed, generate async later)
+        # Use first 50 chars as fallback for immediate response
+        title = message_content[:50] + "..." if len(message_content) > 50 else message_content
         
         conversation = {
             'id': new_id,
@@ -216,10 +216,20 @@ def chat():
         db['conversations'].append(conversation)
         conversation_id = new_id
     else:
-        # Verify ownership
+        # Update title for existing conversation if it's still the default
         conv = next((c for c in db['conversations'] if c['id'] == conversation_id), None)
-        if conv and conv.get('owner') and conv['owner'] != current_user:
-             return jsonify({'error': 'Unauthorized'}), 403
+        if conv:
+            # Update title if it's still a generic one or if we want to refresh it
+            # For now, we'll update it only if it starts with "Consultare"
+            if conv.get('title', '').startswith('Consultare'):
+                # Use fallback for speed
+                new_title = message_content[:50] + "..." if len(message_content) > 50 else message_content
+                conv['title'] = new_title
+        else:
+            # Verify ownership
+            conv = next((c for c in db['conversations'] if c['id'] == conversation_id), None)
+            if conv and conv.get('owner') and conv['owner'] != current_user:
+                return jsonify({'error': 'Unauthorized'}), 403
     
     timestamp = datetime.datetime.now().isoformat()
 
@@ -241,22 +251,22 @@ def chat():
     
     # Process query using OpenAI and SQL tool
     try:
-        # Rulează main.py pentru a obține rezultatele din vector store (cu context)
-        vector_store_response = process_query(message_content, conversation_history=conversation_history)
+        # Verifică dacă query-ul necesită rezultate din baza de date
+        needs_db = needs_database_results(message_content)
         
-        # Apoi rulează query-ul SQL (pasează output-ul și contextul pentru a evita dublarea)
-        sql_response = query_institutions(message_content, 
-                                         vector_store_output=vector_store_response,
-                                         conversation_history=conversation_history)
-        
-        # Combină ambele răspunsuri
-        ai_response = f"""{vector_store_response}
-
-{'='*70}
-📍 REZULTATE INSTITUȚII
-{'='*70}
+        if needs_db:
+            # Pentru întrebări legate de locație: doar rezultate din baza de date, fără rezumat
+            sql_response = query_institutions(message_content, 
+                                             vector_store_output=None,
+                                             conversation_history=conversation_history)
+            
+            ai_response = f"""📍 REZULTATE INSTITUȚII
 
 {sql_response}"""
+        else:
+            # Pentru restul întrebărilor: doar rezumat, fără rezultate din baza de date
+            vector_store_response = process_query(message_content, conversation_history=conversation_history)
+            ai_response = vector_store_response
     except Exception as e:
         ai_response = f"❌ Eroare la procesarea întrebării: {str(e)}"
     
@@ -269,11 +279,36 @@ def chat():
     db['messages'].append(ai_msg)
     
     save_db(db)
+    
+    # Get current conversation title
+    updated_conv = next((c for c in db['conversations'] if c['id'] == conversation_id), None)
+    conversation_title = updated_conv['title'] if updated_conv else None
+    
+    # Update title in background (async) for better performance
+    def update_title_async():
+        try:
+            db_temp = load_db()
+            conv = next((c for c in db_temp['conversations'] if c['id'] == conversation_id), None)
+            if conv:
+                # Only update if title is still a fallback (first 50 chars)
+                if len(conv.get('title', '')) <= 53 and '...' in conv.get('title', ''):
+                    new_title = generate_conversation_title(message_content)
+                    conv['title'] = new_title
+                    save_db(db_temp)
+        except Exception as e:
+            print(f"Error updating title: {e}")
+    
+    # Start background thread for title generation
+    if updated_conv and (len(updated_conv.get('title', '')) <= 53 and '...' in updated_conv.get('title', '')):
+        thread = threading.Thread(target=update_title_async)
+        thread.daemon = True
+        thread.start()
 
     return jsonify({
         'conversation_id': conversation_id,
         'user_message': message_content,
-        'ai_message': ai_response
+        'ai_message': ai_response,
+        'conversation_title': conversation_title
     })
 
 @app.route('/api/conversations/<int:conversation_id>', methods=['DELETE'])

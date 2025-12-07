@@ -142,29 +142,32 @@ def create_vector_store():
         sys.exit(1)
 
 
-def run_find_law(user_message: str, conversation_history: list = None) -> tuple[str, Optional[list]]:
+def run_find_law(user_message: str, conversation_history: list = None, verbose: bool = False) -> tuple[str, Optional[list]]:
     """
     Rulează find_law.py cu mesajul dat și returnează outputul și rezultatele.
     
     Args:
         user_message: Mesajul pentru căutare
+        conversation_history: Istoricul conversației (opțional)
+        verbose: Dacă True, afișează print-uri (default: False pentru API calls)
         
     Returns:
         Tuple (output_formatat, lista_rezultate):
         - output_formatat: Output-ul formatat ca string
         - lista_rezultate: Lista de documente sau None dacă nu există
     """
-    print("=" * 70)
-    print("🔎 Căutare Articole de Lege")
-    print("=" * 70)
-    print()
+    if verbose:
+        print("=" * 70)
+        print("🔎 Căutare Articole de Lege")
+        print("=" * 70)
+        print()
     
     # Import funcțiile din find_law.py
     try:
         from scripts.find_law import find_relevant_laws, format_results
         
         # Găsește articolele relevante (cu context din conversație)
-        results = find_relevant_laws(user_message, k=5, use_optimization=True, conversation_history=conversation_history)
+        results = find_relevant_laws(user_message, k=5, use_optimization=True, conversation_history=conversation_history, verbose=verbose)
         
         # Formatează rezultatele
         if results:
@@ -175,15 +178,17 @@ def run_find_law(user_message: str, conversation_history: list = None) -> tuple[
             
     except ImportError as e:
         error_msg = f"❌ Eroare la importul funcțiilor: {e}\n   Verifică că scripts/find_law.py există și este corect."
-        print(error_msg)
+        if verbose:
+            print(error_msg)
         return error_msg, None
     except Exception as e:
         error_msg = f"❌ Eroare la căutare: {e}"
-        print(error_msg)
+        if verbose:
+            print(error_msg)
         return error_msg, None
 
 
-def summarize_results(results: list, user_query: str) -> str:
+def summarize_results(results: list, user_query: str, verbose: bool = False) -> str:
     """
     Sintetizează rezultatele din cele 5 chunks într-un rezumat concis.
     
@@ -253,7 +258,8 @@ Format rezumat:
 
 Rezumat:"""
         
-        print("\n📝 Generare rezumat sintetizat...")
+        if verbose:
+            print("\n📝 Generare rezumat sintetizat...")
         response = llm.invoke(prompt)
         summary = response.content.strip()
         
@@ -292,7 +298,7 @@ def write_output_to_file(output: str, output_file: Path):
         traceback.print_exc()
 
 
-def process_query(user_message: str, conversation_history: list = None) -> str:
+def process_query(user_message: str, conversation_history: list = None, verbose: bool = False) -> str:
     """
     Procesează un query și returnează rezultatul formatat.
     
@@ -302,34 +308,40 @@ def process_query(user_message: str, conversation_history: list = None) -> str:
         user_message: Mesajul pentru căutare
         conversation_history: Listă de mesaje anterioare din conversație (opțional)
                            Format: [{"role": "user", "content": "..."}, {"role": "assistant", "content": "..."}, ...]
+        verbose: Dacă True, afișează print-uri (default: False pentru API calls)
         
     Returns:
         Output-ul formatat ca string
     """
-    print("=" * 70)
-    print("🚀 CivicAid - Main Script")
-    print("=" * 70)
-    print(f"\n📝 Mesaj primit: \"{user_message}\"\n")
+    if verbose:
+        print("=" * 70)
+        print("🚀 CivicAid - Main Script")
+        print("=" * 70)
+        print(f"\n📝 Mesaj primit: \"{user_message}\"\n")
     
-    # Step 1: Verifică dacă vector store-ul există
-    print("🔍 Verificare vector store...")
+    # Step 1: Verifică dacă vector store-ul există (cache-ul face asta rapid)
+    if verbose:
+        print("🔍 Verificare vector store...")
     if not check_vector_store_exists():
-        print("   ⚠️  Vector store-ul nu există sau este gol.")
+        if verbose:
+            print("   ⚠️  Vector store-ul nu există sau este gol.")
         create_vector_store()
-    else:
+    elif verbose:
         print("   ✅ Vector store-ul există și are conținut.\n")
     
     # Step 2: Rulează find_law
-    output, results = run_find_law(user_message)
+    output, results = run_find_law(user_message, verbose=verbose)
     
     # Step 3: Generează rezumat sintetizat
     summary = ""
     if results:
-        print("\n" + "=" * 70)
-        print("📝 Sintetizare Rezultate")
-        print("=" * 70)
-        summary = summarize_results(results, user_message)
-        print("✅ Rezumat generat!\n")
+        if verbose:
+            print("\n" + "=" * 70)
+            print("📝 Sintetizare Rezultate")
+            print("=" * 70)
+        summary = summarize_results(results, user_message, verbose=verbose)
+        if verbose:
+            print("✅ Rezumat generat!\n")
     
     # Step 4: Combină output-ul detaliat cu rezumatul
     final_output = ""
@@ -344,11 +356,9 @@ def process_query(user_message: str, conversation_history: list = None) -> str:
     else:
         final_output = output
     
-    # Step 5: Scrie outputul în fișier
-    print("\n" + "=" * 70)
-    print("📄 Scriere Output")
-    print("=" * 70)
-    write_output_to_file(final_output, OUTPUT_FILE)
+    # Step 5: Scrie outputul în fișier (doar pentru CLI, nu pentru API)
+    # Comentat pentru optimizare - nu este necesar pentru API calls
+    # write_output_to_file(final_output, OUTPUT_FILE)
     
     return final_output
 
