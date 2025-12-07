@@ -107,6 +107,12 @@
       "title": "Cerere ANPC",
       "owner": "AndreiKRP",
       "created_at": "2025-12-07T07:46:28.510268"
+    },
+    {
+      "id": 22,
+      "title": "Cerere ANPC",
+      "owner": "AndreiKRP",
+      "created_at": "2025-12-07T07:53:10.528084"
     }
   ],
   "messages": [
@@ -553,6 +559,18 @@
       "role": "assistant",
       "content": "✅ Cererea ANPC a fost trimisă cu succes!\n\n📧 De la: andrei.krp@gmail.com\n📧 Către: darie.vlad@icloud.com",
       "timestamp": "2025-12-07T07:47:10.478076"
+    },
+    {
+      "conversation_id": 22,
+      "role": "user",
+      "content": "am nevoie să mi faci o cerere la ANPC",
+      "timestamp": "2025-12-07T07:53:10.528093"
+    },
+    {
+      "conversation_id": 22,
+      "role": "assistant",
+      "content": "📧 Pentru a genera și trimite cererea ANPC prin email, am nevoie de următoarele informații:\n\n🔴 OBLIGATORIU:\n\n- Email-ul dvs. (expeditor) - adresa de email de la care se va trimite cererea\n- Email-ul instituției ANPC (destinatar) - adresa de email către care se trimite cererea (ex: contact@anpc.ro)\n\n📋 Informații personale:\n\n- Nume și prenume complet\n- Adresa completă (strada, număr, localitate, județ)\n- Seria și numărul buletinului de identitate (opțional, dar recomandat)\n- Număr de telefon (opțional)\n\n📝 Detalii despre cerere:\n\n- Ce informații sau acțiuni solicitați de la ANPC?\n- Există o situație specifică pe care doriți să o menționați în cerere?\n- Aveți întrebări specifice sau documente pe care doriți să le solicitați?\n\n💡 Exemplu de răspuns:\n\nNume: Ion Popescu\nAdresă: Str. Exemplu nr. 10, București, Sector 1\nEmail meu: ion.popescu@example.com\nEmail instituție ANPC: contact@anpc.ro\nTelefon: 0712345678\nBuletin: NZ123456\nVreau să întreb despre procedura de returnare a produselor defecte după 15 zile.\n\n\nVă rog să furnizați toate aceste informații într-un singur mesaj pentru a putea genera și trimite cererea completă.",
+      "timestamp": "2025-12-07T07:53:10.528093"
     }
   ]
 }

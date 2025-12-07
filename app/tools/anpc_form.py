@@ -116,35 +116,34 @@ def request_user_info() -> str:
     
     return f"""📧 Pentru a genera și trimite cererea ANPC prin email, am nevoie de următoarele informații:
 
-**🔴 OBLIGATORIU:**
+🔴 OBLIGATORIU:
 
-- **Email-ul dvs. (expeditor)** - adresa de email de la care se va trimite cererea
-- **Email-ul instituției ANPC (destinatar)** - adresa de email către care se trimite cererea (ex: contact@anpc.ro)
+- Email-ul dvs. (expeditor) - adresa de email de la care se va trimite cererea
+- Email-ul instituției ANPC (destinatar) - adresa de email către care se trimite cererea (ex: contact@anpc.ro)
 
-**📋 Informații personale:**
+📋 Informații personale:
 
 - Nume și prenume complet
 - Adresa completă (strada, număr, localitate, județ)
 - Seria și numărul buletinului de identitate (opțional, dar recomandat)
 - Număr de telefon (opțional)
 
-**📝 Detalii despre cerere:**
+📝 Detalii despre cerere:
 
 - Ce informații sau acțiuni solicitați de la ANPC?
 - Există o situație specifică pe care doriți să o menționați în cerere?
 - Aveți întrebări specifice sau documente pe care doriți să le solicitați?
 
-**💡 Exemplu de răspuns:**
+💡 Exemplu de răspuns:
 
-```
 Nume: Ion Popescu
 Adresă: Str. Exemplu nr. 10, București, Sector 1
 Email meu: ion.popescu@example.com
 Email instituție ANPC: contact@anpc.ro
 Telefon: 0712345678
-Buletin: RO123456
+Buletin: NZ123456
 Vreau să întreb despre procedura de returnare a produselor defecte după 15 zile.
-```
+
 
 Vă rog să furnizați toate aceste informații într-un singur mesaj pentru a putea genera și trimite cererea completă.{email_note}"""
 
