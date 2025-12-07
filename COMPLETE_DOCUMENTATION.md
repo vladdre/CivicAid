@@ -521,38 +521,6 @@ python start_server.py
 
 Apoi deschide `http://localhost:5000` în browser.
 
-### CLI pentru Query-uri
-
-```bash
-python main.py "Ce drepturi am ca pensionar?"
-```
-
-### Agent CLI
-
-```bash
-# Mod interactiv
-python app/agent/agent_main.py
-
-# Mod CLI cu mesaj
-python app/agent/agent_main.py "Ce drepturi am ca pensionar?"
-```
-
-### Scripturi Manuale
-
-```bash
-# Creare vector store din PDF-uri
-python -m app.scripts.ingest_laws
-
-# Creare vector store din legi.json
-python -m app.scripts.ingest_json_laws
-
-# Setup baza de date SQL
-python -m app.scripts.setup_sql_db
-
-# Căutare în vector store
-python -m app.scripts.find_law "Am avut un accident de mașină"
-```
-
 ---
 
 ## 🏗️ Arhitectură Tehnică
