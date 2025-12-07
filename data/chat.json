@@ -53,6 +53,12 @@
       "title": "Accident cu fugă de la locul faptei",
       "owner": "demo",
       "created_at": "2025-12-07T06:12:56.238914"
+    },
+    {
+      "id": 13,
+      "title": "Cerere ANPC",
+      "owner": "demo",
+      "created_at": "2025-12-07T07:09:13.941531"
     }
   ],
   "messages": [
@@ -307,6 +313,30 @@
       "role": "assistant",
       "content": "📍 REZULTATE INSTITUȚII\n\n1. Poliția Rutieră - Direcția Rutieră Sector 1\n   📍 Bd. Lascăr Catargi nr. 21, Sector 1, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n2. Poliția Rutieră - Direcția Rutieră Sector 2\n   📍 Bd. Aviatorilor nr. 44, Sector 2, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n3. Poliția Rutieră - Direcția Rutieră Sector 3\n   📍 Calea Vitan nr. 55-59, Sector 3, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n4. Poliția Rutieră - Direcția Rutieră Sector 4\n   📍 Bd. Timișoara nr. 47, Sector 4, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n5. Poliția Rutieră - Direcția Rutieră Sector 5\n   📍 Str. Mihai Bravu nr. 266, Sector 5, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n6. Poliția Rutieră - Direcția Rutieră Sector 6\n   📍 Bd. Iuliu Maniu nr. 28-30, Sector 6, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00\n\n7. Direcția Generală de Poliție Rutieră București\n   📍 Bd. Lascăr Catargi nr. 21, Sector 1, București\n   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00",
       "timestamp": "2025-12-07T06:23:31.710420"
+    },
+    {
+      "conversation_id": 13,
+      "role": "user",
+      "content": "am nevoie de o cerere la ANPC",
+      "timestamp": "2025-12-07T07:09:13.941540"
+    },
+    {
+      "conversation_id": 13,
+      "role": "assistant",
+      "content": "📧 Pentru a genera și trimite cererea ANPC prin email, am nevoie de următoarele informații:\n\n**🔴 OBLIGATORIU:**\n\n- **Email-ul dvs. (expeditor)** - adresa de email de la care se va trimite cererea\n- **Email-ul instituției ANPC (destinatar)** - adresa de email către care se trimite cererea (ex: contact@anpc.ro)\n\n**📋 Informații personale:**\n\n- Nume și prenume complet\n- Adresa completă (strada, număr, localitate, județ)\n- Seria și numărul buletinului de identitate (opțional, dar recomandat)\n- Număr de telefon (opțional)\n\n**📝 Detalii despre cerere:**\n\n- Ce informații sau acțiuni solicitați de la ANPC?\n- Există o situație specifică pe care doriți să o menționați în cerere?\n- Aveți întrebări specifice sau documente pe care doriți să le solicitați?\n\n**💡 Exemplu de răspuns:**\n\n```\nNume: Ion Popescu\nAdresă: Str. Exemplu nr. 10, București, Sector 1\nEmail meu: ion.popescu@example.com\nEmail instituție ANPC: contact@anpc.ro\nTelefon: 0712345678\nBuletin: RO123456\nVreau să întreb despre procedura de returnare a produselor defecte după 15 zile.\n```\n\nVă rog să furnizați toate aceste informații într-un singur mesaj pentru a putea genera și trimite cererea completă.",
+      "timestamp": "2025-12-07T07:09:13.941540"
+    },
+    {
+      "conversation_id": 13,
+      "role": "user",
+      "content": "Nume: Ion Popescu\nAdresă: Str. Exemplu nr. 10, București, Sector 1\nEmail meu: andrei.krp@gmail.com\nEmail instituție ANPC: darie.vlad@icloud.com\nTelefon: 0712345678\nBuletin: RO123456\nVreau să întreb despre procedura de returnare a produselor defecte după 15 zile.",
+      "timestamp": "2025-12-07T07:12:07.808543"
+    },
+    {
+      "conversation_id": 13,
+      "role": "assistant",
+      "content": "✅ Cererea ANPC a fost trimisă cu succes!\n\n📧 De la: andrei.krp@gmail.com\n📧 Către: darie.vlad@icloud.com",
+      "timestamp": "2025-12-07T07:12:07.808543"
     }
   ]
 }

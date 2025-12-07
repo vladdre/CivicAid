@@ -55,14 +55,15 @@ def save_users(users):
 def hash_password(password):
     return hashlib.sha256(password.encode('utf-8')).hexdigest()
 
-def create_user(username, password):
+def create_user(username, password, email=None):
     users = load_users()
     if username in users:
         return False
     
     users[username] = {
         "password_hash": hash_password(password),
-        "created_at": datetime.datetime.now().isoformat()
+        "created_at": datetime.datetime.now().isoformat(),
+        "email": email or ""  # Adaugă email-ul în structura utilizatorului
     }
     save_users(users)
     return True
@@ -128,13 +129,18 @@ def login():
 def register():
     if request.method == 'POST':
         username = request.form.get('username')
+        email = request.form.get('email')
         password = request.form.get('password')
         confirm = request.form.get('confirm_password')
         
         if password != confirm:
             return render_template('register.html', error="Passwords do not match")
         
-        if create_user(username, password):
+        # Validare email simplă
+        if email and '@' not in email:
+            return render_template('register.html', error="Please enter a valid email address")
+        
+        if create_user(username, password, email=email):
             # Optional: Auto login
             # session['username'] = username
             # return redirect(url_for('index'))
@@ -287,6 +293,11 @@ def chat():
         # Verifică dacă query-ul necesită rezultate din baza de date (cu context)
         needs_db = needs_database_results(message_content, conversation_history=conversation_history)
         
+        # Obține refresh_token din sesiune pentru OAuth Gmail
+        refresh_token = session.get('google_refresh_token')
+        # Obține username-ul pentru a putea folosi email-ul din baza de date
+        username = session.get('username')
+        
         if needs_db:
             # Pentru întrebări legate de locație: doar rezultate din baza de date, fără rezumat
             # Folosim enhanced_message pentru a include contextul
@@ -300,7 +311,7 @@ def chat():
         else:
             # Pentru restul întrebărilor: doar rezumat, fără rezultate din baza de date
             # Folosim enhanced_message pentru a include contextul
-            vector_store_response = process_query(enhanced_message, conversation_history=conversation_history)
+            vector_store_response = process_query(enhanced_message, conversation_history=conversation_history, refresh_token=refresh_token, username=username)
             ai_response = vector_store_response
     except Exception as e:
         ai_response = f"❌ Eroare la procesarea întrebării: {str(e)}"
@@ -453,6 +464,138 @@ def delete_conversation(conversation_id):
     save_db(db)
     
     return jsonify({'success': True})
+
+
+@app.route('/auth/google')
+@login_required
+def auth_google():
+    """
+    Inițiază OAuth flow pentru Google Gmail API.
+    """
+    try:
+        from google_auth_oauthlib.flow import Flow
+        from googleapiclient.discovery import build
+        
+        client_id = os.getenv("GOOGLE_CLIENT_ID")
+        client_secret = os.getenv("GOOGLE_CLIENT_SECRET")
+        
+        if not client_id or not client_secret:
+            return jsonify({
+                'error': 'Configurare OAuth incompletă. Verifică GOOGLE_CLIENT_ID și GOOGLE_CLIENT_SECRET în .env'
+            }), 500
+        
+        # Scopes necesare pentru Gmail API
+        SCOPES = ['https://www.googleapis.com/auth/gmail.send']
+        
+        # Creează flow-ul OAuth
+        flow = Flow.from_client_config(
+            {
+                "web": {
+                    "client_id": client_id,
+                    "client_secret": client_secret,
+                    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+                    "token_uri": "https://oauth2.googleapis.com/token",
+                    "redirect_uris": [request.url_root.rstrip('/') + '/auth/google/callback']
+                }
+            },
+            scopes=SCOPES
+        )
+        
+        # Generează URL-ul de autorizare
+        authorization_url, state = flow.authorization_url(
+            access_type='offline',
+            include_granted_scopes='true',
+            prompt='consent'  # Forțează consimțământul pentru a obține refresh_token
+        )
+        
+        # Salvează state-ul în sesiune pentru verificare
+        session['oauth_state'] = state
+        
+        return redirect(authorization_url)
+        
+    except Exception as e:
+        return jsonify({'error': f'Eroare la inițierea OAuth: {str(e)}'}), 500
+
+
+@app.route('/auth/google/callback')
+@login_required
+def auth_google_callback():
+    """
+    Procesează callback-ul OAuth și salvează refresh token-ul.
+    """
+    try:
+        from google_auth_oauthlib.flow import Flow
+        
+        # Verifică state-ul pentru securitate
+        state = session.get('oauth_state')
+        if not state or state != request.args.get('state'):
+            return jsonify({'error': 'State invalid sau lipsă'}), 400
+        
+        client_id = os.getenv("GOOGLE_CLIENT_ID")
+        client_secret = os.getenv("GOOGLE_CLIENT_SECRET")
+        
+        if not client_id or not client_secret:
+            return jsonify({
+                'error': 'Configurare OAuth incompletă'
+            }), 500
+        
+        SCOPES = ['https://www.googleapis.com/auth/gmail.send']
+        
+        # Creează flow-ul OAuth
+        flow = Flow.from_client_config(
+            {
+                "web": {
+                    "client_id": client_id,
+                    "client_secret": client_secret,
+                    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+                    "token_uri": "https://oauth2.googleapis.com/token",
+                    "redirect_uris": [request.url_root.rstrip('/') + '/auth/google/callback']
+                }
+            },
+            scopes=SCOPES,
+            state=state
+        )
+        
+        # Obține token-ul din callback
+        flow.fetch_token(authorization_response=request.url)
+        
+        # Obține credențialele
+        credentials = flow.credentials
+        
+        # Salvează refresh token-ul în sesiune
+        if credentials.refresh_token:
+            session['google_refresh_token'] = credentials.refresh_token
+            session.pop('oauth_state', None)  # Șterge state-ul după utilizare
+            
+            return redirect(url_for('index') + '?oauth_success=1')
+        else:
+            return jsonify({
+                'error': 'Nu s-a primit refresh token. Asigură-te că ai acordat toate permisiunile necesare.'
+            }), 400
+            
+    except Exception as e:
+        return jsonify({'error': f'Eroare la procesarea callback-ului OAuth: {str(e)}'}), 500
+
+
+@app.route('/api/user/refresh-token', methods=['GET'])
+@login_required
+def get_refresh_token():
+    """
+    Returnează refresh token-ul utilizatorului curent (dacă există).
+    """
+    refresh_token = session.get('google_refresh_token')
+    
+    if refresh_token:
+        return jsonify({
+            'success': True,
+            'has_token': True
+        })
+    else:
+        return jsonify({
+            'success': True,
+            'has_token': False
+        })
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

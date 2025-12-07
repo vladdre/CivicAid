@@ -1,0 +1,25 @@
+Către: Autoritatea Națională pentru Protecția Consumatorilor (ANPC)
+În atenția: Biroului de Relații cu Publicul / Responsabilului cu Legea 544/2001
+
+
+
+Subiect: Solicitare de informații de interes public conform Legii nr. 544/2001
+
+Domnule/Doamnă Președinte,
+
+Subsemnatul(a) [NUME_PRENUME_UTILIZATOR], cu domiciliul în [ADRESA_COMPLETA], identificat(ă) prin [SERIE_NR_BULETIN - opțional, dar recomandat], e-mail [EMAIL_UTILIZATOR],
+
+În temeiul art. 6 din Legea nr. 544/2001 privind liberul acces la informațiile de interes public, vă rog să îmi comunicați următoarele informații:
+
+[ÎNTREBAREA_1 - ex: Care este procedura legală exactă pentru returnarea produselor electrocasnice defecte după 15 zile?]
+
+[ÎNTREBAREA_2 - ex: Vă rog să precizați care sunt documentele obligatorii pe care un comerciant trebuie să le afișeze la punctul de lucru conform Ordinului ANPC nr. X.]
+
+Solicit ca răspunsul să îmi fie comunicat în format electronic, la adresa de e-mail menționată mai sus ([EMAIL_UTILIZATOR]), în termenul legal prevăzut de art. 7 din Legea nr. 544/2001 (maxim 10 zile sau 30 de zile cu înștiințare).
+
+Vă mulțumesc,
+
+Data: [DATA_CURENTA]
+Semnătura: [NUME_PRENUME_UTILIZATOR]
+(Semnat digital prin CivicAid)
+

@@ -34,3 +34,11 @@ SpeechRecognition>=3.10.0
 pyaudio>=0.2.11
 pydub>=0.25.1  # Pentru conversia WebM la WAV
 
+# PDF Generation
+reportlab>=4.0.0
+
+# Google OAuth and Gmail API
+google-auth>=2.23.0
+google-auth-oauthlib>=1.1.0
+google-api-python-client>=2.100.0
+

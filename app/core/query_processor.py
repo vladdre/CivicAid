@@ -609,7 +609,7 @@ def write_output_to_file(output: str, output_file: Path):
         traceback.print_exc()
 
 
-def process_query(user_message: str, conversation_history: list = None, verbose: bool = False) -> str:
+def process_query(user_message: str, conversation_history: list = None, verbose: bool = False, refresh_token: str = None, username: str = None) -> str:
     """
     Procesează un query și returnează rezultatul formatat.
     
@@ -620,6 +620,8 @@ def process_query(user_message: str, conversation_history: list = None, verbose:
         conversation_history: Listă de mesaje anterioare din conversație (opțional)
                            Format: [{"role": "user", "content": "..."}, {"role": "assistant", "content": "..."}, ...]
         verbose: Dacă True, afișează print-uri (default: False pentru API calls)
+        refresh_token: Refresh token OAuth pentru Gmail (opțional, pentru trimitere email ANPC)
+        username: Username-ul utilizatorului curent (opțional, pentru a obține email-ul din baza de date)
         
     Returns:
         Output-ul formatat ca string
@@ -629,6 +631,27 @@ def process_query(user_message: str, conversation_history: list = None, verbose:
         print("🚀 CivicAid - Main Script")
         print("=" * 70)
         print(f"\n📝 Mesaj primit: \"{user_message}\"\n")
+    
+    # Step 0: Verifică dacă este cerere de formular ANPC
+    try:
+        from app.tools.anpc_form import generate_anpc_form
+        
+        form_result = generate_anpc_form(
+            user_message=user_message,
+            conversation_history=conversation_history,
+            refresh_token=refresh_token,
+            username=username
+        )
+        
+        if form_result.get('is_form_request'):
+            if form_result.get('needs_info'):
+                return form_result['message']  # Mesaj unic cu toate cerințele
+            else:
+                return form_result['message']  # Confirmare trimitere sau eroare
+    except Exception as e:
+        if verbose:
+            print(f"⚠️  Eroare la verificarea formularului ANPC: {e}")
+        # Continuă cu procesarea normală dacă există eroare
     
     # Step 1: Verifică dacă vector store-ul există (cache-ul face asta rapid)
     if verbose:
