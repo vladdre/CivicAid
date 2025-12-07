@@ -164,7 +164,7 @@ python start_server.py
 
 **Utilizare:**
 ```bash
-python main.py "Ce drepturi am ca pensionar?"
+python main.py "Am fost implicat intr un accident auto. Celalalt sofer a plecta. Ce pot face?"
 ```
 
 #### `scrapper.py`
