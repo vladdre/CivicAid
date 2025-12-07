@@ -14,6 +14,22 @@
     --user-profile-bg: #E6F0F8;
 }
 
+[data-theme="dark"] {
+    --sidebar-bg: #1a1a1a;
+    --main-bg: #0f0f0f;
+    --user-msg-bg: #1a1a1a;
+    --ai-msg-bg: #252525;
+    --text-color: #e0e0e0;
+    --input-bg: #1a1a1a;
+    --border-color: #333333;
+    --navy-blue: #2d5a87;
+    --navy-blue-light: #3d6a97;
+    --navy-blue-hover: #4d7aa7;
+    --navy-blue-very-light: #2a2a2a;
+    --navy-blue-lighter: #3a3a3a;
+    --user-profile-bg: #252525;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -169,6 +185,10 @@ body {
     box-shadow: 0 2px 4px rgba(0, 31, 63, 0.15);
 }
 
+.logout-link {
+    color: var(--text-color);
+}
+
 /* Main Content */
 .main-content {
     flex-grow: 1;
@@ -210,6 +230,30 @@ body {
 }
 
 .sidebar-toggle:active {
+    transform: scale(0.95);
+}
+
+.theme-toggle {
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    padding: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    margin-left: auto;
+}
+
+.theme-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.theme-toggle:active {
     transform: scale(0.95);
 }
 
@@ -342,7 +386,7 @@ body {
     left: 0;
     width: 100%;
     padding: 24px 0 32px 0;
-    background-color: #FFFFFF;
+    background-color: var(--main-bg);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -372,7 +416,7 @@ body {
     top: 0;
     width: 20%;
     height: 100%;
-    background: linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+    background: linear-gradient(to right, var(--input-bg), transparent);
     pointer-events: none;
     z-index: 1;
 }
@@ -384,7 +428,7 @@ body {
     top: 0;
     width: 20%;
     height: 100%;
-    background: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+    background: linear-gradient(to left, var(--input-bg), transparent);
     pointer-events: none;
     z-index: 1;
 }
@@ -591,7 +635,7 @@ textarea {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 31, 63, 0.5);
+    background-color: rgba(0, 0, 0, 0.6);
     display: flex;
     justify-content: center;
     align-items: center;

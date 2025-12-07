@@ -10,6 +10,13 @@ document.addEventListener('DOMContentLoaded', () => {
         sidebar.classList.add('collapsed');
     }
 
+    // Restore theme preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+    }
+
     // Allow submitting with Enter (but Shift+Enter for newline)
     const textarea = document.getElementById('message-input');
     textarea.addEventListener('keydown', (e) => {
@@ -349,5 +356,29 @@ function closeDeleteModal() {
 function confirmDeleteChat(chatId) {
     closeDeleteModal();
     deleteChat(chatId);
+}
+
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    updateThemeIcon(newTheme);
+}
+
+function updateThemeIcon(theme) {
+    const sunIcon = document.getElementById('theme-icon-sun');
+    const moonIcon = document.getElementById('theme-icon-moon');
+    
+    if (theme === 'dark') {
+        // In dark mode, show sun icon (to switch to light)
+        if (sunIcon) sunIcon.style.display = 'block';
+        if (moonIcon) moonIcon.style.display = 'none';
+    } else {
+        // In light mode, show moon icon (to switch to dark)
+        if (sunIcon) sunIcon.style.display = 'none';
+        if (moonIcon) moonIcon.style.display = 'block';
+    }
 }
 

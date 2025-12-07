@@ -2,38 +2,30 @@
 📍 REZULTATE INSTITUȚII (SQL)
 ======================================================================
 
-1. DGASPC Sector 1
-   📍 Str. Amzei nr. 10, Sector 1, București
-   🕐 Luni-Joi 08:00-16:00, Vineri 08:00-14:00
+1. Poliția Rutieră - Direcția Rutieră Sector 1
+   📍 Bd. Lascăr Catargi nr. 21, Sector 1, București
+   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00
 
-2. DGASPC Sector 3
-   📍 Str. Gheorghe Manu nr. 2-4, Sector 3, București
-   🕐 Luni-Joi 08:00-16:00, Vineri 08:00-14:00
-
-3. DGASPC Sector 4
-   📍 Str. Enache Spiridon nr. 12, Sector 4, București
-   🕐 Luni-Joi 08:00-16:00, Vineri 08:00-14:00
-
-4. DGASPC Sector 6
-   📍 Str. Gheorghe Manu nr. 28-30, Sector 6, București
-   🕐 Luni-Joi 08:00-16:00, Vineri 08:00-14:00
-
-5. Direcția Generală de Asistență Socială și Protecția Copilului București
-   📍 Str. Amzei nr. 10, Sector 1, București
-   🕐 Luni-Joi 08:00-16:00, Vineri 08:00-14:00
-
-6. Direcția Generală de Asistență Socială și Protecția Copilului Ilfov
-   📍 Str. Amzei nr. 10, Sector 1, București
-   🕐 Luni-Joi 08:00-16:00, Vineri 08:00-14:00
-
-7. Oficiul Național pentru Persoane cu Dizabilități
-   📍 Str. Amzei nr. 10, Sector 1, București
-   🕐 Luni-Vineri 08:00-16:00
-
-8. Direcția Generală de Asistență Socială și Protecția Copilului Sector 2
+2. Poliția Rutieră - Direcția Rutieră Sector 2
    📍 Bd. Aviatorilor nr. 44, Sector 2, București
-   🕐 Luni-Joi 08:00-16:00, Vineri 08:00-14:00
+   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00
 
-9. Oficiul Național pentru Persoane cu Dizabilități Sector 1
-   📍 Str. Amzei nr. 10, Sector 1, București
-   🕐 Luni-Vineri 08:00-16:00
+3. Poliția Rutieră - Direcția Rutieră Sector 3
+   📍 Calea Vitan nr. 55-59, Sector 3, București
+   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00
+
+4. Poliția Rutieră - Direcția Rutieră Sector 4
+   📍 Bd. Timișoara nr. 47, Sector 4, București
+   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00
+
+5. Poliția Rutieră - Direcția Rutieră Sector 5
+   📍 Str. Mihai Bravu nr. 266, Sector 5, București
+   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00
+
+6. Poliția Rutieră - Direcția Rutieră Sector 6
+   📍 Bd. Iuliu Maniu nr. 28-30, Sector 6, București
+   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00
+
+7. Direcția Generală de Poliție Rutieră București
+   📍 Bd. Lascăr Catargi nr. 21, Sector 1, București
+   🕐 Luni-Vineri 08:00-20:00, Sâmbătă 08:00-14:00
