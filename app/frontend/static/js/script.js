@@ -28,6 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Focus input
     textarea.focus();
+    
+    // Initialize speech recognition
+    initSpeechRecognition();
 });
 
 function autoResize(textarea) {
@@ -357,6 +360,316 @@ function confirmDeleteChat(chatId) {
     closeDeleteModal();
     deleteChat(chatId);
 }
+
+// Voice-to-text functionality
+let recognition = null;
+let isRecording = false;
+
+// Initialize speech recognition
+function initSpeechRecognition() {
+    // Check if browser supports Web Speech API
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        
+        recognition.continuous = true; // Continuă înregistrarea până când utilizatorul o oprește
+        recognition.interimResults = true; // Afișează rezultate intermediare
+        recognition.lang = 'ro-RO'; // Romanian language
+        
+        recognition.onstart = () => {
+            isRecording = true;
+            finalText = ''; // Resetează textul final la început
+            updateVoiceButton(true);
+        };
+        
+        // Stochează textul final pentru a evita duplicarea
+        let finalText = '';
+        
+        recognition.onresult = (event) => {
+            const textarea = document.getElementById('message-input');
+            let interimTranscript = '';
+            let newFinalTranscript = '';
+            
+            // Procesează doar rezultatele noi (optimizare)
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+                const transcript = event.results[i][0].transcript;
+                if (event.results[i].isFinal) {
+                    newFinalTranscript += transcript + ' ';
+                } else {
+                    interimTranscript += transcript;
+                }
+            }
+            
+            // Actualizează doar dacă există text nou (optimizare)
+            if (newFinalTranscript) {
+                finalText += newFinalTranscript;
+                textarea.value = finalText + interimTranscript;
+                autoResize(textarea);
+            } else if (interimTranscript) {
+                // Actualizează doar interim pentru feedback rapid
+                textarea.value = finalText + interimTranscript;
+                autoResize(textarea);
+            }
+        };
+        
+        recognition.onerror = (event) => {
+            console.error('Speech recognition error:', event.error);
+            
+            // Doar pentru erori critice, oprește înregistrarea
+            if (event.error === 'not-allowed') {
+                alert('Permisiunea pentru microfon a fost refuzată. Te rog să permți accesul la microfon.');
+                isRecording = false;
+                updateVoiceButton(false);
+            } else if (event.error === 'no-speech') {
+                // Nu oprește pentru "no-speech" - poate utilizatorul încă vorbește
+                console.log('Nu s-a detectat vorbire. Continuă înregistrarea...');
+            } else {
+                // Pentru alte erori, oprește și încearcă fallback
+                isRecording = false;
+                updateVoiceButton(false);
+                startBackendVoiceRecording();
+            }
+        };
+        
+        recognition.onend = () => {
+            // Dacă înregistrarea este încă activă (utilizatorul nu a oprit-o), reîncepe rapid
+            if (isRecording) {
+                // Reîncepe imediat pentru continuitate
+                setTimeout(() => {
+                    if (isRecording) {
+                        try {
+                            recognition.start();
+                        } catch (error) {
+                            // Dacă nu poate reîncepe, oprește
+                            isRecording = false;
+                            updateVoiceButton(false);
+                        }
+                    }
+                }, 100); // Delay mic pentru a evita erori
+            } else {
+                updateVoiceButton(false);
+            }
+        };
+    } else {
+        // Browser doesn't support Web Speech API, use backend
+        console.log('Web Speech API not supported, using backend');
+    }
+}
+
+function toggleVoiceRecording() {
+    // If already recording via backend, stop it
+    if (isRecording && mediaRecorder) {
+        stopBackendVoiceRecording();
+        return;
+    }
+    
+    if (!recognition) {
+        // Try to initialize
+        initSpeechRecognition();
+        if (!recognition) {
+            // Use backend fallback
+            startBackendVoiceRecording();
+            return;
+        }
+    }
+    
+    if (isRecording) {
+        recognition.stop();
+        isRecording = false;
+        updateVoiceButton(false);
+    } else {
+        try {
+            recognition.start();
+        } catch (error) {
+            console.error('Error starting recognition:', error);
+            // Fallback to backend
+            startBackendVoiceRecording();
+        }
+    }
+}
+
+function updateVoiceButton(recording) {
+    const voiceBtn = document.getElementById('voice-btn');
+    const voiceIcon = document.getElementById('voice-icon');
+    
+    if (recording) {
+        voiceBtn.classList.add('recording');
+        // Change icon to stop icon
+        voiceIcon.innerHTML = `
+            <circle cx="12" cy="12" r="10" fill="currentColor"></circle>
+        `;
+    } else {
+        voiceBtn.classList.remove('recording');
+        // Restore microphone icon
+        voiceIcon.innerHTML = `
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+            <line x1="12" y1="19" x2="12" y2="23"></line>
+            <line x1="8" y1="23" x2="16" y2="23"></line>
+        `;
+    }
+}
+
+let mediaRecorder = null;
+let audioStream = null;
+
+let audioChunks = [];
+let processingInterval = null;
+
+async function startBackendVoiceRecording() {
+    const voiceBtn = document.getElementById('voice-btn');
+    const textarea = document.getElementById('message-input');
+    
+    try {
+        // Request microphone access
+        audioStream = await navigator.mediaDevices.getUserMedia({ 
+            audio: {
+                echoCancellation: true,
+                noiseSuppression: true,
+                autoGainControl: true
+            }
+        });
+        
+        // Update button state
+        isRecording = true;
+        updateVoiceButton(true);
+        voiceBtn.disabled = true;
+        audioChunks = [];
+        
+        // Create MediaRecorder with optimized settings
+        mediaRecorder = new MediaRecorder(audioStream, {
+            mimeType: 'audio/webm;codecs=opus' // Format mai eficient
+        });
+        
+        mediaRecorder.ondataavailable = (event) => {
+            if (event.data && event.data.size > 0) {
+                audioChunks.push(event.data);
+            }
+        };
+        
+        // Procesează audio-ul periodic pentru feedback mai rapid (doar dacă există chunk-uri noi)
+        let lastChunkCount = 0;
+        processingInterval = setInterval(async () => {
+            if (audioChunks.length > lastChunkCount && mediaRecorder && mediaRecorder.state === 'recording') {
+                // Procesează doar chunk-urile noi (ultimele 2-3)
+                const newChunks = audioChunks.slice(lastChunkCount);
+                if (newChunks.length > 0) {
+                    const audioBlob = new Blob(newChunks, { type: 'audio/webm' });
+                    lastChunkCount = audioChunks.length;
+                    
+                    try {
+                        const formData = new FormData();
+                        formData.append('audio', audioBlob, 'recording.webm');
+                        
+                        const response = await fetch('/api/voice-to-text', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        
+                        const data = await response.json();
+                        
+                        if (data.success && data.text) {
+                            // Adaugă textul la textarea existent
+                            const currentText = textarea.value;
+                            const newText = data.text.trim();
+                            if (newText && !currentText.includes(newText)) {
+                                textarea.value = (currentText + ' ' + newText).trim();
+                                autoResize(textarea);
+                            }
+                        }
+                    } catch (error) {
+                        // Ignoră erorile în procesarea periodică
+                        console.log('Processing chunk error (non-critical):', error);
+                    }
+                }
+            }
+        }, 3000); // Procesează la fiecare 3 secunde pentru feedback rapid dar fără overload
+        
+        mediaRecorder.onstop = async () => {
+            // Oprește procesarea periodică
+            if (processingInterval) {
+                clearInterval(processingInterval);
+                processingInterval = null;
+            }
+            
+            if (audioStream) {
+                audioStream.getTracks().forEach(track => track.stop());
+                audioStream = null;
+            }
+            
+            // Procesează tot audio-ul final
+            if (audioChunks.length > 0) {
+                const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                
+                const formData = new FormData();
+                formData.append('audio', audioBlob, 'recording.webm');
+                
+                try {
+                    const response = await fetch('/api/voice-to-text', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success && data.text) {
+                        const currentText = textarea.value;
+                        // Adaugă doar dacă nu există deja
+                        if (!currentText.includes(data.text)) {
+                            textarea.value = (currentText + ' ' + data.text).trim();
+                            autoResize(textarea);
+                        }
+                    } else {
+                        // Nu afișa alert dacă există deja text procesat
+                        if (!textarea.value.trim()) {
+                            alert(data.error || 'Nu s-a putut converti audio-ul în text. Te rog încearcă din nou.');
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error sending audio to backend:', error);
+                    if (!textarea.value.trim()) {
+                        alert('Eroare la trimiterea audio-ului. Te rog încearcă din nou.');
+                    }
+                }
+            }
+            
+            isRecording = false;
+            updateVoiceButton(false);
+            voiceBtn.disabled = false;
+            mediaRecorder = null;
+            audioChunks = [];
+        };
+        
+        // Start recording cu timeslice pentru chunk-uri mai mici și mai rapide
+        mediaRecorder.start(1000); // Chunk-uri la fiecare secundă
+        
+    } catch (error) {
+        console.error('Error accessing microphone:', error);
+        alert('Nu s-a putut accesa microfonul. Te rog să permți accesul la microfon.');
+        isRecording = false;
+        updateVoiceButton(false);
+        voiceBtn.disabled = false;
+        if (audioStream) {
+            audioStream.getTracks().forEach(track => track.stop());
+            audioStream = null;
+        }
+        if (processingInterval) {
+            clearInterval(processingInterval);
+            processingInterval = null;
+        }
+    }
+}
+
+function stopBackendVoiceRecording() {
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+        mediaRecorder.stop();
+    }
+    if (processingInterval) {
+        clearInterval(processingInterval);
+        processingInterval = null;
+    }
+}
+
 
 function toggleTheme() {
     const currentTheme = document.documentElement.getAttribute('data-theme');

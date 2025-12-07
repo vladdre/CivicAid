@@ -454,6 +454,50 @@ textarea {
     z-index: 2;
 }
 
+#voice-btn {
+    background: transparent;
+    border: none;
+    color: var(--navy-blue);
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: color 0.1s, background-color 0.1s;
+    position: relative;
+    z-index: 2;
+    margin-right: 4px;
+}
+
+#voice-btn:hover {
+    color: var(--navy-blue-hover);
+    background-color: var(--navy-blue-very-light);
+}
+
+#voice-btn.recording {
+    color: #dc3545;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+#voice-btn.recording:hover {
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.voice-icon {
+    width: 1em;
+    height: 1em;
+}
+
 #send-btn {
     background: transparent;
     border: none;

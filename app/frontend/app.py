@@ -3,6 +3,7 @@ import os
 import sys
 import datetime
 import hashlib
+import tempfile
 from pathlib import Path
 from functools import wraps
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
@@ -324,6 +325,109 @@ def chat():
         'ai_message': ai_response,
         'conversation_title': conversation_title
     })
+
+@app.route('/api/voice-to-text', methods=['POST'])
+@login_required
+def voice_to_text():
+    """
+    Endpoint pentru conversia audio în text folosind Google Speech Recognition.
+    """
+    try:
+        # Verifică dacă există fișier audio în request
+        if 'audio' not in request.files:
+            return jsonify({'success': False, 'error': 'Nu s-a primit niciun fișier audio'}), 400
+        
+        audio_file = request.files['audio']
+        
+        if audio_file.filename == '':
+            return jsonify({'success': False, 'error': 'Fișierul audio este gol'}), 400
+        
+        # Import speech recognition
+        try:
+            import speech_recognition as sr
+        except ImportError:
+            return jsonify({
+                'success': False, 
+                'error': 'Biblioteca speech_recognition nu este instalată. Rulează: pip install SpeechRecognition pyaudio'
+            }), 500
+        
+        # Determină extensia fișierului
+        filename = audio_file.filename.lower()
+        is_webm = filename.endswith('.webm') or audio_file.content_type == 'audio/webm'
+        
+        # Salvează temporar fișierul audio
+        if is_webm:
+            suffix = '.webm'
+        else:
+            suffix = '.wav'
+            
+        with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp_file:
+            audio_file.save(tmp_file.name)
+            tmp_path = tmp_file.name
+        
+        try:
+            # Dacă este WebM, convertește la WAV folosind pydub (dacă e disponibil)
+            if is_webm:
+                try:
+                    from pydub import AudioSegment
+                    audio = AudioSegment.from_file(tmp_path, format="webm")
+                    wav_path = tmp_path.replace(suffix, '.wav')
+                    audio.export(wav_path, format="wav")
+                    os.unlink(tmp_path)  # Șterge fișierul WebM
+                    tmp_path = wav_path
+                except ImportError:
+                    return jsonify({
+                        'success': False,
+                        'error': 'Format WebM necesită pydub. Instalează: pip install pydub'
+                    }), 400
+                except Exception as e:
+                    return jsonify({
+                        'success': False,
+                        'error': f'Eroare la conversia audio: {str(e)}'
+                    }), 400
+            
+            # Inițializează recognizer
+            recognizer = sr.Recognizer()
+            
+            # Setări optimizate pentru viteză
+            recognizer.energy_threshold = 300  # Threshold mai mic pentru răspuns mai rapid
+            recognizer.dynamic_energy_threshold = True
+            
+            # Încarcă audio-ul
+            with sr.AudioFile(tmp_path) as source:
+                # Skip adjust_for_ambient_noise pentru viteză (reduce lag-ul)
+                audio_data = recognizer.record(source)
+            
+            # Recunoaște textul folosind Google Speech Recognition cu timeout redus
+            try:
+                text = recognizer.recognize_google(audio_data, language='ro-RO', show_all=False)
+                return jsonify({
+                    'success': True,
+                    'text': text
+                })
+            except sr.UnknownValueError:
+                return jsonify({
+                    'success': False,
+                    'error': 'Nu s-a putut recunoaște vorbirea. Te rog încearcă din nou.'
+                }), 400
+            except sr.RequestError as e:
+                return jsonify({
+                    'success': False,
+                    'error': f'Eroare la serviciul de recunoaștere: {str(e)}'
+                }), 500
+                
+        finally:
+            # Șterge fișierul temporar
+            try:
+                os.unlink(tmp_path)
+            except:
+                pass
+                
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': f'Eroare la procesarea audio-ului: {str(e)}'
+        }), 500
 
 @app.route('/api/conversations/<int:conversation_id>', methods=['DELETE'])
 @login_required
